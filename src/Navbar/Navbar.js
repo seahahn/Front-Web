@@ -2,7 +2,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
-import LeftDropdown from "./LeftDropdown";
+import LeftSidebar from "./LeftSidebar";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -17,7 +17,7 @@ export default function Navbar() {
             <div className="relative flex items-center justify-between h-16">
               {/* 좌측 메뉴 */}
               <div className="flex-1 flex items-center leading-normal space-x-4 sm:items-stretch sm:justify-start">
-                <LeftDropdown />
+                <LeftSidebar />
                 <div className="flex items-center leading-normal space-x-4">
                   <div className="text-gray-300 text-lg font-medium">
                     프로젝트명

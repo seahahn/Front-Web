@@ -16,7 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function LeftDropdown() {
+export default function LeftSidebar() {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
