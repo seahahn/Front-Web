@@ -12,7 +12,7 @@ import {
   handleRemoveItemFromLayout
 } from "./helpers";
 
-import { SIDEBAR_ITEMS, SIDEBAR_ITEM, COMPONENT, COLUMN } from "./constants";
+import { SIDEBAR_ITEMS, SIDEBAR_ITEM, COMPONENT, COLUMN, ITEMS_EDA,  ITEMS_TRAIN,  ITEMS_EVAL } from "./constants";
 import shortid from "shortid";
 
 const Container = () => {
@@ -123,7 +123,7 @@ const Container = () => {
   // causes this issue - https://github.com/react-dnd/react-dnd/issues/342
   return (
     <div className="body">
-      
+
       <div className="pageContainer">
         <div className="page">
           {layout.map((row, index) => {
@@ -164,6 +164,20 @@ const Container = () => {
         {Object.values(SIDEBAR_ITEMS).map((sideBarItem, index) => (
           <SideBarItem key={sideBarItem.id} data={sideBarItem} />
         ))}
+        <hr/>
+        {Object.values(ITEMS_EDA).map((sideBarItem, index) => (
+          <SideBarItem key={sideBarItem.id} data={sideBarItem} />
+        ))}
+        <hr/>
+        {Object.values(ITEMS_TRAIN).map((sideBarItem, index) => (
+          <SideBarItem key={sideBarItem.id} data={sideBarItem} />
+          ))}
+        <hr/>
+
+        {Object.values(ITEMS_EVAL).map((sideBarItem, index) => (
+          <SideBarItem key={sideBarItem.id} data={sideBarItem} />
+        ))}
+
       </div>
     </div>
   );
