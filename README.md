@@ -15,7 +15,11 @@ Project AI Play의 Web App UI를 구현하는 Repo
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init
 
+// For UI Template
 npm install @headlessui/react @heroicons/react
+
+// For Drag & Drop Components
+npm install react-dnd react-dnd-html5-backend
 ```
 
 ## 개발 서버 실행
