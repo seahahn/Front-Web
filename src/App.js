@@ -1,8 +1,19 @@
 import "./App.css";
-import Navbar from "./Navbar";
+import "./styles.css";
+import Navbar from "./Navbar/Navbar";
+import Container from "./MLComponents/Container";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 
 function App() {
-  return <Navbar />;
+  return (
+    <div className="App">
+      <Navbar />
+      <DndProvider backend={HTML5Backend}>
+        <Container />
+      </DndProvider>
+    </div>
+  );
 }
 
 export default App;
