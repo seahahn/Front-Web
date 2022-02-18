@@ -4,18 +4,19 @@ body {
   padding: 0;
 }
 
-.body {
+/* .body {
   display: flex;
   flex-direction: row;
-}
+} */
 
 .sideBar {
-  flex: 0 0 1;
-  width: 240px;
+  /* flex: 0 0 1; */
+  width: 20%;
   padding: 10px;
   border-right: 1px solid #111;
   /* height: 100vh; */
   background: #e1e1e1;
+  position: relative;
 }
 
 .sideBarItem {
@@ -28,7 +29,7 @@ body {
 }
 
 .page {
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
   padding: 0 20px;
   margin: 20px;
   border: 1px solid green;
@@ -94,20 +95,19 @@ body {
 
 .trashDropZone {
   position: relative;
-  text-align: center;
-  padding: 20px 0;
-  margin: 0 auto;
-  width: 100px;
-  height: 100px;
+  width: 10%;
+  height: 10%;
   border: 1px solid purple;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* z-index: -1; */
 }
 
-.pageContainer {
+/* .pageContainer {
   display: flex;
   flex: 1;
   flex-direction: column;
   margin-bottom: 100px;
-}
+  position: relative;
+} */

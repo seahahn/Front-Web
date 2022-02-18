@@ -9,6 +9,7 @@ const Row = ({ data, components, handleDrop, path }) => {
   const ref = useRef(null);
 
   const [{ isDragging }, drag] = useDrag({
+    type: ROW,
     item: {
       type: ROW,
       id: data.id,

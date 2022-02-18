@@ -20,6 +20,12 @@ npm install @headlessui/react @heroicons/react
 
 // For Drag & Drop Components
 npm install react-dnd react-dnd-html5-backend
+
+// For Zoom In & Out
+npm install react-zoom-pan-pinch
+
+// For CSS in JS
+npm install styled-components
 ```
 
 ## 개발 서버 실행

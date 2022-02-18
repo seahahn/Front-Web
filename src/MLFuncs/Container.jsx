@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import DropZone from "./DropZone";
 import TrashDropZone from "./TrashDropZone";
@@ -11,9 +12,22 @@ import {
   handleMoveSidebarComponentIntoParent,
   handleRemoveItemFromLayout
 } from "./helpers";
+import styled from "styled-components";
 
 import { SIDEBAR_ITEMS, SIDEBAR_ITEM, COMPONENT, COLUMN, ITEMS_EDA,  ITEMS_TRAIN,  ITEMS_EVAL } from "./constants";
 import shortid from "shortid";
+
+const Toolbox = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: calc(100vw - 60px);
+  margin-bottom: 10px;
+  button {
+    margin-left: 10px;
+    width: 2em;
+  }
+`;
 
 const Container = () => {
   const initialLayout = initialData.layout;
@@ -114,45 +128,70 @@ const Container = () => {
         data={row}
         handleDrop={handleDrop}
         components={components}
-        path={currentPath}
+        path={currentPath} // 각각의 row마다 자신의 index를 경로로 가짐
       />
     );
   };
 
+  const [zoomEnabled, setZoomEnabled] = useState(true)
+  const test = {
+    display: 'flex',
+    flexDirection: 'column'
+  }
   // dont use index for key when mapping over items
   // causes this issue - https://github.com/react-dnd/react-dnd/issues/342
   return (
-    <div className="body">
+    <div className="flex flex-row">
+      <div className="flex flex-col grow">
+      <TransformWrapper limitToBounds={false} disabled={zoomEnabled} wrapperStyle={test}>
+      {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+          <React.Fragment>
+            <Toolbox>
+              <button onClick={() => setZoomEnabled(!zoomEnabled)}>Move</button>
+              <button onClick={() => zoomIn()}>+</button>
+              <button onClick={() => zoomOut()}>-</button>
+              <button onClick={() => resetTransform()}>x</button>
+            </Toolbox>
+            <TransformComponent >
+            <div className="page">
 
-      <div className="pageContainer">
-        <div className="page">
-          {layout.map((row, index) => {
-            const currentPath = `${index}`;
+              {/* layout 데이터에서 row 하나씩 내놓음. 한 row에 한 index */}
+              {layout.map((row, index) => {
+                const currentPath = `${index}`; // index는 현재 경로로 지정됨
 
-            return (
-              <React.Fragment key={row.id}>
-                <DropZone
-                  data={{
-                    path: currentPath,
-                    childrenCount: layout.length
-                  }}
-                  onDrop={handleDrop}
-                  path={currentPath}
-                />
-                {renderRow(row, currentPath)}
-              </React.Fragment>
-            );
-          })}
-          <DropZone
-            data={{
-              path: `${layout.length}`,
-              childrenCount: layout.length
-            }}
-            onDrop={handleDrop}
-            isLast
-          />
-        </div>
+                return (
+                  <React.Fragment key={row.id}>
+                    {/* row 하나마다 위에 DropZone 놔둠 */}
+                    <DropZone
+                      data={{
+                        path: currentPath,
+                        childrenCount: layout.length
+                      }}
+                      onDrop={handleDrop}
+                      path={currentPath}
+                    />
+                    {/* row 데이터 하나씩 전달하여 row 생성
+                    동시에 각각의 row의 index를 전달하여 해당 row의 경로로 지정 */}
+                    {renderRow(row, currentPath)}
+                  </React.Fragment>
+                );
+              })}
+              {/* row 다 추가하고 나면 마지막으로 맨 아래에 DropZone 놔둠
+              (맨 아래에도 row를 새로 추가할 수 있게 해야 함) */}
+              <DropZone
+                data={{
+                  path: `${layout.length}`,
+                  childrenCount: layout.length
+                }}
+                onDrop={handleDrop}
+                isLast
+              />
+            </div>
+            </TransformComponent>
 
+          </React.Fragment>
+        )}
+      </TransformWrapper>
         <TrashDropZone
           data={{
             layout
@@ -160,6 +199,7 @@ const Container = () => {
           onDrop={handleDropToTrashBin}
         />
       </div>
+
       <div className="sideBar">
         {Object.values(SIDEBAR_ITEMS).map((sideBarItem, index) => (
           <SideBarItem key={sideBarItem.id} data={sideBarItem} />
@@ -175,6 +215,10 @@ const Container = () => {
         <hr/>
 
         {Object.values(ITEMS_EVAL).map((sideBarItem, index) => (
+          <SideBarItem key={sideBarItem.id} data={sideBarItem} />
+          ))}
+        <hr/>
+        {Object.values(SIDEBAR_ITEMS).map((sideBarItem, index) => (
           <SideBarItem key={sideBarItem.id} data={sideBarItem} />
         ))}
 

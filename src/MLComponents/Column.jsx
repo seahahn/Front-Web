@@ -2,7 +2,8 @@ import React, { useRef } from "react";
 import { useDrag } from "react-dnd";
 import { COLUMN } from "./constants";
 import DropZone from "./DropZone";
-import Component from "./Component";
+// import Component from "./Component";
+import Row from "./Row";
 
 const style = {};
 const Column = ({ data, components, handleDrop, path }) => {
@@ -24,29 +25,37 @@ const Column = ({ data, components, handleDrop, path }) => {
   const opacity = isDragging ? 0 : 1;
   drag(ref);
 
-  const renderComponent = (component, currentPath) => {
+  // const renderComponent = (component, currentPath) => {
+  //   return (
+  //     <Component
+  //       key={component.id}
+  //       data={component}
+  //       components={components}
+  //       path={currentPath}
+  //     />
+  //   );
+  // };
+
+  const renderRow = (row, currentPath) => {
     return (
-      <Component
-        key={component.id}
-        data={component}
+      <Row
+        key={row.id}
+        data={row}
+        handleDrop={handleDrop}
         components={components}
-        path={currentPath}
+        path={currentPath} // 각각의 row마다 자신의 index를 경로로 가짐
       />
     );
   };
 
   return (
-    <div
-      ref={ref}
-      style={{ ...style, opacity }}
-      className="base draggable column"
-    >
+    <div ref={ref} style={{ ...style, opacity }} className="base draggable column">
       {data.id}
-      {data.children.map((component, index) => {
+      {data.children.map((row, index) => {
         const currentPath = `${path}-${index}`;
 
         return (
-          <React.Fragment key={component.id}>
+          <React.Fragment key={row.id}>
             <DropZone
               data={{
                 path: currentPath,
@@ -54,7 +63,7 @@ const Column = ({ data, components, handleDrop, path }) => {
               }}
               onDrop={handleDrop}
             />
-            {renderComponent(component, currentPath)}
+            {renderRow(row, currentPath)}
           </React.Fragment>
         );
       })}

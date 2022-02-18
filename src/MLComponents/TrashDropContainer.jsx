@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import classNames from "classnames";
 import { useDrop } from "react-dnd";
 import { COMPONENT, ROW, COLUMN } from "./constants";
+import {  handleRemoveItemFromLayout} from "./helpers";
+import Container from "./Container";
 
 const ACCEPTS = [ROW, COLUMN, COMPONENT];
 
 // data는 layout, onDrop는 handleDropToTrashBin
 const TrashDropZone = ({ data, onDrop }) => {
+
+  // const handleDropToTrashBin = useCallback(
+  //   (dropZone, item) => {
+  //     const splitItemPath = item.path.split("-");
+  //     setLayout(handleRemoveItemFromLayout(layout, splitItemPath));
+  //   },
+  //   [layout]
+  // );
+
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ACCEPTS,
     drop: (item, monitor) => {
@@ -43,7 +54,8 @@ const TrashDropZone = ({ data, onDrop }) => {
       className={classNames("trashDropZone", { active: isActive })}
       ref={drop}
     >
-      TRASH
+      {/* TRASH */}
+      <Container/>
     </div>
   );
 };
