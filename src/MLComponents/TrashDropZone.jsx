@@ -42,9 +42,7 @@ const TrashDropZone = ({ data, onDrop }) => {
     <div
       className={classNames("trashDropZone", { active: isActive })}
       ref={drop}
-    >
-      TRASH
-    </div>
+    />
   );
 };
 export default TrashDropZone;
