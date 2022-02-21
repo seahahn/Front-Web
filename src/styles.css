@@ -53,11 +53,8 @@
 }
 
 
-.component {
-  height: 60px;
-  padding: 10px;
-  background: #aaa;
-}
+/* .component {
+} */
 
 .column {
   border: 1px solid blue;
@@ -102,6 +99,10 @@
 /* ML Components Container Area */
 .react-transform-wrapper {
   width: 100% !important;
+  /* padding-top: 2rem !important; */
+  top: 2rem;
+  bottom: 2rem;
+  background-color: #334155;
 }
 
 .react-transform-component {

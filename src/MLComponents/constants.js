@@ -4,103 +4,70 @@ export const SIDEBAR_ITEM = "sidebarItem";
 export const ROW = "row";
 export const COLUMN = "column";
 export const COMPONENT = "component";
+export const PREPROCESS = "preprocess";
+export const TRAIN = "train";
+export const EVAL = "eval";
+export const ITEM_TYPES = [PREPROCESS, TRAIN, EVAL];
 
-export const SIDEBAR_ITEMS = [
+/*
+id : 사이드바 아이템 각각에 지정된 기능을 나타내는 고유한 값
+type : 머신 러닝 기능 구분값
+func : (id와 동일한 역할)
+title : 머신 러닝 기능 제목
+content : 머신 러닝 기능 내용
+*/
+export const ITEMS_PREPROCESS = [
   {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "input",
-      content: "Some input",
-    },
+    id: "DataUpload",
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: "DataUpload",
+    title: "Data Upload",
+    content: "Data Upload Function",
   },
   {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "name",
-      content: "Some name",
-    },
-  },
-  {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "email",
-      content: "Some email",
-    },
-  },
-  {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "phone",
-      content: "Some phone",
-    },
-  },
-  {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "image",
-      content: "Some image",
-    },
-  },
-];
-
-export const ITEMS_EDA = [
-  {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "EDA",
-      content: "Some EDA Function",
-    },
-  },
-  {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "EDA",
-      content: "Some EDA Function",
-    },
+    id: "IsNa",
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: "IsNa",
+    title: "DF Is Na",
+    content: "DF Is Na Function",
   },
 ];
 
 export const ITEMS_TRAIN = [
   {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "Training",
-      content: "Some Training Function",
-    },
+    id: "Fit",
+    type: SIDEBAR_ITEM + TRAIN,
+    func: "Fit",
+    title: "Model Training",
+    content: "Model Training Function",
   },
   {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "Training",
-      content: "Some Training Function",
-    },
+    id: "Tuning",
+    type: SIDEBAR_ITEM + TRAIN,
+    func: "Tuning",
+    title: "Model Tuning",
+    content: "Model Tuning Function",
   },
 ];
 
 export const ITEMS_EVAL = [
   {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "Evaluation",
-      content: "Some Evaluation Function",
-    },
+    id: "Evaluate",
+    type: SIDEBAR_ITEM + EVAL,
+    func: "Evaluate",
+    title: "Model Evaluation",
+    content: "Model Evaluation Function",
   },
   {
-    id: shortid.generate(),
-    type: SIDEBAR_ITEM,
-    component: {
-      type: "Evaluation",
-      content: "Some Evaluation Function",
-    },
+    id: "PdpIsolate",
+    type: SIDEBAR_ITEM + EVAL,
+    func: "PdpIsolate",
+    title: "PDP Isolate Function",
+    content: "PDP Isolate Plot Function",
   },
 ];
+
+// 모든 ML 기능을 담은 목록 만들기
+export const ITEM_LIST = ITEMS_PREPROCESS.concat(ITEMS_TRAIN, ITEMS_EVAL);
+export let ITEMS = {};
+ITEM_LIST.forEach((object) => (ITEMS[object.id] = object));
