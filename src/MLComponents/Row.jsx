@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import DropZone from "./DropZone";
 // import Component from "./Component";
-import Component from "./Compo";
+import Component from "./Component";
 
 const Row = ({ data, handleDrop, path }) => {
   const ref = useRef(null);

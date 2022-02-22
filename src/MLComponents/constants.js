@@ -1,4 +1,4 @@
-import shortid from "shortid";
+// import shortid from "shortid";
 
 export const SIDEBAR_ITEM = "sidebarItem";
 export const ROW = "row";
@@ -9,6 +9,38 @@ export const TRAIN = "train";
 export const EVAL = "eval";
 export const ITEM_TYPES = [PREPROCESS, TRAIN, EVAL];
 
+export const FUNCS_CODE = {
+  DataUpload: "DataUpload",
+  Head: "Head",
+  Tail: "Tail",
+  Shape: "Shape",
+  Dtype: "Dtype",
+  ColumnList: "ColumnList",
+  Unique: "Unique",
+  IsNa: "IsNa",
+  Corr: "Corr",
+  Describe: "Describe",
+  LocDf: "LocDf",
+  ILocDf: "ILocDf",
+  ColConditionDf: "ColConditionDf",
+
+  Transpose: "Transpose",
+  Groupby: "Groupby",
+  Drop: "Drop",
+  DropNa: "DropNa",
+  RenameCol: "RenameCol",
+  SortValue: "SortValue",
+  MergeDf: "MergeDf",
+  ConcatDf: "ConcatDf",
+  // "set_column": "set_column",
+
+  //tempporary
+  Fit: "Fit",
+  Tuning: "Tuning",
+  Predict: "Predict",
+  Evaluate: "Evaluate",
+};
+
 /*
 id : 사이드바 아이템 각각에 지정된 기능을 나타내는 고유한 값
 type : 머신 러닝 기능 구분값
@@ -18,16 +50,150 @@ content : 머신 러닝 기능 내용
 */
 export const ITEMS_PREPROCESS = [
   {
-    id: "DataUpload",
+    id: FUNCS_CODE.DataUpload,
     type: SIDEBAR_ITEM + PREPROCESS,
-    func: "DataUpload",
+    func: FUNCS_CODE.DataUpload,
     title: "Data Upload",
     content: "Data Upload Function",
   },
   {
-    id: "IsNa",
+    id: FUNCS_CODE.Head,
     type: SIDEBAR_ITEM + PREPROCESS,
-    func: "IsNa",
+    func: FUNCS_CODE.Head,
+    title: "DF Head",
+    content: "DF Head Function",
+  },
+  {
+    id: FUNCS_CODE.Tail,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Tail,
+    title: "DF Tail",
+    content: "DF Tail Function",
+  },
+  {
+    id: FUNCS_CODE.Shape,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Shape,
+    title: "DF Shape",
+    content: "DF Shape Function",
+  },
+  {
+    id: FUNCS_CODE.Dtype,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Dtype,
+    title: "DF Dtypes",
+    content: "DF Dtypes Function",
+  },
+  {
+    id: FUNCS_CODE.ColumnList,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.ColumnList,
+    title: "DF Col List",
+    content: "DF Col List Function",
+  },
+  {
+    id: FUNCS_CODE.Unique,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Unique,
+    title: "Col Unique",
+    content: "Col Unique Function",
+  },
+  {
+    id: FUNCS_CODE.IsNa,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.IsNa,
+    title: "DF Is Na",
+    content: "DF Is Na Function",
+  },
+  {
+    id: FUNCS_CODE.Corr,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Corr,
+    title: "DF Corr",
+    content: "DF Corr Function",
+  },
+  {
+    id: FUNCS_CODE.Describe,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Describe,
+    title: "DF Describe",
+    content: "DF Describe Function",
+  },
+  {
+    id: FUNCS_CODE.LocDf,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.LocDf,
+    title: "DF Loc",
+    content: "DF Loc Function",
+  },
+  {
+    id: FUNCS_CODE.ILocDf,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.ILocDf,
+    title: "DF iLoc",
+    content: "DF iLoc Function",
+  },
+  {
+    id: FUNCS_CODE.ColConditionDf,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.ColConditionDf,
+    title: "DF Col Condition",
+    content: "DF Col Condition Function",
+  },
+
+  {
+    id: FUNCS_CODE.Transpose,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Transpose,
+    title: "DF Transpose",
+    content: "DF Transpose Function",
+  },
+  {
+    id: FUNCS_CODE.Groupby,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Groupby,
+    title: "DF Groupby",
+    content: "DF Groupby Function",
+  },
+  {
+    id: FUNCS_CODE.Drop,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.Drop,
+    title: "DF Is Na",
+    content: "DF Is Na Function",
+  },
+  {
+    id: FUNCS_CODE.DropNa,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.DropNa,
+    title: "DF Is Na",
+    content: "DF Is Na Function",
+  },
+  {
+    id: FUNCS_CODE.RenameCol,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.RenameCol,
+    title: "DF Is Na",
+    content: "DF Is Na Function",
+  },
+  {
+    id: FUNCS_CODE.SortValue,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.SortValue,
+    title: "DF Is Na",
+    content: "DF Is Na Function",
+  },
+  {
+    id: FUNCS_CODE.MergeDf,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.MergeDf,
+    title: "DF Is Na",
+    content: "DF Is Na Function",
+  },
+  {
+    id: FUNCS_CODE.ConcatDf,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.ConcatDf,
     title: "DF Is Na",
     content: "DF Is Na Function",
   },
@@ -35,16 +201,16 @@ export const ITEMS_PREPROCESS = [
 
 export const ITEMS_TRAIN = [
   {
-    id: "Fit",
+    id: FUNCS_CODE.Fit,
     type: SIDEBAR_ITEM + TRAIN,
-    func: "Fit",
+    func: FUNCS_CODE.Fit,
     title: "Model Training",
     content: "Model Training Function",
   },
   {
-    id: "Tuning",
+    id: FUNCS_CODE.Tuning,
     type: SIDEBAR_ITEM + TRAIN,
-    func: "Tuning",
+    func: FUNCS_CODE.Tuning,
     title: "Model Tuning",
     content: "Model Tuning Function",
   },
@@ -52,16 +218,16 @@ export const ITEMS_TRAIN = [
 
 export const ITEMS_EVAL = [
   {
-    id: "Evaluate",
+    id: FUNCS_CODE.Predict,
     type: SIDEBAR_ITEM + EVAL,
-    func: "Evaluate",
+    func: FUNCS_CODE.Predict,
     title: "Model Evaluation",
     content: "Model Evaluation Function",
   },
   {
-    id: "PdpIsolate",
+    id: FUNCS_CODE.Evaluate,
     type: SIDEBAR_ITEM + EVAL,
-    func: "PdpIsolate",
+    func: FUNCS_CODE.Evaluate,
     title: "PDP Isolate Function",
     content: "PDP Isolate Plot Function",
   },
