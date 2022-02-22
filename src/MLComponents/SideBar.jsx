@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 import SideBarItem from "./SideBarItem";
-import { ITEMS_PREPROCESS,  ITEMS_TRAIN,  ITEMS_EVAL } from "./constants";
+import { ITEMS_PREPROCESS, ITEMS_TRAIN, ITEMS_EVAL } from "./constants";
 
 function SideBar() {
   return (
@@ -9,17 +9,17 @@ function SideBar() {
       {Object.values(ITEMS_PREPROCESS).map((sideBarItem, index) => (
         <SideBarItem key={sideBarItem.id} data={sideBarItem} />
       ))}
-      <hr/>
+      <hr />
       {Object.values(ITEMS_TRAIN).map((sideBarItem, index) => (
         <SideBarItem key={sideBarItem.id} data={sideBarItem} />
-        ))}
-      <hr/>
+      ))}
+      <hr />
 
       {Object.values(ITEMS_EVAL).map((sideBarItem, index) => (
         <SideBarItem key={sideBarItem.id} data={sideBarItem} />
-        ))}
-  </div>
-  )
+      ))}
+    </div>
+  );
 }
 
-export default SideBar
+export default React.memo(SideBar);

@@ -7,16 +7,18 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import * as dfd from "danfojs";
 
-export const DfdContext = createContext(dfd);
+const storage = window.sessionStorage; // 데이터프레임 저장을 위한 세션 스토리지
+
+export const AppContext = createContext({ dfd, storage });
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <DndProvider backend={HTML5Backend}>
-        <DfdContext.Provider value={dfd}>
+        <AppContext.Provider value={{ dfd, storage }}>
           <Container />
-        </DfdContext.Provider>
+        </AppContext.Provider>
       </DndProvider>
     </div>
   );

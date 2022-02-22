@@ -16,7 +16,7 @@ const Column = ({ data, handleDrop, path }) => {
   };
 
   return (
-    <div ref={ref} className="base column rounded-lg">
+    <div ref={ref} className="base column max-w-full rounded-lg">
       {data.id}
       {data.children.map((row, index) => {
         const currentPath = `${path}-${index}`;

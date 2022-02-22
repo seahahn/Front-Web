@@ -1,5 +1,5 @@
 import shortid from "shortid";
-import { COMPONENT, ROW, COLUMN, PREPROCESS, TRAIN, EVAL } from "./constants";
+import { COMPONENT, ROW, COLUMN, PREPROCESS, TRAIN, EVAL, FUNCS_CODE } from "./constants";
 
 const initialData = {
   layout: [
@@ -14,12 +14,37 @@ const initialData = {
             {
               id: shortid.generate(),
               type: PREPROCESS,
-              func: "DataUpload",
+              func: FUNCS_CODE.DataUpload,
             },
             {
               id: shortid.generate(),
               type: PREPROCESS,
-              func: "IsNa",
+              func: FUNCS_CODE.Head,
+            },
+            {
+              id: shortid.generate(),
+              type: PREPROCESS,
+              func: FUNCS_CODE.Tail,
+            },
+            {
+              id: shortid.generate(),
+              type: PREPROCESS,
+              func: FUNCS_CODE.Shape,
+            },
+            {
+              id: shortid.generate(),
+              type: PREPROCESS,
+              func: FUNCS_CODE.Dtype,
+            },
+            {
+              id: shortid.generate(),
+              type: PREPROCESS,
+              func: FUNCS_CODE.ColumnList,
+            },
+            {
+              id: shortid.generate(),
+              type: PREPROCESS,
+              func: FUNCS_CODE.Unique,
             },
           ],
         },
@@ -30,12 +55,12 @@ const initialData = {
             {
               id: shortid.generate(),
               type: TRAIN,
-              func: "Fit",
+              func: FUNCS_CODE.Fit,
             },
             {
               id: shortid.generate(),
               type: TRAIN,
-              func: "Tuning",
+              func: FUNCS_CODE.Tuning,
             },
           ],
         },
@@ -46,12 +71,12 @@ const initialData = {
             {
               id: shortid.generate(),
               type: EVAL,
-              func: "Evaluate",
+              func: FUNCS_CODE.Predict,
             },
             {
               id: shortid.generate(),
               type: EVAL,
-              func: "PdpIsolate",
+              func: FUNCS_CODE.Evaluate,
             },
           ],
         },
