@@ -1,4 +1,5 @@
-import { COMPONENT, ROW, COLUMN } from "./constants";
+import shortid from "shortid";
+import { COMPONENT, ROW, COLUMN, PREPROCESS, TRAIN, EVAL } from "./constants";
 
 const initialData = {
   layout: [
@@ -8,128 +9,55 @@ const initialData = {
       children: [
         {
           type: ROW,
-          id: "EDA",
+          id: PREPROCESS,
           children: [
             {
-              type: COMPONENT,
-              id: "component0",
+              id: shortid.generate(),
+              type: PREPROCESS,
+              func: "DataUpload",
             },
             {
-              type: COMPONENT,
-              id: "component1",
-            },
-            {
-              type: COMPONENT,
-              id: "component2",
+              id: shortid.generate(),
+              type: PREPROCESS,
+              func: "IsNa",
             },
           ],
         },
         {
           type: ROW,
-          id: "Train",
+          id: TRAIN,
           children: [
             {
-              type: COMPONENT,
-              id: "component2",
+              id: shortid.generate(),
+              type: TRAIN,
+              func: "Fit",
             },
             {
-              type: COMPONENT,
-              id: "component1",
-            },
-            {
-              type: COMPONENT,
-              id: "component0",
+              id: shortid.generate(),
+              type: TRAIN,
+              func: "Tuning",
             },
           ],
         },
         {
           type: ROW,
-          id: "Eval",
+          id: EVAL,
           children: [
             {
-              type: COMPONENT,
-              id: "component2",
+              id: shortid.generate(),
+              type: EVAL,
+              func: "Evaluate",
             },
             {
-              type: COMPONENT,
-              id: "component1",
-            },
-            {
-              type: COMPONENT,
-              id: "component0",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      type: COLUMN,
-      id: "Block1",
-      children: [
-        {
-          type: ROW,
-          id: "EDA",
-          children: [
-            {
-              type: COMPONENT,
-              id: "component3",
-            },
-            {
-              type: COMPONENT,
-              id: "component0",
-            },
-            {
-              type: COMPONENT,
-              id: "component2",
-            },
-          ],
-        },
-        {
-          type: ROW,
-          id: "Train",
-          children: [
-            {
-              type: COMPONENT,
-              id: "component3",
-            },
-            {
-              type: COMPONENT,
-              id: "component0",
-            },
-            {
-              type: COMPONENT,
-              id: "component2",
-            },
-          ],
-        },
-        {
-          type: ROW,
-          id: "Eval",
-          children: [
-            {
-              type: COMPONENT,
-              id: "component3",
-            },
-            {
-              type: COMPONENT,
-              id: "component0",
-            },
-            {
-              type: COMPONENT,
-              id: "component2",
+              id: shortid.generate(),
+              type: EVAL,
+              func: "PdpIsolate",
             },
           ],
         },
       ],
     },
   ],
-  components: {
-    component0: { id: "component0", type: "input", content: "Some input" },
-    component1: { id: "component1", type: "image", content: "Some image" },
-    component2: { id: "component2", type: "email", content: "Some email" },
-    component3: { id: "component3", type: "name", content: "Some name" },
-    component4: { id: "component4", type: "phone", content: "Some phone" },
-  },
 };
 
 export default initialData;

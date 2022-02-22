@@ -3,9 +3,9 @@ import { ROW, COLUMN, COMPONENT } from "./constants";
 
 // a little function to help us with reordering the result
 export const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed); // inserting task in new index
+  const result = Array.from(list); // 전체 레이아웃을 담은 배열
+  const [removed] = result.splice(startIndex, 1); // 이동 대상을 해당 인덱스에서 꺼내기
+  result.splice(endIndex, 0, removed); // 꺼낸 것을 이동할 인덱스에 넣기
 
   return result;
 };
@@ -27,7 +27,9 @@ export const insert = (arr, index, newItem) => [
 ];
 
 export const reorderChildren = (children, splitDropZonePath, splitItemPath) => {
+  // 최상위(Column)인 경우
   if (splitDropZonePath.length === 1) {
+    // 옮겨갈 위치(dropZoneIndex)와 옮기기 전 위치(itemIndex)를 전달하여 위치 스위칭
     const dropZoneIndex = Number(splitDropZonePath[0]);
     const itemIndex = Number(splitItemPath[0]);
     return reorder(children, itemIndex, dropZoneIndex);
@@ -195,28 +197,29 @@ export const handleMoveSidebarComponentIntoParent = (
   splitDropZonePath,
   item
 ) => {
-  let newLayoutStructure;
-  switch (splitDropZonePath.length) {
-    case 1: {
-      newLayoutStructure = {
-        type: ROW,
-        id: shortid.generate(),
-        children: [{ type: COLUMN, id: shortid.generate(), children: [item] }],
-      };
-      break;
-    }
-    case 2: {
-      newLayoutStructure = {
-        type: COLUMN,
-        id: shortid.generate(),
-        children: [item],
-      };
-      break;
-    }
-    default: {
-      newLayoutStructure = item;
-    }
-  }
+  // let newLayoutStructure;
+  // switch (splitDropZonePath.length) {
+  //   case 1: {
+  //     newLayoutStructure = {
+  //       type: ROW,
+  //       id: shortid.generate(),
+  //       children: [{ type: COLUMN, id: shortid.generate(), children: [item] }],
+  //     };
+  //     break;
+  //   }
+  //   case 2: {
+  //     newLayoutStructure = {
+  //       type: COLUMN,
+  //       id: shortid.generate(),
+  //       children: [item],
+  //     };
+  //     break;
+  //   }
+  //   default: {
+  //     newLayoutStructure = item;
+  //   }
+  // }
+  let newLayoutStructure = item;
 
   return addChildToChildren(layout, splitDropZonePath, newLayoutStructure);
 };

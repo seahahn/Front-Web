@@ -1,24 +1,24 @@
 import React, { useRef } from "react";
 import DropZone from "./DropZone";
-import Component from "./Component";
+// import Component from "./Component";
+import Component from "./Compo";
 
-const style = {};
-const Row = ({ data, components, handleDrop, path }) => {
+const Row = ({ data, handleDrop, path }) => {
   const ref = useRef(null);
 
-  const renderComponent = (component, currentPath) => {
+  const renderComponent = (component, compoType, currentPath) => {
     return (
       <Component
         key={component.id}
         data={component}
-        components={components}
+        compoType={compoType} // PREPROCESS TRAIN EVAL
         path={currentPath}
       />
     );
   };
 
   return (
-    <div ref={ref} style={{ ...style }} className="base row">
+    <div ref={ref} className="base row rounded-lg my-3">
       {data.id}
       {data.children.map((component, index) => {
         const currentPath = `${path}-${index}`;
@@ -26,24 +26,15 @@ const Row = ({ data, components, handleDrop, path }) => {
         return (
           <React.Fragment key={component.id}>
             <DropZone
-              data={{
-                path: currentPath,
-                childrenCount: data.children.length,
-              }}
+              data={{ path: currentPath, childrenCount: data.children.length }}
               onDrop={handleDrop}
+              accept={data.id} // PREPROCESS TRAIN EVAL
             />
-            {renderComponent(component, currentPath)}
+            {renderComponent(component, data.id, currentPath)}
           </React.Fragment>
         );
       })}
-      <DropZone
-        data={{
-          path: `${path}-${data.children.length}`,
-          childrenCount: data.children.length
-        }}
-        onDrop={handleDrop}
-        isLast
-      />
+      <DropZone data={{ path: `${path}-${data.children.length}`, childrenCount: data.children.length }} onDrop={handleDrop} accept={data.id} isLast />
     </div>
   );
 };

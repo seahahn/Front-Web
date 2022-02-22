@@ -26,12 +26,18 @@ npm install react-zoom-pan-pinch
 
 // For CSS in JS
 npm install styled-components
+
+// For Pandas-like Library : danfo.js
+npm install danfojs
 ```
+
+> danfojs 자세한 적용 과정은 아래 링크 참고
+> [React - Danfo.js 적용 과정](https://github.com/AI-Play/Front-Web/discussions/22#discussioncomment-2215525)
 
 ## 개발 서버 실행
 
 ```
-npm run start
+npm start
 ```
 
 ## Layout (예정)
