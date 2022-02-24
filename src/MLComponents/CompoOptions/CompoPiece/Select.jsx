@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { inputStyle } from "../../componentStyle";
+import { inputStyle } from "MLComponents/componentStyle";
 
 function Select({ options, optionText, id, text: labelText, onChange, defaultValue, className, multiple = false }, ref) {
   return (

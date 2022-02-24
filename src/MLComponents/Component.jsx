@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { COMPONENT, ITEMS } from "./constants";
 import * as AllCompo from "./CompoOptions";
 import CompoResult from "./CompoResult";
-import { componentBodyStyle, buttonStyle } from "./componentStyle";
+import { componentBodyStyle, buttonStyle } from "MLComponents/componentStyle";
 
 /*
 data : initialData.layout으로부터 시작되어 내려온 데이터

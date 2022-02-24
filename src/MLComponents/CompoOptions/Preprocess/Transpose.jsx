@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { AppContext } from "../../App";
-// import { inputStyle } from "../componentStyle";
-import { funcResultConfig, funcResultLayout } from "./funcResultConfigs";
-import { jsonToFile } from "./util";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { showDataResult } from "MLComponents/CompoOptions/util";
 
-function Dtype({ formId, resultId }) {
+function Transpose({ formId, resultId }) {
   const { dfd, storage } = useContext(AppContext);
 
   // 백앤드로 데이터 전송
@@ -14,23 +12,16 @@ function Dtype({ formId, resultId }) {
 
     // 백앤드 전송을 위한 설정
     // 백앤드 API URL에 파라미터 추가
-    const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.Dtype));
+    const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.Transpose));
     const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        // document.getElementById(resultId).innerText = data;
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-        dfd
-          .readJSON(jsonToFile(data))
-          .then((df) => {
-            df.plot(resultId).table({ funcResultConfig, funcResultLayout }); // 결과 영역에 출력
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        showDataResult(dfd, data, resultId);
+        // saveDf("df", data); // 데이터프레임 저장
       })
       .catch((error) => console.error(error));
   };
@@ -42,4 +33,4 @@ function Dtype({ formId, resultId }) {
   );
 }
 
-export default React.memo(Dtype);
+export default React.memo(Transpose);

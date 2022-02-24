@@ -1,5 +1,5 @@
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { funcResultConfig, funcResultLayout } from "./funcResultConfigs";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
 
 // 백앤드로 보내 가공 처리한 데이터프레임을 웹 스토리지에 저장
 export const saveDf = (name, df, saveColumns = false) => {

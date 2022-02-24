@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { AppContext } from "../../App";
-import { inputStyle } from "../componentStyle";
-import { showDataFrame, getColumns } from "./util";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { inputStyle } from "MLComponents/componentStyle";
+import { showDataFrame, getColumns } from "MLComponents/CompoOptions/util";
 
 function Corr({ formId, resultId }) {
   const [method, setMethod] = useState("pearson"); // 상관 관계 방식

@@ -1,9 +1,9 @@
 import React, { useState, useContext, useRef } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { AppContext } from "../../App";
-import { saveDf, showDataResult, getColumns } from "./util";
-import { inputStyle } from "../componentStyle";
-import { Select } from "./CompoPiece";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { saveDf, showDataResult } from "MLComponents/CompoOptions/util";
+import { inputStyle } from "MLComponents/componentStyle";
+import { Select } from "MLComponents/CompoOptions/CompoPiece";
 
 function RenameCol({ formId, resultId }) {
   // const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기

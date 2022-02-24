@@ -1,8 +1,8 @@
 import React, { useState, useContext, useRef } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { AppContext } from "../../App";
-import { showDataResult, getColumns } from "./util";
-import { Select, Switch } from "./CompoPiece";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
+import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
 
 function Groupby({ formId, resultId }) {
