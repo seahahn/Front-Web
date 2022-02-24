@@ -1,13 +1,14 @@
 import React, { useState, useContext, useRef } from "react";
 import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
-import { saveDf, showDataResult } from "MLComponents/CompoOptions/util";
+import { saveDf, showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
+import MultiSelect from "react-select";
 
 function RenameCol({ formId, resultId }) {
-  // const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
-  // const colObjArray = [...columns.map((column) => ({ label: column, value: column }))]; // MultiSelect에서 사용하는 객체 목록
+  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
+  const colObjArray = [...columns.map((column) => ({ label: column, value: column }))]; // MultiSelect에서 사용하는 객체 목록
 
   const [keys, setKeys] = useState([]); // input text 변경될 컬럼명
   const [values, setValues] = useState([]); // input text 변경할 컬럼명
@@ -22,12 +23,17 @@ function RenameCol({ formId, resultId }) {
 
   const { dfd, storage } = useContext(AppContext);
 
+  const settingKeys = (e) => {
+    // console.log(e);
+    setKeys([...e.map((col) => col.value)]);
+  };
+
   // 옵션 상태 값 저장
   const handleChange = (event) => {
     switch (event.target) {
-      case keysRef.current:
-        setKeys(event.target.value);
-        break;
+      // case keysRef.current:
+      //   setKeys(event.target.value);
+      //   break;
       case valuesRef.current:
         setValues(event.target.value);
         break;
@@ -73,8 +79,17 @@ function RenameCol({ formId, resultId }) {
     <form id={formId} onSubmit={handleSubmit}>
       <div className="flex flex-col space-y-2">
         <div className="flex flex-row">
-          <label className="flex-none">변경 전 컬럼명(keys)</label>
-          <input ref={keysRef} className={inputStyle + " w-full"} type="text" placeholder="변경 대상 컬럼명들을 입력해주세요" onChange={handleChange} />
+          <label className="flex-none self-center">변경 전 컬럼명(keys)</label>
+          <MultiSelect
+            ref={keysRef}
+            options={colObjArray}
+            onChange={settingKeys}
+            className="flex-1"
+            isMulti={true}
+            closeMenuOnSelect={false}
+            // defaultInputValue={columns[0]}
+          />
+          {/* <input ref={keysRef} className={inputStyle + " w-full"} type="text" placeholder="변경 대상 컬럼명들을 입력해주세요" onChange={handleChange} /> */}
         </div>
         <div className="flex flex-row">
           <label className="flex-none">변경 후 컬럼명(values)</label>

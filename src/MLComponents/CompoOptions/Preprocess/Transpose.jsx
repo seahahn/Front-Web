@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
-import { showDataResult } from "MLComponents/CompoOptions/util";
+import { saveDf, showDataResult } from "MLComponents/CompoOptions/util";
 
 function Transpose({ formId, resultId }) {
   const { dfd, storage } = useContext(AppContext);
@@ -19,8 +19,8 @@ function Transpose({ formId, resultId }) {
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-        showDataResult(dfd, data, resultId);
+        saveDf("df", data, true); // 데이터프레임 저장
+        showDataResult(dfd, data, resultId); // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
         // saveDf("df", data); // 데이터프레임 저장
       })
       .catch((error) => console.error(error));

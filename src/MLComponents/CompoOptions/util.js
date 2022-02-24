@@ -4,10 +4,12 @@ import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/fu
 // 백앤드로 보내 가공 처리한 데이터프레임을 웹 스토리지에 저장
 export const saveDf = (name, df, saveColumns = false) => {
   console.log("saveDf");
-  if (saveColumns) {
-    saveColumnList(df); // 컬럼 리스트 저장
+  if (String(df).startsWith("{") || String(df).startsWith("{", 1)) {
+    if (saveColumns) {
+      saveColumnList(df); // 컬럼 리스트 저장
+    }
+    window.sessionStorage.setItem(name, df); // 웹 스토리지에 데이터프레임(JSON) 저장
   }
-  window.sessionStorage.setItem(name, df); // 웹 스토리지에 데이터프레임(JSON) 저장
 };
 
 // 백앤드에서 받은 JSON 데이터프레임 문자열을 임시 파일로 만드는 함수
@@ -22,6 +24,7 @@ export const showDataFrame = (dfd, data, resultId) => {
   dfd
     .readJSON(jsonToFile(data))
     .then((df) => {
+      df.print();
       df.plot(resultId).table({ funcResultConfig, funcResultLayout }); // 결과 영역에 출력
     })
     .catch((err) => {

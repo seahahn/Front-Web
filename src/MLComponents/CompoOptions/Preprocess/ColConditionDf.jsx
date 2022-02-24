@@ -86,10 +86,10 @@ function ColConditionDf({ formId, resultId }) {
 
   const conditions = ["eq", "gr", "gr_eq", "le", "le_eq"];
   const conditionTexts = ["=", ">", ">=", "<", "<="];
-  const conditionsG = ["gr", "gr_eq"];
-  const conditionTextsG = [">", ">="];
-  const conditionsL = ["le", "le_eq"];
-  const conditionTextsL = ["<", "<="];
+  const conditionsG = ["", "gr", "gr_eq"];
+  const conditionTextsG = ["없음", ">", ">="];
+  const conditionsL = ["", "le", "le_eq"];
+  const conditionTextsL = ["없음", "<", "<="];
 
   return (
     <form id={formId} onSubmit={handleSubmit}>
