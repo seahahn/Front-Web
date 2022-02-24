@@ -19,32 +19,7 @@ const initialData = {
             {
               id: shortid.generate(),
               type: PREPROCESS,
-              func: FUNCS_CODE.Head,
-            },
-            {
-              id: shortid.generate(),
-              type: PREPROCESS,
-              func: FUNCS_CODE.Tail,
-            },
-            {
-              id: shortid.generate(),
-              type: PREPROCESS,
-              func: FUNCS_CODE.Shape,
-            },
-            {
-              id: shortid.generate(),
-              type: PREPROCESS,
-              func: FUNCS_CODE.Dtype,
-            },
-            {
-              id: shortid.generate(),
-              type: PREPROCESS,
-              func: FUNCS_CODE.ColumnList,
-            },
-            {
-              id: shortid.generate(),
-              type: PREPROCESS,
-              func: FUNCS_CODE.Unique,
+              func: FUNCS_CODE.SortValue,
             },
           ],
         },
