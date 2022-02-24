@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import { UPLOAD_ACCEPT, MLFUNC_URL, URLS_PREPROCESS, httpConfig } from "./networkConfig";
-import { funcResultConfig, funcResultLayout } from "./funcResultConfig";
+import { UPLOAD_ACCEPT, MLFUNC_URL, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
+import { funcResultConfig, funcResultLayout } from "./funcResultConfigs";
 import { AppContext } from "../../App";
-import { jsonToFile, saveColumnList } from "./util";
+import { saveDf, jsonToFile } from "./util";
 
 function DataUpload({ formId, resultId }) {
   const [file, setFile] = useState();
@@ -32,8 +32,7 @@ function DataUpload({ formId, resultId }) {
           .readJSON(jsonToFile(data))
           .then((df) => {
             df.head().plot(resultId).table({ funcResultConfig, funcResultLayout }); // 결과 영역에 출력
-            storage.setItem("df", data); // 웹 스토리지에 데이터프레임(JSON) 저장
-            saveColumnList(data); // 컬럼 리스트 저장
+            saveDf("df", data, true); // 데이터프레임 저장
           })
           .catch((err) => {
             console.log(err);

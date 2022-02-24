@@ -136,7 +136,7 @@ const Container = () => {
 
   // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
   const [movingEnabled, setMovingEnabled] = useState(false);
-  const [dragEnabled, setDragEnabled] = useState(false);
+  // const [dragEnabled, setDragEnabled] = useState(false);
 
   // dont use index for key when mapping over items
   // causes this issue - https://github.com/react-dnd/react-dnd/issues/342
@@ -156,9 +156,9 @@ const Container = () => {
                   Move
                 </button>
                 {/* 컴포넌트 드래그 가능 여부를 설정할 수 있는 버튼 추가(컴포넌트 내 텍스트 선택 가능하게 할 목적) */}
-                <button className={classNames(dragEnabled ? "bg-green-500" : "bg-green-50")} onClick={() => setDragEnabled(!dragEnabled)}>
+                {/* <button className={classNames(dragEnabled ? "bg-green-500" : "bg-green-50")} onClick={() => setDragEnabled(!dragEnabled)}>
                   Drag
-                </button>
+                </button> */}
                 {/* 확대 / 축소 / 원 위치 이동을 위한 버튼 */}
                 <button className="bg-green-50" onClick={() => zoomIn(0.2)}>
                   Zoom In

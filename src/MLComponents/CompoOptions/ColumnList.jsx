@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfig";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
 import { AppContext } from "../../App";
+import { showDataResult } from "./util";
 
 function ColumnList({ formId, resultId }) {
-  const { storage } = useContext(AppContext);
+  const { dfd, storage } = useContext(AppContext);
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
@@ -18,7 +19,7 @@ function ColumnList({ formId, resultId }) {
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        document.getElementById(resultId).innerText = data; // 결과 영역에 출력
+        showDataResult(dfd, data, resultId);
       })
       .catch((error) => console.error(error));
   };

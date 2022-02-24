@@ -1,19 +1,15 @@
 import React, { useState, useContext } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfig";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
 import { AppContext } from "../../App";
 import { inputStyle } from "../componentStyle";
+import { getColumns, showDataResult } from "./util";
+import Select from "./CompoPiece/Select";
 
 function Unique({ formId, resultId }) {
-  const [column, setColumn] = useState();
-  const { storage } = useContext(AppContext);
+  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
 
-  const columns = storage
-    .getItem("columns")
-    .replace(/['\[\]]/g, "")
-    .split(",")
-    .map((element) => {
-      return element.trim();
-    }); // 데이터프레임 컬럼 목록 가져오기
+  const [column, setColumn] = useState(columns[0]);
+  const { dfd, storage } = useContext(AppContext);
 
   // 컬럼명 입력 시 변화 감지하여 상태 값 변경
   const handleChange = (event) => {
@@ -35,26 +31,14 @@ function Unique({ formId, resultId }) {
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        document.getElementById(resultId).innerText = data; // 결과 영역에 출력
+        showDataResult(dfd, data, resultId);
       })
       .catch((error) => console.error(error));
   };
 
   return (
     <form id={formId} onSubmit={handleSubmit}>
-      <label>
-        대상 컬럼명
-        {/* <input className={inputStyle} type="number" min="1" max="50" defaultValue="5" onChange={handleChange} /> */}
-        <select className={inputStyle} onChange={handleChange}>
-          {columns.map((column) => {
-            return (
-              <option key={column.index} value={column}>
-                {column}
-              </option>
-            );
-          })}
-        </select>
-      </label>
+      <Select options={columns} id="" text="대상 컬럼명" onChange={handleChange} defaultValue={column} />
     </form>
   );
 }

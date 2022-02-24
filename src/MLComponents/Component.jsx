@@ -41,7 +41,27 @@ const Component = ({ data, compoType, path }) => {
   const [resultOpened, setResultOpened] = useState(true);
 
   // 컴포넌트의 기능에 맞춰 옵션 영역 집어넣기
-  const OptionList = ["DataUpload", "Head", "Tail", "Shape", "Dtype", "ColumnList", "Unique"];
+  const OptionList = [
+    "DataUpload",
+    "Head",
+    "Tail",
+    "Shape",
+    "Dtype",
+    "ColumnList",
+    "Unique",
+    "IsNa",
+    "Corr",
+    "Describe",
+    "ColConditionDf",
+    "LocDf",
+    "ILocDf",
+    "Transpose",
+    "Groupby",
+    "Drop",
+    "DropNa",
+    "RenameCol",
+    "SortValue",
+  ];
   let Options = AllCompo[data.func];
   if (!OptionList.includes(data.func)) {
     Options = AllCompo["DataUpload"];
