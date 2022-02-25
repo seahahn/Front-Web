@@ -32,11 +32,21 @@ export const showDataFrame = (dfd, data, resultId) => {
     });
 };
 
+// 데이터프레임과 시각화 목적에 맞는 조건을 백앤드에 보낸 후, 백앤드에서 받은 시각화 자료를 보여주기
+export const showPlot = (data, resultId) => {
+  if (String(data).startsWith("{")) {
+    document.getElementById(resultId).innerHTML = ""; // 기존 결과 지우기
+    window.Bokeh.embed.embed_item(JSON.parse(data), resultId); // 결과 영역에 출력
+  } else {
+    document.getElementById(resultId).innerHTML = data; // 올바른 입력이 아니면 에러 메시지 출력
+  }
+};
+
 export const showDataResult = (dfd, data, resultId) => {
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
     showDataFrame(dfd, data, resultId);
   } else {
-    document.getElementById(resultId).innerHTML = data; // 결과 영역에 출력
+    document.getElementById(resultId).innerHTML = data; // 올바른 입력이 아니면 에러 메시지 출력
   }
 };
 

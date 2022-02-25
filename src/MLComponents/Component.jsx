@@ -12,8 +12,6 @@ compoType : Row로 구분되는 컴포넌트 타입(PREPROCESS, TRAIN, EVAL)
 path : 컴포넌트의 위치를 구분하기 위한 경로
  */
 const Component = ({ data, compoType, path }) => {
-  const ref = useRef(null);
-
   const [{ opacity }, drag, preview] = useDrag({
     type: compoType,
     item: {
@@ -61,6 +59,10 @@ const Component = ({ data, compoType, path }) => {
     "DropNa",
     "RenameCol",
     "SortValue",
+    "BoxPlot",
+    "HistPlot",
+    "CountPlot",
+    "ScatterPlot",
   ];
   let Options = AllCompo[data.func];
   if (!OptionList.includes(data.func)) {
