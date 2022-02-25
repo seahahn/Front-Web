@@ -23,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 /.vscode
+package-lock.json
 
 # MLComponents의 Layout 수정 이전에 작성된 파일
 MLFuncs

@@ -34,8 +34,7 @@
     "tls": "^0.0.1",
     "tw-elements": "^1.0.0-alpha11",
     "url": "^0.11.0",
-    "util": "^0.12.4",
-    "write-json-file": "^5.0.0"
+    "util": "^0.12.4"
   },
   "scripts": {
     "start": "react-app-rewired --max_old_space_size=4096 start",
