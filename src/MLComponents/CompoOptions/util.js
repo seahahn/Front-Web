@@ -67,7 +67,7 @@ export const getColumns = () => {
   if (window.sessionStorage.getItem("columns") !== null) {
     return window.sessionStorage
       .getItem("columns")
-      .replace(/['\[\]]/g, "")
+      .replace(/['[\]]/g, "") // .replace(/['\[\]]/g, "")
       .split(",")
       .map((element) => {
         return element.trim();
