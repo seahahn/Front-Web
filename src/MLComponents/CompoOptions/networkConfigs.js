@@ -33,6 +33,12 @@ export const URLS_PREPROCESS = {
   MergeDf: "merge",
   ConcatDf: "concat",
   // "set_column": "set_column",
+
+  // 시각화
+  BoxPlot: "boxplot",
+  HistPlot: "histplot",
+  CountPlot: "countplot",
+  ScatterPlot: "scatterplot",
 };
 
 // fetch API로 HTTP 통신하기 위한 설정

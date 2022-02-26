@@ -1,9 +1,9 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { AppContext } from "../../App";
-import { saveDf, showDataResult, getColumns, saveColumnList } from "./util";
-import { inputStyle } from "../componentStyle";
-import { Select } from "./CompoPiece";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { saveDf, showDataResult, getColumns, saveColumnList } from "MLComponents/CompoOptions/util";
+import { inputStyle } from "MLComponents/componentStyle";
+import { Select } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
 import classNames from "classnames";
 

@@ -1,9 +1,8 @@
 import React, { useState, useContext } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { AppContext } from "../../App";
-import { inputStyle } from "../componentStyle";
-import { getColumns, showDataResult } from "./util";
-import Select from "./CompoPiece/Select";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { getColumns, showDataResult } from "MLComponents/CompoOptions/util";
+import Select from "MLComponents/CompoOptions/CompoPiece/Select";
 
 function Unique({ formId, resultId }) {
   const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기

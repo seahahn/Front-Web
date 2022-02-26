@@ -132,3 +132,22 @@ body::-webkit-scrollbar {
 /* div.resultArea > * {
   overscroll-behavior: none;
 } */
+
+.color-picker input {
+  display: block;
+  box-sizing: border-box;
+  width: 90px;
+  margin: 10px 55px 0;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #eee;
+  outline: none;
+  font: inherit;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.color-picker input:focus {
+  border-color: #4298ef;
+}

@@ -19,7 +19,7 @@ const initialData = {
             {
               id: shortid.generate(),
               type: PREPROCESS,
-              func: FUNCS_CODE.SortValue,
+              func: FUNCS_CODE.BoxPlot,
             },
           ],
         },

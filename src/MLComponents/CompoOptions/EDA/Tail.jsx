@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { AppContext } from "../../App";
-import { inputStyle } from "../componentStyle";
-import { funcResultConfig, funcResultLayout } from "./funcResultConfigs";
-import { jsonToFile } from "./util";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { inputStyle } from "MLComponents/componentStyle";
+import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
+import { jsonToFile } from "MLComponents/CompoOptions/util";
 
 function Tail({ formId, resultId }) {
   const [lineNum, setLineNum] = useState();

@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { AppContext } from "../../App";
-import { inputStyle } from "../componentStyle";
-import { showDataResult, getColumns } from "./util";
+import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { inputStyle } from "MLComponents/componentStyle";
+import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import classNames from "classnames";
-import Select from "./CompoPiece/Select";
+import Select from "MLComponents/CompoOptions/CompoPiece/Select";
 
 function ColConditionDf({ formId, resultId }) {
   const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
@@ -86,10 +86,10 @@ function ColConditionDf({ formId, resultId }) {
 
   const conditions = ["eq", "gr", "gr_eq", "le", "le_eq"];
   const conditionTexts = ["=", ">", ">=", "<", "<="];
-  const conditionsG = ["gr", "gr_eq"];
-  const conditionTextsG = [">", ">="];
-  const conditionsL = ["le", "le_eq"];
-  const conditionTextsL = ["<", "<="];
+  const conditionsG = ["", "gr", "gr_eq"];
+  const conditionTextsG = ["없음", ">", ">="];
+  const conditionsL = ["", "le", "le_eq"];
+  const conditionTextsL = ["없음", "<", "<="];
 
   return (
     <form id={formId} onSubmit={handleSubmit}>

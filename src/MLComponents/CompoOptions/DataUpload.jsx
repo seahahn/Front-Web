@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import { UPLOAD_ACCEPT, MLFUNC_URL, URLS_PREPROCESS, httpConfig } from "./networkConfigs";
-import { funcResultConfig, funcResultLayout } from "./funcResultConfigs";
-import { AppContext } from "../../App";
-import { saveDf, jsonToFile } from "./util";
+import { UPLOAD_ACCEPT, MLFUNC_URL, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
+import { AppContext } from "App";
+import { saveDf, jsonToFile } from "MLComponents/CompoOptions/util";
 
 function DataUpload({ formId, resultId }) {
   const [file, setFile] = useState();

@@ -10,6 +10,7 @@ export const EVAL = "eval";
 export const ITEM_TYPES = [PREPROCESS, TRAIN, EVAL];
 
 export const FUNCS_CODE = {
+  // EDA
   DataUpload: "DataUpload",
   Head: "Head",
   Tail: "Tail",
@@ -24,6 +25,7 @@ export const FUNCS_CODE = {
   ILocDf: "ILocDf",
   ColConditionDf: "ColConditionDf",
 
+  // 전처리
   Transpose: "Transpose",
   Groupby: "Groupby",
   Drop: "Drop",
@@ -33,6 +35,12 @@ export const FUNCS_CODE = {
   MergeDf: "MergeDf",
   ConcatDf: "ConcatDf",
   // "set_column": "set_column",
+
+  // 시각화
+  BoxPlot: "BoxPlot",
+  HistPlot: "HistPlot",
+  CountPlot: "CountPlot",
+  ScatterPlot: "ScatterPlot",
 
   //tempporary
   Fit: "Fit",
@@ -188,14 +196,42 @@ export const ITEMS_PREPROCESS = [
     type: SIDEBAR_ITEM + PREPROCESS,
     func: FUNCS_CODE.MergeDf,
     title: "DF Merge Df",
-    content: "DF Merge Df Function",
+    content: "DF Merge Function",
   },
   {
     id: FUNCS_CODE.ConcatDf,
     type: SIDEBAR_ITEM + PREPROCESS,
     func: FUNCS_CODE.ConcatDf,
     title: "DF Concat Df",
-    content: "DF Concat Df Function",
+    content: "DF Concat Function",
+  },
+  {
+    id: FUNCS_CODE.BoxPlot,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.BoxPlot,
+    title: "BoxPlot",
+    content: "BoxPlot Function",
+  },
+  {
+    id: FUNCS_CODE.HistPlot,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.HistPlot,
+    title: "HistPlot",
+    content: "HistPlot Function",
+  },
+  {
+    id: FUNCS_CODE.CountPlot,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.CountPlot,
+    title: "CountPlot",
+    content: "CountPlot Function",
+  },
+  {
+    id: FUNCS_CODE.ScatterPlot,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.ScatterPlot,
+    title: "ScatterPlot",
+    content: "ScatterPlot Function",
   },
 ];
 
