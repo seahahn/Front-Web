@@ -9,7 +9,7 @@ import initialData from "./initial-data-test"; // COLUMN-ROW-COMPONENT
 import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "./helpers";
 import styled from "styled-components";
 
-import { ITEM_TYPES, COMPONENT, COLUMN, SIDEBAR_ITEM } from "./constants";
+import { SIDEBAR_ITEM } from "./constants";
 import shortid from "shortid";
 
 const Toolbox = styled.div`
@@ -31,9 +31,8 @@ const Toolbox = styled.div`
 
 const Container = () => {
   const initialLayout = initialData.layout;
-  // const initialComponents = initialData.components;
   const [layout, setLayout] = useState(initialLayout);
-  // const [components, setComponents] = useState(initialComponents);
+  const [movingEnabled, setMovingEnabled] = useState(false); // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
 
   const handleDropToTrashBin = useCallback(
     (dropZone, item) => {
@@ -45,13 +44,10 @@ const Container = () => {
 
   const handleDrop = useCallback(
     (dropZone, item) => {
-      // console.log('dropZone', dropZone)
       console.log("item", item);
 
       const splitDropZonePath = dropZone.path.split("-");
       const pathToDropZone = splitDropZonePath.slice(0, -1).join("-");
-      // console.log('splitDropZonePath', splitDropZonePath)
-      // console.log('pathToDropZone', pathToDropZone)
 
       const newItem = { id: item.id, type: item.type, func: item.func };
       // console.log('newItem id type', newItem);
@@ -118,7 +114,6 @@ const Container = () => {
       //   )
       // );
     },
-    // [layout, components]
     [layout]
   );
 
@@ -134,12 +129,6 @@ const Container = () => {
     );
   };
 
-  // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
-  const [movingEnabled, setMovingEnabled] = useState(false);
-  // const [dragEnabled, setDragEnabled] = useState(false);
-
-  // dont use index for key when mapping over items
-  // causes this issue - https://github.com/react-dnd/react-dnd/issues/342
   return (
     <div className="flex flex-row">
       <div className="flex flex-col w-4/5 bg-slate-700">
@@ -155,10 +144,6 @@ const Container = () => {
                   onClick={() => setMovingEnabled(!movingEnabled)}>
                   Move
                 </button>
-                {/* 컴포넌트 드래그 가능 여부를 설정할 수 있는 버튼 추가(컴포넌트 내 텍스트 선택 가능하게 할 목적) */}
-                {/* <button className={classNames(dragEnabled ? "bg-green-500" : "bg-green-50")} onClick={() => setDragEnabled(!dragEnabled)}>
-                  Drag
-                </button> */}
                 {/* 확대 / 축소 / 원 위치 이동을 위한 버튼 */}
                 <button className="bg-green-50" onClick={() => zoomIn(0.2)}>
                   Zoom In
@@ -170,14 +155,12 @@ const Container = () => {
                   Reset
                 </button>
               </Toolbox>
-
               {/* TransformComponent 안의 컴포넌트가 실제로 확대 / 축소 / 위치 이동 기능이 적용되는 대상임 */}
               <TransformComponent>
                 <div className="page columns w-full h-full">
                   {/* layout 데이터에서 column 하나씩 내놓음. 한 column에 한 index */}
                   {layout.map((column, index) => {
                     const currentPath = `${index}`; // index는 현재 경로로 지정됨
-
                     return (
                       <React.Fragment key={column.id}>
                         {/* column 하나마다 좌측에 TrashDropZone 놔둠 */}
@@ -196,7 +179,6 @@ const Container = () => {
           )}
         </TransformWrapper>
       </div>
-
       {/* 사이드바와 사이드바 내 아이템들 */}
       <SideBar />
     </div>
