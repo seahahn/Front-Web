@@ -1,15 +1,16 @@
 import React, { useState, useCallback } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import classNames from "classnames";
-
-import TrashDropZone from "./TrashDropZone";
-import SideBar from "./SideBar";
-import Column from "./Column";
-import initialData from "./initial-data-test"; // COLUMN-ROW-COMPONENT
-import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "./helpers";
+import NewBlockDropZone from "MLComponents/NewBlockDropZone";
+import TrashDropZone from "MLComponents/TrashDropZone";
+import SideBar from "MLComponents/SideBar";
+import Column from "MLComponents/Column";
+import initialData from "MLComponents/initial-data-test"; // COLUMN-ROW-COMPONENT
+import initialBlockForm from "MLComponents/initial-data-form"; // 새로운 블록 생성 폼
+import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "MLComponents/helpers";
 import styled from "styled-components";
 
-import { SIDEBAR_ITEM } from "./constants";
+import { SIDEBAR_ITEM, COLUMN } from "MLComponents/constants";
 import shortid from "shortid";
 
 const Toolbox = styled.div`
@@ -30,10 +31,11 @@ const Toolbox = styled.div`
 `;
 
 const Container = () => {
-  const initialLayout = initialData.layout;
+  const initialLayout = initialData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
   const [layout, setLayout] = useState(initialLayout);
   const [movingEnabled, setMovingEnabled] = useState(false); // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
 
+  // TrashDropZone에 아이템 드랍 시 아이템 삭제 기능
   const handleDropToTrashBin = useCallback(
     (dropZone, item) => {
       const splitItemPath = item.path.split("-");
@@ -42,6 +44,7 @@ const Container = () => {
     [layout]
   );
 
+  // DropZone에 아이템 드랍 시 아이템 추가 기능
   const handleDrop = useCallback(
     (dropZone, item) => {
       console.log("item", item);
@@ -125,12 +128,38 @@ const Container = () => {
         // components={components}
         handleDrop={handleDrop}
         path={currentPath}
+        removeBlock={removeBlock}
       />
     );
   };
 
+  // 새로운 블록 추가 기능
+  const addNewBlock = useCallback(() => {
+    const newBlock = {
+      type: COLUMN,
+      id: shortid.generate(),
+      children: initialBlockForm.newBlock.children,
+    };
+    console.log([...layout, newBlock]);
+    setLayout([...layout, newBlock]);
+  }, [layout]);
+
+  // 블록 삭제 기능
+  const removeBlock = useCallback(
+    (event) => {
+      // console.log(event.target.value);
+      const newLayout = layout.filter(function (value, index, arr) {
+        // console.log(value.id, index, arr);
+        return value.id !== event.target.value;
+      });
+
+      setLayout(newLayout);
+    },
+    [layout]
+  );
+
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row h-full">
       <div className="flex flex-col w-4/5 bg-slate-700">
         {/* 요소 확대/축소 및 위치 이동 기능을 넣기 위한 Wrapper */}
         <TransformWrapper minScale={0.1} maxScale={2} limitToBounds={false} disabled={!movingEnabled}>
@@ -171,6 +200,12 @@ const Container = () => {
                       </React.Fragment>
                     );
                   })}
+                  {/* layout.length === 0 이면 새로운 블록 추가 요청 메시지 보이기 */}
+                  {layout.length === 0 ? (
+                    <div className="fixed top-0 bottom-0 left-0 right-0 text-5xl text-cyan-200 flex justify-center items-center">
+                      <h1>블록을 추가해주세요!</h1>
+                    </div>
+                  ) : null}
                   {/* column 다 추가하고 나면 마지막으로 맨 오른쪽에 TrashDropZone 추가 */}
                   <TrashDropZone data={{ layout }} onDrop={handleDropToTrashBin} />
                 </div>
@@ -180,7 +215,7 @@ const Container = () => {
         </TransformWrapper>
       </div>
       {/* 사이드바와 사이드바 내 아이템들 */}
-      <SideBar />
+      <SideBar addNewBlock={addNewBlock} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import DropZone from "./DropZone";
+import DropZone from "MLComponents/DropZone";
 // import Component from "./Component";
-import Component from "./Component";
+import Component from "MLComponents/Component";
 
 const Row = ({ data, handleDrop, path }) => {
   const ref = useRef(null);

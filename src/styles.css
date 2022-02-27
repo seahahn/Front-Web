@@ -29,7 +29,7 @@
 }
 
 .dropZone:nth-of-type(2n) {
-  display: none;
+  /* display: none; */
 }
 
 .dropZone.horizontalDrag {
@@ -98,6 +98,7 @@
 /* ML Components Container Area */
 .react-transform-wrapper {
   width: 100% !important;
+  height: 100% !important;
   /* padding-top: 2rem !important; */
   top: 2rem;
   bottom: 2rem;
@@ -106,6 +107,7 @@
 
 .react-transform-component {
   width: 100% !important;
+  height: 100% !important;
 }
 
 /* 브라우저 전체 화면의 스크롤바 숨기기 */
