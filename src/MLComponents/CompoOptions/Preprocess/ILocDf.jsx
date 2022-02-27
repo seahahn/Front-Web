@@ -121,7 +121,7 @@ function ILocDf({ formId, resultId }) {
           <div ref={idxDiscreteRef} className={classNames(isIdxRange ? "hidden" : "", "flex flex-row items-center")}>
             <label>
               인덱스 지정
-              <input ref={idxRef} className={inputStyle} type="number" onChange={handleChange} />
+              <input ref={idxRef} className={inputStyle} type="text" onChange={handleChange} />
             </label>
           </div>
           <div ref={idxRangeRef} className={classNames(isIdxRange ? "" : "hidden", "flex flex-col")}>

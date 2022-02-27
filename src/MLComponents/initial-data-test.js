@@ -1,5 +1,5 @@
 import shortid from "shortid";
-import { COMPONENT, ROW, COLUMN, PREPROCESS, TRAIN, EVAL, FUNCS_CODE } from "./constants";
+import { ROW, COLUMN, PREPROCESS, TRAIN, EVAL, FUNCS_CODE } from "./constants";
 
 const initialData = {
   layout: [

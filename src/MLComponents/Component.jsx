@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDrag } from "react-dnd";
 import classNames from "classnames";
-import { COMPONENT, ITEMS } from "./constants";
+import { ITEMS } from "./constants";
 import * as AllCompo from "./CompoOptions";
 import CompoResult from "./CompoResult";
 import { componentBodyStyle, buttonStyle } from "MLComponents/componentStyle";

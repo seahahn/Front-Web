@@ -14,7 +14,7 @@ function ScatterPlot({ formId, resultId }) {
   const xColRef = useRef();
   const yColRef = useRef();
 
-  const { dfd, storage } = useContext(AppContext);
+  const { storage } = useContext(AppContext);
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
