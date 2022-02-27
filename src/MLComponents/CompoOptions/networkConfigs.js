@@ -32,7 +32,7 @@ export const URLS_PREPROCESS = {
   SortValue: "sort_values",
   MergeDf: "merge",
   ConcatDf: "concat",
-  // "set_column": "set_column",
+  SetColumn: "set_column",
 
   // 시각화
   BoxPlot: "boxplot",

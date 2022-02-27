@@ -59,6 +59,7 @@ const Component = ({ data, compoType, path }) => {
     "DropNa",
     "RenameCol",
     "SortValue",
+    "SetColumn",
     "BoxPlot",
     "HistPlot",
     "CountPlot",

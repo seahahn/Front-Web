@@ -34,7 +34,7 @@ export const FUNCS_CODE = {
   SortValue: "SortValue",
   MergeDf: "MergeDf",
   ConcatDf: "ConcatDf",
-  // "set_column": "set_column",
+  SetColumn: "SetColumn",
 
   // 시각화
   BoxPlot: "BoxPlot",
@@ -192,19 +192,26 @@ export const ITEMS_PREPROCESS = [
     content: "DF Sort Value Function",
   },
   {
-    id: FUNCS_CODE.MergeDf,
+    id: FUNCS_CODE.SetColumn,
     type: SIDEBAR_ITEM + PREPROCESS,
-    func: FUNCS_CODE.MergeDf,
-    title: "DF Merge Df",
-    content: "DF Merge Function",
+    func: FUNCS_CODE.SetColumn,
+    title: "DF Set Column",
+    content: "DF Set Column Function",
   },
-  {
-    id: FUNCS_CODE.ConcatDf,
-    type: SIDEBAR_ITEM + PREPROCESS,
-    func: FUNCS_CODE.ConcatDf,
-    title: "DF Concat Df",
-    content: "DF Concat Function",
-  },
+  // {
+  //   id: FUNCS_CODE.MergeDf,
+  //   type: SIDEBAR_ITEM + PREPROCESS,
+  //   func: FUNCS_CODE.MergeDf,
+  //   title: "DF Merge",
+  //   content: "DF Merge Function",
+  // },
+  // {
+  //   id: FUNCS_CODE.ConcatDf,
+  //   type: SIDEBAR_ITEM + PREPROCESS,
+  //   func: FUNCS_CODE.ConcatDf,
+  //   title: "DF Concat",
+  //   content: "DF Concat Function",
+  // },
   {
     id: FUNCS_CODE.BoxPlot,
     type: SIDEBAR_ITEM + PREPROCESS,
