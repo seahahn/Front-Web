@@ -6,7 +6,7 @@ import { saveDf, jsonToFile } from "MLComponents/CompoOptions/util";
 
 function DataUpload({ formId, resultId }) {
   const [file, setFile] = useState();
-  const { dfd } = useContext(AppContext);
+  const { dfd, storage } = useContext(AppContext);
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {

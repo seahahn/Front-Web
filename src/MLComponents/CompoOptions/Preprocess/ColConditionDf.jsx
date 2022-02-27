@@ -96,29 +96,26 @@ function ColConditionDf({ formId, resultId }) {
       <div className="flex flex-col">
         <Select options={columns} id="col" text="기준 컬럼" onChange={handleChange} />
         <div className="flex flex-row justify-between mt-1">
-          <div className="flex flex-row flex-1 align-middle">
-            <Select
-              options={conditions}
-              optionText={conditionTexts}
-              id="cond1"
-              text="조건 1"
-              onChange={handleChange}
-              defaultValue={cond1}
-              className="flex flex-row align-middle"
-            />
-            <input id="value1" className={inputStyle} type="text" onChange={handleChange} />
+          <div className="flex flex-col">
+            <label>
+              조건 1
+              <Select options={conditions} optionText={conditionTexts} id="cond1" text="" onChange={handleChange} defaultValue={cond1} />
+              <input id="value1" className={inputStyle} type="text" onChange={handleChange} />
+            </label>
           </div>
-          <div className={classNames(cond2Visible ? "" : "hidden", "flex flex-row flex-1")}>
-            <Select
-              options={cond1[0] === "g" ? conditionsL : conditionsG}
-              optionText={cond1[0] === "g" ? conditionTextsL : conditionTextsG}
-              id="cond2"
-              text="조건 2"
-              onChange={handleChange}
-              defaultValue={cond2}
-              className="flex flex-row align-middle"
-            />
-            <input id="value2" className={inputStyle} type="text" onChange={handleChange} defaultValue={value2} />
+          <div className={classNames(cond2Visible ? "" : "hidden", "flex flex-col")}>
+            <label>
+              조건 2
+              <Select
+                options={cond1[0] === "g" ? conditionsL : conditionsG}
+                optionText={cond1[0] === "g" ? conditionTextsL : conditionTextsG}
+                id="cond2"
+                text=""
+                onChange={handleChange}
+                defaultValue={cond2}
+              />
+              <input id="value2" className={inputStyle} type="text" onChange={handleChange} defaultValue={value2} />
+            </label>
           </div>
         </div>
       </div>

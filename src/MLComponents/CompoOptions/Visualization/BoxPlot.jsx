@@ -18,7 +18,7 @@ function BoxPlot({ formId, resultId }) {
   // DOM 접근 위한 Ref
   const colsRef = useRef();
 
-  const { storage } = useContext(AppContext);
+  const { dfd, storage } = useContext(AppContext);
 
   // 컬럼 선택(MultiSelect)
   const settingCols = (e) => {
