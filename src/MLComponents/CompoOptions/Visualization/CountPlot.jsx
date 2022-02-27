@@ -19,7 +19,7 @@ function CountPlot({ formId, resultId }) {
   const heightRef = useRef();
   const widthRef = useRef();
 
-  const { storage } = useContext(AppContext);
+  const { dfd, storage } = useContext(AppContext);
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {

@@ -69,7 +69,7 @@ function Corr({ formId, resultId }) {
   return (
     <form id={formId} onSubmit={handleSubmit}>
       <div className="flex flex-col">
-        <label htmlFor="method">
+        <label for="method">
           상관 관계 계산 방식
           <select id="method" className={inputStyle} onChange={handleChange}>
             <option key="pearson" value="pearson">
@@ -83,11 +83,11 @@ function Corr({ formId, resultId }) {
             </option>
           </select>
         </label>
-        <label htmlFor="reqMin">
+        <label for="reqMin">
           최소 데이터 수
           <input id="reqMin" className={inputStyle} type="number" min="1" defaultValue="1" onChange={handleChange} />
         </label>
-        <label htmlFor="colFirst">
+        <label for="colFirst">
           기준 컬럼
           <select id="colFirst" className={inputStyle} onChange={handleChange}>
             <option key="" value="">
@@ -102,7 +102,7 @@ function Corr({ formId, resultId }) {
             })}
           </select>
         </label>
-        <label htmlFor="colSecond">
+        <label for="colSecond">
           대상 컬럼
           <select id="colSecond" className={inputStyle} onChange={handleChange}>
             <option key="" value="">
