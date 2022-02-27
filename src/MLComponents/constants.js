@@ -4,6 +4,7 @@ export const SIDEBAR_ITEM = "sidebarItem";
 export const ROW = "row";
 export const COLUMN = "column";
 export const COMPONENT = "component";
+export const NEW_BLOCK = "newBlock";
 export const PREPROCESS = "preprocess";
 export const TRAIN = "train";
 export const EVAL = "eval";
@@ -34,7 +35,7 @@ export const FUNCS_CODE = {
   SortValue: "SortValue",
   MergeDf: "MergeDf",
   ConcatDf: "ConcatDf",
-  // "set_column": "set_column",
+  SetColumn: "SetColumn",
 
   // 시각화
   BoxPlot: "BoxPlot",
@@ -42,7 +43,7 @@ export const FUNCS_CODE = {
   CountPlot: "CountPlot",
   ScatterPlot: "ScatterPlot",
 
-  //tempporary
+  //temporary
   Fit: "Fit",
   Tuning: "Tuning",
   Predict: "Predict",
@@ -56,14 +57,31 @@ func : (id와 동일한 역할)
 title : 머신 러닝 기능 제목
 content : 머신 러닝 기능 내용
 */
-export const ITEMS_PREPROCESS = [
+export const ITEMS_NEW_BLOCK = [
   {
     id: FUNCS_CODE.DataUpload,
-    type: SIDEBAR_ITEM + PREPROCESS,
+    type: SIDEBAR_ITEM + NEW_BLOCK,
     func: FUNCS_CODE.DataUpload,
     title: "Data Upload",
     content: "Data Upload Function",
   },
+  // {
+  //   id: FUNCS_CODE.MergeDf,
+  //   type: SIDEBAR_ITEM + PREPROCESS,
+  //   func: FUNCS_CODE.MergeDf,
+  //   title: "DF Merge",
+  //   content: "DF Merge Function",
+  // },
+  // {
+  //   id: FUNCS_CODE.ConcatDf,
+  //   type: SIDEBAR_ITEM + PREPROCESS,
+  //   func: FUNCS_CODE.ConcatDf,
+  //   title: "DF Concat",
+  //   content: "DF Concat Function",
+  // },
+];
+
+export const ITEMS_PREPROCESS = [
   {
     id: FUNCS_CODE.Head,
     type: SIDEBAR_ITEM + PREPROCESS,
@@ -192,19 +210,13 @@ export const ITEMS_PREPROCESS = [
     content: "DF Sort Value Function",
   },
   {
-    id: FUNCS_CODE.MergeDf,
+    id: FUNCS_CODE.SetColumn,
     type: SIDEBAR_ITEM + PREPROCESS,
-    func: FUNCS_CODE.MergeDf,
-    title: "DF Merge Df",
-    content: "DF Merge Function",
+    func: FUNCS_CODE.SetColumn,
+    title: "DF Set Column",
+    content: "DF Set Column Function",
   },
-  {
-    id: FUNCS_CODE.ConcatDf,
-    type: SIDEBAR_ITEM + PREPROCESS,
-    func: FUNCS_CODE.ConcatDf,
-    title: "DF Concat Df",
-    content: "DF Concat Function",
-  },
+
   {
     id: FUNCS_CODE.BoxPlot,
     type: SIDEBAR_ITEM + PREPROCESS,
@@ -270,6 +282,6 @@ export const ITEMS_EVAL = [
 ];
 
 // 모든 ML 기능을 담은 목록 만들기
-export const ITEM_LIST = ITEMS_PREPROCESS.concat(ITEMS_TRAIN, ITEMS_EVAL);
+export const ITEM_LIST = ITEMS_NEW_BLOCK.concat(ITEMS_PREPROCESS, ITEMS_TRAIN, ITEMS_EVAL);
 export let ITEMS = {};
 ITEM_LIST.forEach((object) => (ITEMS[object.id] = object));

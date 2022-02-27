@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
-import Row from "./Row";
+import Row from "MLComponents/Row";
+import { negButtonStyle } from "MLComponents/componentStyle";
 
-const Column = ({ data, handleDrop, path }) => {
+const Column = ({ data, handleDrop, path, removeBlock }) => {
   const ref = useRef(null);
 
   const renderRow = (row, currentPath) => {
@@ -17,7 +18,13 @@ const Column = ({ data, handleDrop, path }) => {
 
   return (
     <div ref={ref} className="base column max-w-full rounded-lg">
-      {data.id}
+      <div className="flex flex-row justify-between">
+        <span>{data.id}</span>
+        <button type="button" onClick={removeBlock} value={data.id} className={negButtonStyle}>
+          블록 삭제
+        </button>
+      </div>
+
       {data.children.map((row, index) => {
         const currentPath = `${path}-${index}`;
 
@@ -26,4 +33,4 @@ const Column = ({ data, handleDrop, path }) => {
     </div>
   );
 };
-export default Column;
+export default React.memo(Column);

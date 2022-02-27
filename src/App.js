@@ -13,7 +13,7 @@ export const AppContext = createContext({ dfd, storage });
 
 function App() {
   return (
-    <div className="App">
+    <div className="App h-screen text-base md:text-sm sm:text-xs">
       <Navbar />
       <DndProvider backend={HTML5Backend}>
         <AppContext.Provider value={{ dfd, storage }}>

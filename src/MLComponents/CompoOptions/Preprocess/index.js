@@ -6,7 +6,7 @@ import LocDf from "./LocDf";
 import RenameCol from "./RenameCol";
 import SortValue from "./SortValue";
 import Transpose from "./Transpose";
-// import SetColumn from "./SetColumn";
+import SetColumn from "./SetColumn";
 // import MergeDf from "./MergeDf";
 // import ConcatDf from "./ConcatDf";
 
@@ -19,5 +19,6 @@ export {
   RenameCol,
   SortValue,
   Transpose,
-  // MergeDf, ConcatDf, SetColumn,
+  SetColumn,
+  // MergeDf, ConcatDf, ,
 };

@@ -1,11 +1,11 @@
 import React from "react";
 import classNames from "classnames";
 import { useDrop } from "react-dnd";
-import { SIDEBAR_ITEM } from "./constants";
+import { SIDEBAR_ITEM, NEW_BLOCK } from "./constants";
 
-const DropZone = ({ data, onDrop, accept, isLast, className }) => {
+const NewBlockDropZone = ({ data, onDrop, accept, isLast, className }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: [SIDEBAR_ITEM + accept, accept], // 드랍받을 수 있는 type. Component의 compoType을 기준으로 함.
+    accept: [SIDEBAR_ITEM + NEW_BLOCK], // 드랍받을 수 있는 type. Component의 compoType을 기준으로 함.
     drop: (item, monitor) => {
       onDrop(data, item);
     },
@@ -55,4 +55,4 @@ const DropZone = ({ data, onDrop, accept, isLast, className }) => {
   const isActive = isOver && canDrop;
   return <div className={classNames("dropZone", { active: isActive, isLast }, className, "rounded-lg")} ref={drop} />;
 };
-export default DropZone;
+export default NewBlockDropZone;
