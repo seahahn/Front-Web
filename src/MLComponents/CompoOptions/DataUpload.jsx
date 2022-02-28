@@ -2,11 +2,13 @@ import React, { useState, useContext } from "react";
 import { UPLOAD_ACCEPT, MLFUNC_URL, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
 import { AppContext } from "App";
+import { BlockContext } from "MLComponents/Column";
 import { saveDf, jsonToFile } from "MLComponents/CompoOptions/util";
 
 function DataUpload({ formId, resultId }) {
   const [file, setFile] = useState();
   const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
@@ -32,7 +34,7 @@ function DataUpload({ formId, resultId }) {
           .readJSON(jsonToFile(data))
           .then((df) => {
             df.head().plot(resultId).table({ funcResultConfig, funcResultLayout }); // 결과 영역에 출력
-            saveDf("df", data, true); // 데이터프레임 저장
+            saveDf(blockId, "_df", data, true); // 데이터프레임 저장
           })
           .catch((err) => {
             console.log(err);

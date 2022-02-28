@@ -3,6 +3,7 @@ import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } 
 import { AppContext } from "App";
 import { inputStyle } from "MLComponents/componentStyle";
 import { showDataFrame, getColumns } from "MLComponents/CompoOptions/util";
+import { BlockContext } from "MLComponents/Column";
 
 function Corr({ formId, resultId }) {
   const [method, setMethod] = useState("pearson"); // 상관 관계 방식
@@ -11,8 +12,9 @@ function Corr({ formId, resultId }) {
   const [colSecond, setColSecond] = useState(""); // 대상 컬럼
 
   const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
 
-  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
+  const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
 
   // 상관 관계 옵션 상태 값 저장
   const handleChange = (event) => {
@@ -49,7 +51,7 @@ function Corr({ formId, resultId }) {
     }; // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.Corr), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))

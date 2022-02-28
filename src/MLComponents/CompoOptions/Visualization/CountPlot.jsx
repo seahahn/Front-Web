@@ -4,9 +4,13 @@ import { AppContext } from "App";
 import { showPlot, getColumns } from "MLComponents/CompoOptions/util";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
+import { BlockContext } from "MLComponents/Column";
 
 function CountPlot({ formId, resultId }) {
-  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
+  const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
+
+  const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
 
   const [col, setCol] = useState(columns[0]); // Select
   const [title, setTitle] = useState(""); // input text
@@ -18,8 +22,6 @@ function CountPlot({ formId, resultId }) {
   const titleRef = useRef();
   const heightRef = useRef();
   const widthRef = useRef();
-
-  const { dfd, storage } = useContext(AppContext);
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
@@ -57,7 +59,7 @@ function CountPlot({ formId, resultId }) {
     console.log(params);
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_PLOT, URLS_PREPROCESS.CountPlot), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))

@@ -39,6 +39,10 @@ export const URLS_PREPROCESS = {
   HistPlot: "histplot",
   CountPlot: "countplot",
   ScatterPlot: "scatterplot",
+
+  // 데이터셋 분할
+  FeatureTargetSplit: "feature_target_split",
+  TrainTestSplit: "train_test_split",
 };
 
 // fetch API로 HTTP 통신하기 위한 설정

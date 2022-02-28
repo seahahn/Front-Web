@@ -5,9 +5,13 @@ import { saveDf, showDataResult, getColumns } from "MLComponents/CompoOptions/ut
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
+import { BlockContext } from "MLComponents/Column";
 
 function RenameCol({ formId, resultId }) {
-  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
+  const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
+
+  const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
   const colObjArray = [...columns.map((column) => ({ label: column, value: column }))]; // MultiSelect에서 사용하는 객체 목록
 
   const [keys, setKeys] = useState([]); // input text 변경될 컬럼명
@@ -20,8 +24,6 @@ function RenameCol({ formId, resultId }) {
   const valuesRef = useRef();
   // const copyRef = useRef();
   const errorsRef = useRef();
-
-  const { dfd, storage } = useContext(AppContext);
 
   const settingKeys = (e) => {
     // console.log(e);
@@ -63,13 +65,13 @@ function RenameCol({ formId, resultId }) {
     console.log(params);
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.RenameCol), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        saveDf("df", data, true); // 데이터프레임 저장
+        saveDf(blockId, "_df", data, true); // 데이터프레임 저장
         showDataResult(dfd, data, resultId);
       })
       .catch((error) => console.error(error));

@@ -4,10 +4,13 @@ import { AppContext } from "App";
 import { inputStyle } from "MLComponents/componentStyle";
 import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
 import { jsonToFile } from "MLComponents/CompoOptions/util";
+import { BlockContext } from "MLComponents/Column";
 
 function IsNa({ formId, resultId }) {
-  const [isSum, setIsSum] = useState();
   const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
+
+  const [isSum, setIsSum] = useState();
 
   // 결측치 개수 합계 표시 여부 상태 값 저장
   const handleChange = (event) => {
@@ -23,7 +26,7 @@ function IsNa({ formId, resultId }) {
     const params = { sum: isSum }; // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.IsNa), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))

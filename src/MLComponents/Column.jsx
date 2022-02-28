@@ -1,8 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, createContext } from "react";
 import Row from "MLComponents/Row";
 import { negButtonStyle } from "MLComponents/componentStyle";
 
+export const BlockContext = createContext(); // 해당 블록에 속한 모든 컴포넌트들에 블록 ID를 전달하기 위한 컨텍스트
+
 const Column = ({ data, handleDrop, path, removeBlock }) => {
+  const blockId = data.id; // 블록의 ID
+
   const ref = useRef(null);
 
   const renderRow = (row, currentPath) => {
@@ -24,12 +28,13 @@ const Column = ({ data, handleDrop, path, removeBlock }) => {
           블록 삭제
         </button>
       </div>
+      <BlockContext.Provider value={{ blockId }}>
+        {data.children.map((row, index) => {
+          const currentPath = `${path}-${index}`;
 
-      {data.children.map((row, index) => {
-        const currentPath = `${path}-${index}`;
-
-        return <React.Fragment key={row.id}>{renderRow(row, currentPath)}</React.Fragment>;
-      })}
+          return <React.Fragment key={row.id}>{renderRow(row, currentPath)}</React.Fragment>;
+        })}
+      </BlockContext.Provider>
     </div>
   );
 };

@@ -43,6 +43,10 @@ export const FUNCS_CODE = {
   CountPlot: "CountPlot",
   ScatterPlot: "ScatterPlot",
 
+  // 데이터셋 분할
+  FeatureTargetSplit: "FeatureTargetSplit",
+  TrainTestSplit: "TrainTestSplit",
+
   //temporary
   Fit: "Fit",
   Tuning: "Tuning",
@@ -244,6 +248,20 @@ export const ITEMS_PREPROCESS = [
     func: FUNCS_CODE.ScatterPlot,
     title: "ScatterPlot",
     content: "ScatterPlot Function",
+  },
+  {
+    id: FUNCS_CODE.FeatureTargetSplit,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.FeatureTargetSplit,
+    title: "Feature/Target Split",
+    content: "Feature/Target Split Function",
+  },
+  {
+    id: FUNCS_CODE.TrainTestSplit,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.TrainTestSplit,
+    title: "Train Test Split",
+    content: "Train Test Split Function",
   },
 ];
 

@@ -4,16 +4,18 @@ import { AppContext } from "App";
 import { inputStyle } from "MLComponents/componentStyle";
 import { showDataResult } from "MLComponents/CompoOptions/util";
 import Switch from "MLComponents/CompoOptions/CompoPiece/Switch";
+import { BlockContext } from "MLComponents/Column";
 
 function Describe({ formId, resultId }) {
+  const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
+
   const [percentiles, setPercentiles] = useState(""); // 확인할 퍼센트 수치들
   const [numVisible, setNumVisible] = useState(true); // 수치형 컬럼 표시 여부
   const [objVisible, setObjVisible] = useState(false); // 객체형 컬럼 표시 여부
   const [catVisible, setCatVisible] = useState(false); // 범주형 컬럼 표시 여부
   const [dateVisible, setDateVisible] = useState(false); // 날짜형 컬럼 표시 여부
   const [dateToNum, setDateToNum] = useState(false); // 날짜형 컬럼을 수치형으로 변환할 지 여부
-
-  const { dfd, storage } = useContext(AppContext);
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
@@ -59,7 +61,7 @@ function Describe({ formId, resultId }) {
     }; // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.Describe), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))

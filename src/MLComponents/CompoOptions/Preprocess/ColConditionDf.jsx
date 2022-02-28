@@ -5,9 +5,13 @@ import { inputStyle } from "MLComponents/componentStyle";
 import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import classNames from "classnames";
 import Select from "MLComponents/CompoOptions/CompoPiece/Select";
+import { BlockContext } from "MLComponents/Column";
 
 function ColConditionDf({ formId, resultId }) {
-  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
+  const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
+
+  const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
 
   const [col, setCol] = useState(columns[0]); // 조건의 기준이 될 컬럼
   const [cond1, setCond1] = useState("eq"); // 조건 1 "eq", "gr", "gr_eq", "le", "le_eq"
@@ -17,8 +21,6 @@ function ColConditionDf({ formId, resultId }) {
   const [cond2Temp, setCond2Temp] = useState(""); // 조건 2 임시 저장
   const [value2Temp, setValue2Temp] = useState(""); // 조건 2 값 임시 저장
   const [cond2Visible, setCond2Visible] = useState(false); // 조건 2 표시 여부(조건 1이 "eq"가 아니면 표시)
-
-  const { dfd, storage } = useContext(AppContext);
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
@@ -73,7 +75,7 @@ function ColConditionDf({ formId, resultId }) {
     }; // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.ColConditionDf), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
