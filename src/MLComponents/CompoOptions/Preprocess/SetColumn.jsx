@@ -5,8 +5,8 @@ import { inputStyle } from "MLComponents/componentStyle";
 import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import classNames from "classnames";
 import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
-// import { MultiSelect } from "react-multi-select-component";
 import MultiSelect from "react-select";
+import { BlockContext } from "MLComponents/Column";
 
 /**
  * 새로운 컬럼을 생성하거나 기존의 컬럼을 변경하기 위한 컴포넌트.
@@ -15,7 +15,10 @@ import MultiSelect from "react-select";
  * 2. cols_ops
  */
 function SetColumn({ formId, resultId }) {
-  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
+  const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
+
+  const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
 
   const colFromArray = [...columns];
   const colToArray = [...columns];
@@ -39,7 +42,7 @@ function SetColumn({ formId, resultId }) {
 
   // 방법 2 관련 상태 값
   const [colsOps, setColsOps] = useState([]); // 사칙연산에 필요한 컬럼과 연산자들 input text readonly
-  console.log(colsOps);
+  // console.log(colsOps);
   const [colsOpsCol, setColsOpsCol] = useState(columns[0]); // 사칙연산에 필요한 컬럼 선택 Select
   const [colsOpsVal, setColsOpsVal] = useState(0); // 사칙연산에 필요한 컬럼 선택 Select
   const [colsOpsOp, setColsOpsOp] = useState(colOps[0]); // 사칙연산에 필요한 연산자 선택 Select
@@ -71,8 +74,6 @@ function SetColumn({ formId, resultId }) {
 
   const isColsOpsRef = useRef();
   const isColRangeRef = useRef();
-
-  const { dfd, storage } = useContext(AppContext);
 
   // 컬럼 선택(MultiSelect)
   const settingCols = (e) => {
@@ -156,7 +157,7 @@ function SetColumn({ formId, resultId }) {
     console.log(params);
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.SetColumn), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))

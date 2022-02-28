@@ -1,14 +1,18 @@
-import React, { useState, useContext, useRef, useEffect } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
-import { saveDf, showDataResult, getColumns, saveColumnList } from "MLComponents/CompoOptions/util";
+import { saveDf, showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
 import classNames from "classnames";
+import { BlockContext } from "MLComponents/Column";
 
 function Drop({ formId, resultId }) {
-  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
+  const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
+
+  const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
   const colObjArray = [...columns.map((column) => ({ label: column, value: column }))]; // MultiSelect에서 사용하는 객체 목록
 
   const [labelsCol, setLabelsCol] = useState([]); // MultiSelect
@@ -23,8 +27,6 @@ function Drop({ formId, resultId }) {
   const labelsIndexRef = useRef();
   const axisRef = useRef();
   const errorsRef = useRef();
-
-  const { dfd, storage } = useContext(AppContext);
 
   // 컬럼 선택(MultiSelect)
   const settingLabelsCol = (e) => {
@@ -80,13 +82,13 @@ function Drop({ formId, resultId }) {
     }
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.Drop), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        saveDf("df", data, true); // 데이터프레임 저장
+        saveDf(blockId, "_df", data, true); // 데이터프레임 저장
         showDataResult(dfd, data, resultId);
 
         // 컬럼 삭제한 경우 새로운 컬럼 목록 가져와서 입력 목록에 넣기

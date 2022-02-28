@@ -64,6 +64,8 @@ const Component = ({ data, compoType, path }) => {
     "HistPlot",
     "CountPlot",
     "ScatterPlot",
+    "FeatureTargetSplit",
+    "TrainTestSplit",
   ];
   let Options = AllCompo[data.func];
   if (!OptionList.includes(data.func)) {

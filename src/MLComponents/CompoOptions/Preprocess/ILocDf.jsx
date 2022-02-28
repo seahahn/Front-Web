@@ -6,9 +6,13 @@ import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import classNames from "classnames";
 import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
+import { BlockContext } from "MLComponents/Column";
 
 function ILocDf({ formId, resultId }) {
-  const columns = getColumns(); // 데이터프레임 컬럼 목록 가져오기
+  const { dfd, storage } = useContext(AppContext);
+  const { blockId } = useContext(BlockContext);
+
+  const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
   const columnIdxs = columns.map((_, idx) => String(idx)); // 컬럼 인덱스 목록
   const colFromArray = [...columnIdxs];
   const colToArray = [...columnIdxs];
@@ -44,8 +48,6 @@ function ILocDf({ formId, resultId }) {
   const isColRangeRef = useRef();
   const colDiscreteRef = useRef();
   const colRangeRef = useRef();
-
-  const { dfd, storage } = useContext(AppContext);
 
   // 컬럼 선택(MultiSelect)
   const settingCols = (e) => {
@@ -102,7 +104,7 @@ function ILocDf({ formId, resultId }) {
     console.log(params);
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.ILocDf), params);
-    const df = storage.getItem("df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
+    const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
