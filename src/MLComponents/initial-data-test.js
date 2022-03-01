@@ -16,11 +16,6 @@ const initialData = {
               type: PREPROCESS,
               func: FUNCS_CODE.DataUpload,
             },
-            {
-              id: shortid.generate(),
-              type: PREPROCESS,
-              func: FUNCS_CODE.TrainTestSplit,
-            },
           ],
         },
         {
@@ -30,12 +25,7 @@ const initialData = {
             {
               id: shortid.generate(),
               type: TRAIN,
-              func: FUNCS_CODE.Fit,
-            },
-            {
-              id: shortid.generate(),
-              type: TRAIN,
-              func: FUNCS_CODE.Tuning,
+              func: FUNCS_CODE.MakePipeline,
             },
           ],
         },

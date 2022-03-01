@@ -4,7 +4,7 @@
   position: fixed;
   top: 4rem;
   right: 0;
-  bottom: 0;
+  /* bottom: 0; */
   padding: 10px;
   border-right: 1px solid #111;
   background: #e1e1e1;
@@ -59,6 +59,7 @@
   border: 1px solid blue;
   flex: auto;
   padding: 10px;
+  min-width: 70vw;
 }
 
 .columns {

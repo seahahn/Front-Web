@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import classNames from "classnames";
-import NewBlockDropZone from "MLComponents/NewBlockDropZone";
 import TrashDropZone from "MLComponents/TrashDropZone";
 import SideBar from "MLComponents/SideBar";
 import Column from "MLComponents/Column";
@@ -16,7 +15,7 @@ import shortid from "shortid";
 const Toolbox = styled.div`
   display: flex;
   position: fixed;
-  z-index: 10;
+  z-index: 5;
   justify-content: center;
   width: 80%;
   button {
@@ -148,7 +147,7 @@ const Container = () => {
   const removeBlock = useCallback(
     (event) => {
       // console.log(event.target.value);
-      const newLayout = layout.filter(function (value, index, arr) {
+      const newLayout = layout.filter((value, index, arr) => {
         // console.log(value.id, index, arr);
         return value.id !== event.target.value;
       });
@@ -159,8 +158,8 @@ const Container = () => {
   );
 
   return (
-    <div className="flex flex-row h-full">
-      <div className="flex flex-col w-4/5 bg-slate-700">
+    <div className="flex flex-row h-full mt-16">
+      <div className="flex flex-col bg-slate-700">
         {/* 요소 확대/축소 및 위치 이동 기능을 넣기 위한 Wrapper */}
         <TransformWrapper minScale={0.1} maxScale={2} limitToBounds={false} disabled={!movingEnabled}>
           {/* 확대 / 축소 / 원 위치 이동 함수 넣기 */}
@@ -186,7 +185,7 @@ const Container = () => {
               </Toolbox>
               {/* TransformComponent 안의 컴포넌트가 실제로 확대 / 축소 / 위치 이동 기능이 적용되는 대상임 */}
               <TransformComponent>
-                <div className="page columns w-full h-full">
+                <div className="page columns h-full">
                   {/* layout 데이터에서 column 하나씩 내놓음. 한 column에 한 index */}
                   {layout.map((column, index) => {
                     const currentPath = `${index}`; // index는 현재 경로로 지정됨
