@@ -43,6 +43,9 @@ export const URLS_PREPROCESS = {
   // 데이터셋 분할
   FeatureTargetSplit: "feature_target_split",
   TrainTestSplit: "train_test_split",
+
+  // 모델 제작 & 훈련
+  MakePipeline: "make_pipeline",
 };
 
 // fetch API로 HTTP 통신하기 위한 설정

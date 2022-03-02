@@ -12,6 +12,13 @@ export const saveDf = (blockId, name, df, saveColumns = false) => {
   }
 };
 
+// Merge, Concat를 위해 2개의 데이터프레임 불러오기
+export const loadDf = (leftBlockId, rightBlockId) => {
+  const left = window.sessionStorage.getItem(leftBlockId + "_df"); // 웹 스토리지에 데이터프레임(JSON) 저장
+  const right = window.sessionStorage.getItem(rightBlockId + "_df"); // 웹 스토리지에 데이터프레임(JSON) 저장
+  return { left: left, right: right };
+};
+
 // 데이터셋의 특성 / 타겟 분리하여 각각 웹 스토리지에 저장
 export const saveFeatureTarget = (blockId, data) => {
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
@@ -29,7 +36,7 @@ export const loadFeatureTarget = (blockId) => {
   return { X: dfX, y: dfy };
 };
 
-export const saveTrainTest = (dfd, blockId, data, resultId, val = false) => {
+export const saveTrainTest = (dfd, blockId, data, resultId, valid = false) => {
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
     // console.log(JSON.parse(data).X_train);
     // console.log(JSON.parse(data).X_test);
@@ -39,29 +46,32 @@ export const saveTrainTest = (dfd, blockId, data, resultId, val = false) => {
     window.sessionStorage.setItem(blockId + "_XTest", JSON.parse(data).X_test); // 웹 스토리지에 특성 테스트 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_yTrain", JSON.parse(data).y_train); // 웹 스토리지에 타겟 훈련 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_yTest", JSON.parse(data).y_test); // 웹 스토리지에 타겟 테스트 데이터프레임(JSON) 저장
-    if (val) {
-      window.sessionStorage.setItem(blockId + "_XTest", JSON.parse(data).X_val); // 웹 스토리지에 특성 검증 데이터프레임(JSON) 저장
-      window.sessionStorage.setItem(blockId + "_yTest", JSON.parse(data).y_val); // 웹 스토리지에 타겟 검증 데이터프레임(JSON) 저장
+    if (valid) {
+      window.sessionStorage.setItem(blockId + "_XValid", JSON.parse(data).X_valid); // 웹 스토리지에 특성 검증 데이터프레임(JSON) 저장
+      window.sessionStorage.setItem(blockId + "_yValid", JSON.parse(data).y_valid); // 웹 스토리지에 타겟 검증 데이터프레임(JSON) 저장
     }
-    // dfd.readJSON(jsonToFile(JSON.parse(data).X_train)).then((df) => {
-    //   document.getElementById(resultId).innerHTML = "<p>Train Set Shape : " + df.shape + "</p>";
-    // });
-    // dfd.readJSON(jsonToFile(JSON.parse(data).X_test)).then((df) => {
-    //   document.getElementById(resultId).append("Test Set Shape : " + df.shape);
-    // });
-    showShape(dfd, JSON.parse(data), resultId);
+    showShape(dfd, JSON.parse(data), resultId, valid);
   } else {
     document.getElementById(resultId).innerHTML = data; // 올바른 입력이 아니면 에러 메시지 출력
   }
 };
 
 // train_test_split 수행 후 shape 보여주기 위한 함수
-export const showShape = (dfd, data, resultId) => {
+export const showShape = (dfd, data, resultId, valid = false) => {
   dfd.readJSON(jsonToFile(data.X_train)).then((df) => {
     document.getElementById(resultId).innerHTML = "<p>Train Set Shape : " + df.shape + "</p>";
   });
+  if (valid) {
+    dfd.readJSON(jsonToFile(data.X_valid)).then((df) => {
+      let p = document.createElement("p");
+      p.textContent = "Valid Set Shape : " + df.shape;
+      document.getElementById(resultId).append(p);
+    });
+  }
   dfd.readJSON(jsonToFile(data.X_test)).then((df) => {
-    document.getElementById(resultId).append("Test Set Shape : " + df.shape);
+    let p = document.createElement("p");
+    p.textContent = "Test Set Shape : " + df.shape;
+    document.getElementById(resultId).append(p);
   });
 };
 
@@ -78,7 +88,7 @@ export const showDataFrame = (dfd, data, resultId) => {
     .readJSON(jsonToFile(data))
     .then((df) => {
       df.print();
-      df.plot(resultId).table({ funcResultConfig, funcResultLayout }); // 결과 영역에 출력
+      df.plot(resultId).table({ config: funcResultConfig, layout: funcResultLayout }); // 결과 영역에 출력
     })
     .catch((err) => {
       console.log(err);

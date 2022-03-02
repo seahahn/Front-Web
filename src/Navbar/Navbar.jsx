@@ -11,7 +11,7 @@ function classNames(...classes) {
 
 function Navbar() {
   return (
-    <Disclosure as="nav" className="bg-gray-800 sticky top-0 z-50">
+    <Disclosure as="nav" className="bg-gray-800 fixed top-0 left-0 right-0 z-50">
       <div className="px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           {/* 좌측 메뉴 */}

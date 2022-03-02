@@ -47,6 +47,9 @@ export const FUNCS_CODE = {
   FeatureTargetSplit: "FeatureTargetSplit",
   TrainTestSplit: "TrainTestSplit",
 
+  // 모델 훈련
+  MakePipeline: "MakePipeline",
+
   //temporary
   Fit: "Fit",
   Tuning: "Tuning",
@@ -69,20 +72,20 @@ export const ITEMS_NEW_BLOCK = [
     title: "Data Upload",
     content: "Data Upload Function",
   },
-  // {
-  //   id: FUNCS_CODE.MergeDf,
-  //   type: SIDEBAR_ITEM + PREPROCESS,
-  //   func: FUNCS_CODE.MergeDf,
-  //   title: "DF Merge",
-  //   content: "DF Merge Function",
-  // },
-  // {
-  //   id: FUNCS_CODE.ConcatDf,
-  //   type: SIDEBAR_ITEM + PREPROCESS,
-  //   func: FUNCS_CODE.ConcatDf,
-  //   title: "DF Concat",
-  //   content: "DF Concat Function",
-  // },
+  {
+    id: FUNCS_CODE.MergeDf,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.MergeDf,
+    title: "DF Merge",
+    content: "DF Merge Function",
+  },
+  {
+    id: FUNCS_CODE.ConcatDf,
+    type: SIDEBAR_ITEM + PREPROCESS,
+    func: FUNCS_CODE.ConcatDf,
+    title: "DF Concat",
+    content: "DF Concat Function",
+  },
 ];
 
 export const ITEMS_PREPROCESS = [
@@ -267,18 +270,11 @@ export const ITEMS_PREPROCESS = [
 
 export const ITEMS_TRAIN = [
   {
-    id: FUNCS_CODE.Fit,
+    id: FUNCS_CODE.MakePipeline,
     type: SIDEBAR_ITEM + TRAIN,
-    func: FUNCS_CODE.Fit,
-    title: "Model Training",
-    content: "Model Training Function",
-  },
-  {
-    id: FUNCS_CODE.Tuning,
-    type: SIDEBAR_ITEM + TRAIN,
-    func: FUNCS_CODE.Tuning,
-    title: "Model Tuning",
-    content: "Model Tuning Function",
+    func: FUNCS_CODE.MakePipeline,
+    title: "Make Pipeline",
+    content: "Make Pipeline Function",
   },
 ];
 
