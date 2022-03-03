@@ -1,4 +1,13 @@
-import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import {
+  targetURL,
+  MLFUNCS_URL,
+  MLFUNCS_SUFFIX_DF,
+  MLTRAIN_URL,
+  MLTRAIN_SUFFIX_MODEL,
+  URLS_PREPROCESS,
+  URLS_TRAIN,
+  httpConfig,
+} from "MLComponents/CompoOptions/networkConfigs";
 import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
 
 // 백앤드로 보내 가공 처리한 데이터프레임을 웹 스토리지에 저장
@@ -31,8 +40,8 @@ export const saveFeatureTarget = (blockId, data) => {
 
 // 데이터셋의 특성 / 타겟 불러오기
 export const loadFeatureTarget = (blockId) => {
-  const dfX = window.sessionStorage.getItem(blockId + "_X"); // 웹 스토리지에 특성 데이터프레임(JSON) 저장
-  const dfy = window.sessionStorage.getItem(blockId + "_y"); // 웹 스토리지에 타겟 데이터프레임(JSON) 저장
+  const dfX = window.sessionStorage.getItem(blockId + "_X"); // 웹 스토리지에 저장된 특성 데이터프레임(JSON) 불러오기
+  const dfy = window.sessionStorage.getItem(blockId + "_y"); // 웹 스토리지에 저장된 타겟 데이터프레임(JSON) 불러오기
   return { X: dfX, y: dfy };
 };
 
@@ -54,6 +63,23 @@ export const saveTrainTest = (dfd, blockId, data, resultId, valid = false) => {
   } else {
     document.getElementById(resultId).innerHTML = data; // 올바른 입력이 아니면 에러 메시지 출력
   }
+};
+
+export const loadTrainTest = (blockId) => {
+  const XTrain = window.sessionStorage.getItem(blockId + "_XTrain"); // 웹 스토리지에 저장된 특성 훈련 데이터프레임(JSON) 불러오기
+  const XTest = window.sessionStorage.getItem(blockId + "_XTest"); // 웹 스토리지에 저장된 특성 테스트 데이터프레임(JSON) 불러오기
+  const yTrain = window.sessionStorage.getItem(blockId + "_yTrain"); // 웹 스토리지에 저장된 타겟 훈련 데이터프레임(JSON) 불러오기
+  const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
+  const XValid = window.sessionStorage.getItem(blockId + "_XValid"); // 웹 스토리지에 저장된 특성 검증 데이터프레임(JSON) 불러오기
+  const yValid = window.sessionStorage.getItem(blockId + "_yValid"); // 웹 스토리지에 저장된 타겟 검증 데이터프레임(JSON) 불러오기
+  return {
+    X_train: XTrain,
+    X_test: XTest,
+    y_train: yTrain,
+    y_test: yTest,
+    X_valid: XValid,
+    y_valid: yValid,
+  };
 };
 
 // train_test_split 수행 후 shape 보여주기 위한 함수
@@ -137,4 +163,19 @@ export const getColumns = (blockId) => {
       }); // 데이터프레임 컬럼 목록 가져오기
   }
   return [];
+};
+
+export const getModelSteps = async (key, modelName) => {
+  const params = {
+    name: modelName,
+    key: key,
+  };
+  const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.ModelSteps), params);
+  return await fetch(targetUrl, { mode: "cors" })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("getModelSteps");
+      return data;
+    })
+    .catch((error) => console.error(error));
 };

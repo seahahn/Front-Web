@@ -51,6 +51,9 @@ export const URLS_PREPROCESS = {
 export const URLS_TRAIN = {
   // 모델 제작 & 훈련
   MakePipeline: "make_pipeline",
+  Fit: "fit",
+  Transform: "transform",
+  ModelSteps: "steps",
 };
 
 // fetch API로 HTTP 통신하기 위한 설정

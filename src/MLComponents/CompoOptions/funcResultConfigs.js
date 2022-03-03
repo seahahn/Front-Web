@@ -6,7 +6,7 @@ const CONFIG = {
   // staticPlot: true, // 컬럼 드래그 방지
 };
 const LAYOUT = {
-  width: 800,
+  // width: 800,
   height: 600,
 };
 

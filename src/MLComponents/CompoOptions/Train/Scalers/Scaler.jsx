@@ -1,5 +1,5 @@
 import React from "react";
-import * as Scalers from "./Scalers";
+import * as Scalers from ".";
 
 function Scaler({ scaler, handleSteps }) {
   // console.log(scaler);

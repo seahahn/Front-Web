@@ -1,10 +1,12 @@
 import React from "react";
-import * as Models from "./Models";
+import * as Models from ".";
 
 function Model({ model, handleSteps }) {
   // console.log(model);
   const modelNameMapping = {
     linear_regression: "Linear",
+    ridge: "Ridge",
+    decision_tree_regressor: "DTReg",
     logistic_regression: "Logistic",
   };
   if (model !== "미지정") {

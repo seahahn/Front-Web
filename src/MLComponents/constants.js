@@ -49,9 +49,11 @@ export const FUNCS_CODE = {
 
   // 모델 훈련
   MakePipeline: "MakePipeline",
+  Fit: "Fit",
+  Transform: "Transform",
+  ModelSteps: "ModelSteps",
 
   //temporary
-  Fit: "Fit",
   Tuning: "Tuning",
   Predict: "Predict",
   Evaluate: "Evaluate",
@@ -275,6 +277,27 @@ export const ITEMS_TRAIN = [
     func: FUNCS_CODE.MakePipeline,
     title: "Make Pipeline",
     content: "Make Pipeline Function",
+  },
+  {
+    id: FUNCS_CODE.Fit,
+    type: SIDEBAR_ITEM + TRAIN,
+    func: FUNCS_CODE.Fit,
+    title: "Pipeline Fit",
+    content: "Pipeline Fit Function",
+  },
+  {
+    id: FUNCS_CODE.Transform,
+    type: SIDEBAR_ITEM + TRAIN,
+    func: FUNCS_CODE.Transform,
+    title: "Pipeline Transform",
+    content: "Pipeline Transform Function",
+  },
+  {
+    id: FUNCS_CODE.ModelSteps,
+    type: SIDEBAR_ITEM + TRAIN,
+    func: FUNCS_CODE.ModelSteps,
+    title: "Pipeline Steps",
+    content: "Pipeline Steps Function",
   },
 ];
 

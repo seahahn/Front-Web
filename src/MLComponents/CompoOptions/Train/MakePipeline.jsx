@@ -1,15 +1,15 @@
-import React, { useState, useContext, useRef, useEffect } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import _ from "lodash";
-import { showDataResult, getColumns, saveDf, loadDf } from "MLComponents/CompoOptions/util";
+import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import { inputStyle } from "MLComponents/componentStyle";
-import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
+import { Select } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
 import { BlockContext } from "MLComponents/Column";
-import Encoder from "./Encoder";
-import Scaler from "./Scaler";
-import Model from "./Model";
+import Encoder from "./Encoders/Encoder";
+import Scaler from "./Scalers/Scaler";
+import Model from "./Models/Model";
 
 function MakePipeline({ formId, resultId }) {
   const { dfd, storage } = useContext(AppContext);
@@ -23,7 +23,7 @@ function MakePipeline({ formId, resultId }) {
   const encoderObjArray = [...encoderValueList.map((encoder, index) => ({ label: encoderLabelList[index], value: encoder }))]; // MultiSelect에서 사용하는 객체 목록
 
   const scalers = ["미지정", "standard_scaler", "minmax_scaler"];
-  const models = ["미지정", "linear_regression", "logistic_regression"];
+  const models = ["미지정", "linear_regression", "ridge", "decision_tree_regressor", "logistic_regression"];
 
   const [steps, setSteps] = useState({}); // 파이프라인 steps 파라미터 설정
   const handleSteps = (step) => {
@@ -79,6 +79,7 @@ function MakePipeline({ formId, resultId }) {
     // 백앤드 전송을 위한 설정
     const params = {
       name: name.replace(" ", "_"),
+      key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
       encoder: [...encoder.map((enc) => enc.value)],
       scaler: scaler,
       model: model,
@@ -94,9 +95,9 @@ function MakePipeline({ formId, resultId }) {
     await fetch(targetUrl, httpConfig(JSON.stringify(steps)))
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         // saveDf(blockId, "_df", data, true); // 데이터프레임 저장
-        // showDataResult(dfd, data, resultId);
+        showDataResult(dfd, data, resultId);
       })
       .catch((error) => console.error(error));
   };

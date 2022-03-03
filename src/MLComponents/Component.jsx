@@ -69,6 +69,9 @@ const Component = ({ data, compoType, path }) => {
     "MergeDf",
     "ConcatDf",
     "MakePipeline",
+    "Fit",
+    "Transform",
+    "ModelSteps",
   ];
   let Options = AllCompo[data.func];
   if (!OptionList.includes(data.func)) {
