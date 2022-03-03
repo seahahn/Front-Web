@@ -1,4 +1,4 @@
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
 
 // 백앤드로 보내 가공 처리한 데이터프레임을 웹 스토리지에 저장
@@ -115,7 +115,7 @@ export const showDataResult = (dfd, data, resultId) => {
 
 // 세션 스토리지에 데이터프레임의 컬럼 목록 저장하는 함수
 export const saveColumnList = async (blockId, df) => {
-  const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.ColumnList));
+  const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.ColumnList));
 
   await fetch(targetUrl, httpConfig(JSON.stringify(df)))
     .then((response) => response.json())

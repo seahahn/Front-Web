@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { UPLOAD_ACCEPT, MLFUNC_URL, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { UPLOAD_ACCEPT, MLFUNCS_URL, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
 import { AppContext } from "App";
 import { BlockContext } from "MLComponents/Column";
@@ -20,7 +20,7 @@ function DataUpload({ formId, resultId }) {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 전송을 위한 설정
-    const url = MLFUNC_URL.concat(URLS_PREPROCESS.DataUpload); // 백앤드 API URL
+    const url = MLFUNCS_URL.concat(URLS_PREPROCESS.DataUpload); // 백앤드 API URL
     const formData = new FormData(); // 파일 정보를 담을 FormData 객체 생성
     formData.append("file", file);
     // const config = httpConfig(formData); // HTTP 통신 설정
