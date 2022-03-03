@@ -8,4 +8,4 @@ export const buttonStyle = "bg-blue-500 hover:bg-blue-700 text-white text-sm md:
 export const negButtonStyle = "bg-red-500 hover:bg-red-700 text-white text-sm md:text-xs font-bold py-1 px-2 mx-1 rounded";
 
 // 기능별 옵션 중 값 입력(문자, 숫자 등) 인풋에 지정할 스타일
-export const inputStyle = "ml-2 border-solid border-2 border-slate-500";
+export const inputStyle = "ml-2 border-solid border-2 border-slate-500 placeholder:text-xs";

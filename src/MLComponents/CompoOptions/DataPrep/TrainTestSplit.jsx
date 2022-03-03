@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef } from "react";
-import { targetURL, MLFUNC_URL, MLFUNC_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { inputStyle } from "MLComponents/componentStyle";
 import classNames from "classnames";
@@ -70,7 +70,7 @@ function TrainTestSplit({ formId, resultId }) {
       valid: isValidOn,
     }; // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
-    const targetUrl = targetURL(MLFUNC_URL.concat(MLFUNC_SUFFIX_DF, URLS_PREPROCESS.TrainTestSplit), params);
+    const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.TrainTestSplit), params);
     const df = loadFeatureTarget(blockId); // 특성/타겟 나눈 데이터셋 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드

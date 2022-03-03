@@ -139,7 +139,7 @@ const Container = () => {
       id: shortid.generate(),
       children: initialBlockForm.newBlock.children,
     };
-    console.log([...layout, newBlock]);
+    // console.log([...layout, newBlock]);
     setLayout([...layout, newBlock]);
   }, [layout]);
 

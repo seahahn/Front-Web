@@ -1,37 +1,28 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { inputStyle } from "MLComponents/componentStyle";
-import { getColumns } from "MLComponents/CompoOptions/util";
 import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
 
-function Target({ blockId, handleSteps }) {
-  const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
-  const colObjArray = [...columns.map((column) => ({ label: column, value: column }))]; // MultiSelect에서 사용하는 객체 목록
+function Target({ handleOptions, handleSteps, colObjArray, steps }) {
+  // 옵션 상태 값 저장
+  const [options, setOptions] = useState({
+    cols: [],
+    drop_invariant: false,
+    return_df: true,
+    handle_unknown: "value",
+    handle_missing: "value",
+    min_samples_leaf: 1,
+    smoothing: 1.0,
+  }); // 입력해야 할 파라미터 설정
 
-  const handleOptions = ["value", "error", "return_nan", "indicator"];
-
-  // 공통 옵션 상태 값 저장
-  const [cols, setCols] = useState([]); // MultiSelect
-  const [dropInvariant, setDropInvariant] = useState(false); // Switch
-  const [returnDf, setReturnDf] = useState(true); // Switch
-  const [handleUnknown, setHandleUnknown] = useState("value"); // Select
-  const [handleMissing, setHandleMissing] = useState("value"); // Select
-
-  // Target 전용 옵션 상태 값 저장
-  const [minSamplesLeaf, setminSamplesLeaf] = useState(1); // input number int min 1
-  const [smoothing, setsmoothing] = useState(1.0); // input number float min 0.0
-
-  const options = {
-    target_encoder: {
-      cols: cols,
-      drop_invariant: dropInvariant,
-      return_df: returnDf,
-      handle_unknown: handleUnknown,
-      handle_missing: handleMissing,
-      min_samples_leaf: minSamplesLeaf,
-      smoothing: smoothing,
-    },
-  }; // 입력해야 할 파라미터 설정
+  // 옵션 변경 시 MakePipeline 컴포넌트에 전달
+  useEffect(() => {
+    // console.log(options);
+    steps.hasOwnProperty("encoders")
+      ? handleSteps({ encoders: Object.assign(steps.encoders, { target_encoder: options }) })
+      : handleSteps({ encoders: Object.assign({}, { target_encoder: options }) });
+    // setEncoders(Object.assign(encoders, { target_encoder: options }));
+  }, [handleSteps, options]);
 
   const colsRef = useRef();
   const dropInvariantRef = useRef();
@@ -44,51 +35,44 @@ function Target({ blockId, handleSteps }) {
 
   // 컬럼 선택(MultiSelect)
   const settingCols = (e) => {
-    // console.log(e);
-    setCols([...e.map((col) => col.value)]);
+    setOptions({
+      ...options,
+      cols: [...e.map((col) => col.value)],
+    });
   };
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
-    switch (event.target) {
-      case dropInvariantRef.current:
-        setDropInvariant(!dropInvariant);
-        break;
-      case returnDfRef.current:
-        setReturnDf(!returnDf);
-        break;
-      case handleUnknownRef.current:
-        setHandleUnknown(event.target.value);
-        break;
-      case handleMissingRef.current:
-        setHandleMissing(event.target.value);
-        break;
-      case minSamplesLeafRef.current:
-        setminSamplesLeaf(event.target.value);
-        break;
-      case smoothingRef.current:
-        setsmoothing(event.target.value);
-        break;
-      default:
-        console.log("error");
-        break;
+    const { name, value, checked } = event.target;
+    console.log(event.target);
+    if (event.target.type === "checkbox") {
+      setOptions({
+        ...options,
+        [name]: checked,
+      });
+    } else {
+      setOptions({
+        ...options,
+        [name]: value,
+      });
     }
-    handleSteps(options);
   };
 
   return (
-    <div>
+    <div className="flex flex-col space-y-2 border border-blue-400 rounded-lg p-1">
       <h3>Target Encoder</h3>
       <div className="flex flex-row space-x-2">
         <label className="self-center">대상 컬럼 선택</label>
-        <MultiSelect options={colObjArray} onChange={settingCols} className="flex-1" isMulti={true} closeMenuOnSelect={false} />
+        <MultiSelect ref={colsRef} options={colObjArray} onChange={settingCols} className="flex-1" isMulti={true} closeMenuOnSelect={false} />
       </div>
       <div className="flex flex-row space-x-2">
-        <Switch ref={dropInvariantRef} text="dropInvariant : " onChange={handleChange} checked={dropInvariant} />
-        <Switch ref={returnDfRef} text="returnDf : " onChange={handleChange} checked={returnDf} />
+        <Switch ref={dropInvariantRef} text="dropInvariant : " onChange={handleChange} name={"drop_invariant"} checked={options.drop_invariant} />
+        <Switch ref={returnDfRef} text="returnDf : " onChange={handleChange} name={"return_df"} checked={options.return_df} />
       </div>
       <div className="flex flex-row space-x-2">
         <Select
+          name={"handle_unknown"}
+          value={options.handle_unknown}
           className="flex-1 self-center justify-self-stretch"
           options={handleOptions}
           ref={handleUnknownRef}
@@ -96,6 +80,8 @@ function Target({ blockId, handleSteps }) {
           onChange={handleChange}
         />
         <Select
+          name={"handle_missing"}
+          value={options.handle_missing}
           className="flex-1 self-center justify-self-stretch"
           options={handleOptions}
           ref={handleMissingRef}
@@ -105,16 +91,35 @@ function Target({ blockId, handleSteps }) {
       </div>
       <div className="flex flex-col">
         <label className="self-center">
-          데이터셋 그룹명(쉼표로 구분)
-          <input ref={minSamplesLeafRef} className={inputStyle} type="number" min={1} onChange={handleChange} />
+          minSamplesLeaf
+          <input
+            ref={minSamplesLeafRef}
+            className={inputStyle}
+            type="number"
+            placeholder={"기본값 1"}
+            min={1}
+            onChange={handleChange}
+            name={"min_samples_leaf"}
+            value={options.min_samples_leaf}
+          />
         </label>
         <label className="self-center">
-          데이터셋 그룹명(쉼표로 구분)
-          <input ref={smoothingRef} className={inputStyle} type="number" step="any" min={0} onChange={handleChange} />
+          smoothing
+          <input
+            ref={smoothingRef}
+            className={inputStyle}
+            type="number"
+            step="any"
+            placeholder={"기본값 1.0"}
+            min={0}
+            onChange={handleChange}
+            name={"smoothing"}
+            value={options.smoothing}
+          />
         </label>
       </div>
     </div>
   );
 }
 
-export default Target;
+export default React.memo(Target);
