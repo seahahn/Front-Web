@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
+import { convertNumParams } from "MLComponents/CompoOptions/util";
 
 function Target({ handleOptions, handleSteps, colObjArray, steps }) {
   // 옵션 상태 값 저장
   const [options, setOptions] = useState({
-    cols: [],
+    cols: null,
     drop_invariant: false,
     return_df: true,
     handle_unknown: "value",
@@ -14,6 +15,16 @@ function Target({ handleOptions, handleSteps, colObjArray, steps }) {
     min_samples_leaf: 1,
     smoothing: 1.0,
   }); // 입력해야 할 파라미터 설정
+
+  const defaultVal = {
+    // cols: null,
+    // drop_invariant: false,
+    // return_df: true,
+    // handle_unknown: "value",
+    // handle_missing: "value",
+    min_samples_leaf: 1,
+    smoothing: 1.0,
+  };
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
@@ -51,10 +62,17 @@ function Target({ handleOptions, handleSteps, colObjArray, steps }) {
         [name]: checked,
       });
     } else {
-      setOptions({
-        ...options,
-        [name]: value,
-      });
+      // 수치형인 경우 Number로 변환
+      convertNumParams(name, value, options, setOptions, defaultVal);
+      // value === ""
+      //   ? setOptions({ ...options, [name]: defaultVal[name] })
+      //   : NUM_PARAMS.hasOwnProperty(name)
+      //   ? setOptions({ ...options, [name]: Number(value) })
+      //   : setOptions({ ...options, [name]: value });
+      // setOptions({
+      //   ...options,
+      //   [name]: value,
+      // });
     }
   };
 
@@ -89,7 +107,7 @@ function Target({ handleOptions, handleSteps, colObjArray, steps }) {
           onChange={handleChange}
         />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-row space-x-2">
         <label className="self-center">
           minSamplesLeaf
           <input
@@ -122,4 +140,4 @@ function Target({ handleOptions, handleSteps, colObjArray, steps }) {
   );
 }
 
-export default React.memo(Target);
+export default Target;

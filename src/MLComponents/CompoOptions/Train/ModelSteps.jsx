@@ -1,9 +1,6 @@
 import React, { useState, useContext } from "react";
-import _ from "lodash";
-import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
-import { BlockContext } from "MLComponents/Column";
-import { showDataResult, loadTrainTest, getModelSteps } from "MLComponents/CompoOptions/util";
+import { showDataResult, getModelSteps, modelList } from "MLComponents/CompoOptions/util";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 
 /**
@@ -13,12 +10,9 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
  * @returns pipeline의 steps
  */
 function ModelSteps({ formId, resultId }) {
-  const [modelName, setModelName] = useState();
-  const { dfd, storage } = useContext(AppContext);
-  const { blockId } = useContext(BlockContext);
+  const { dfd } = useContext(AppContext);
 
-  // TODO DB 구현되면 DB에서 목록 가져오기
-  const modelList = ["ahn", "ahn_test", "ahn_new", "ahngyeongho", "ahngyeongho1", "ahngyeongho2"];
+  const [modelName, setModelName] = useState(modelList[0]);
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
@@ -29,14 +23,6 @@ function ModelSteps({ formId, resultId }) {
   const handleSubmit = async (event) => {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
     getModelSteps("test", modelName).then((res) => showDataResult(dfd, res, resultId));
-    // console.log(steps);
-    // .then((res) => {
-    //   console.log(res);
-    //   showDataResult(dfd, res, resultId);
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
   };
 
   return (

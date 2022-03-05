@@ -64,7 +64,7 @@ function SideBar({ addNewBlock }) {
           ))}
         </div>
         <div className={classNames("flex flex-row justify-between")}>
-          <span>EDA/전처리 기능</span>
+          <span>EDA / 전처리 기능</span>
           <button ref={isPreprocessHiddenRef} type="button" onClick={handleHidden} className={buttonStyle}>
             {isPreprocessHidden ? "보이기" : "숨기기"}
           </button>

@@ -1,4 +1,4 @@
-import { Linear, Ridge, DTReg } from "./Regression";
-import { Logistic } from "./Classification";
+import { Linear, Ridge, DTReg, RFReg } from "./Regression";
+import { Logistic, DTCls, RFCls } from "./Classification";
 
-export { Linear, Ridge, DTReg, Logistic };
+export { Linear, Ridge, DTReg, RFReg, Logistic, DTCls, RFCls };

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Switch, Select } from "MLComponents/CompoOptions/CompoPiece";
-import classNames from "classnames";
+import { convertNumParams } from "MLComponents/CompoOptions/util";
 
 /**
  * https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html
@@ -23,10 +23,10 @@ function Ridge({ handleSteps }) {
   }); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
-    solver: "auto", // {‘auto’, ‘svd’, ‘cholesky’, ‘lsqr’, ‘sparse_cg’, ‘sag’, ‘saga’, ‘lbfgs’}, default=’auto’
-    fit_intercept: true, // bool, default=True
-    copy_X: true, // bool, default=True
-    positive: false, // bool, default=False
+    // solver: "auto", // {‘auto’, ‘svd’, ‘cholesky’, ‘lsqr’, ‘sparse_cg’, ‘sag’, ‘saga’, ‘lbfgs’}, default=’auto’
+    // fit_intercept: true, // bool, default=True
+    // copy_X: true, // bool, default=True
+    // positive: false, // bool, default=False
     max_iter: null, // int, default=None
     tol: 1e-3, // float, default=1e-3
     alpha: 1.0, // {float, ndarray of shape (n_targets,)}, default=1.0
@@ -47,7 +47,8 @@ function Ridge({ handleSteps }) {
         [name]: checked,
       });
     } else {
-      value === "" ? setOptions({ ...options, [name]: defaultVal[name] }) : setOptions({ ...options, [name]: value });
+      convertNumParams(name, value, options, setOptions, defaultVal);
+      // value === "" ? setOptions({ ...options, [name]: defaultVal[name] }) : setOptions({ ...options, [name]: value });
     }
   };
 

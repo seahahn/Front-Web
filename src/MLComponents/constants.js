@@ -53,9 +53,12 @@ export const FUNCS_CODE = {
   Transform: "Transform",
   ModelSteps: "ModelSteps",
 
+  // 모델 평가
+  Predict: "Predict",
+  Score: "Score",
+
   //temporary
   Tuning: "Tuning",
-  Predict: "Predict",
   Evaluate: "Evaluate",
 };
 
@@ -306,15 +309,15 @@ export const ITEMS_EVAL = [
     id: FUNCS_CODE.Predict,
     type: SIDEBAR_ITEM + EVAL,
     func: FUNCS_CODE.Predict,
-    title: "Model Evaluation",
-    content: "Model Evaluation Function",
+    title: "Model Predict",
+    content: "Model Predict Function",
   },
   {
-    id: FUNCS_CODE.Evaluate,
+    id: FUNCS_CODE.Score,
     type: SIDEBAR_ITEM + EVAL,
-    func: FUNCS_CODE.Evaluate,
-    title: "PDP Isolate Function",
-    content: "PDP Isolate Plot Function",
+    func: FUNCS_CODE.Score,
+    title: "Model Score",
+    content: "Model Score Function",
   },
 ];
 
@@ -322,3 +325,79 @@ export const ITEMS_EVAL = [
 export const ITEM_LIST = ITEMS_NEW_BLOCK.concat(ITEMS_PREPROCESS, ITEMS_TRAIN, ITEMS_EVAL);
 export let ITEMS = {};
 ITEM_LIST.forEach((object) => (ITEMS[object.id] = object));
+
+// MakePipeline 함수에서 사용하는 Encoder, Scaler, Model 목록
+export const ENCODERS_MAPPING = [
+  { label: "OneHot", value: "onehot_encoder" },
+  { label: "Ordinal", value: "ordinal_encoder" },
+  { label: "Target", value: "target_encoder" },
+];
+
+export const SCALERS_MAPPING = {
+  None: "None",
+  standard_scaler: "Standard",
+  minmax_scaler: "MinMax",
+};
+
+export const MODELS_MAPPING = {
+  None: "None",
+  // 회귀
+  linear_regression: "Linear",
+  ridge: "Ridge",
+  decision_tree_regressor: "DTReg",
+  random_forest_regressor: "RFReg",
+  // 분류
+  logistic_regression: "Logistic",
+  decision_tree_classifier: "DTCls",
+  random_forest_classifier: "RFCls",
+};
+
+// MLComponents/CompoOptions/Eval/Score.jsx 에서 사용될 모델 평가 지표 목록
+export const METRICS_CLS = [
+  // Classification
+  "accuracy",
+  "f1",
+  "roc_auc", // requires predict_proba support
+  "precision",
+  "recall",
+  // "balanced_accuracy",
+  // "top_k_accuracy"   ,
+  // "average_precision",
+  // "neg_brier_score"  ,
+  // "neg_log_loss"     , // requires predict_proba support
+  // "jaccard"          ,
+];
+export const METRICS_REG = [
+  // Regression
+  "r2",
+  "neg_mean_absolute_error",
+  "neg_mean_squared_error",
+  // "explained_variance"         ,
+  // "max_error"                  ,
+  // "neg_mean_squared_log_error" ,
+  // "neg_median_absolute_error"  ,
+  // "neg_mean_poisson_deviance"  ,
+  // "neg_mean_gamma_deviance"    ,
+  // "neg_mean_absolute_percentage_error",
+];
+
+export const NUM_PARAMS = {
+  tol: "tol",
+  C: "C",
+  intercept_scaling: "intercept_scaling",
+  max_iter: "max_iter",
+  l1_ratio: "l1_ratio",
+  n_jobs: "n_jobs",
+  random_state: "random_state",
+  min_samples_leaf: "min_samples_leaf",
+  smoothing: "smoothing",
+  max_depth: "max_depth",
+  min_samples_split: "min_samples_split",
+  min_weight_fraction_leaf: "min_weight_fraction_leaf",
+  max_features: "max_features",
+  max_leaf_nodes: "max_leaf_nodes",
+  min_impurity_decrease: "min_impurity_decrease",
+  ccp_alpha: "ccp_alpha",
+  n_estimators: "n_estimators",
+  max_samples: "max_samples",
+};

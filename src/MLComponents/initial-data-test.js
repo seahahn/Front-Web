@@ -38,11 +38,6 @@ const initialData = {
               type: EVAL,
               func: FUNCS_CODE.Predict,
             },
-            {
-              id: shortid.generate(),
-              type: EVAL,
-              func: FUNCS_CODE.Evaluate,
-            },
           ],
         },
       ],

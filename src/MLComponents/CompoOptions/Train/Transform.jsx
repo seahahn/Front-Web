@@ -3,7 +3,7 @@ import _ from "lodash";
 import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { BlockContext } from "MLComponents/Column";
-import { showDataResult, loadTrainTest, getModelSteps } from "MLComponents/CompoOptions/util";
+import { showDataResult, loadTrainTest, getModelSteps, modelList } from "MLComponents/CompoOptions/util";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 
 /**
@@ -13,10 +13,7 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
  * @returns 정상 작동 시 가공된 데이터프레임, 파이프라인 fit을 하지 않은 경우 "훈련되지 않은 모델입니다."
  */
 function Transform({ formId, resultId }) {
-  // TODO DB 구현되면 DB에서 목록 가져오기
-  const modelList = ["ahn", "ahn_test", "ahn_new", "ahngyeongho", "ahngyeongho1", "ahngyeongho2"];
-
-  const { dfd, storage } = useContext(AppContext);
+  const { dfd } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
   const [targetList, setTargetList] = useState([]);
@@ -43,10 +40,8 @@ function Transform({ formId, resultId }) {
   const handleSubmit = async (event) => {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
-    // 백앤드 전송을 위한 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Transform), params);
-    const df = _.pick(loadTrainTest(blockId), ["X_train"]); // 훈련 데이터셋 가져오기
-    console.log(df);
+    const df = _.pick(loadTrainTest(blockId), ["X_train"]).X_train; // 훈련 데이터셋 가져오기
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())

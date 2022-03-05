@@ -4,6 +4,7 @@ import { ColConditionDf, Drop, DropNa, ILocDf, LocDf, RenameCol, SortValue, SetC
 import { BoxPlot, HistPlot, CountPlot, ScatterPlot } from "./Visualization";
 import { FeatureTargetSplit, TrainTestSplit, MergeDf, ConcatDf } from "./DataPrep";
 import { MakePipeline, Fit, Transform, ModelSteps } from "./Train";
+import { Predict, Score } from "./Eval";
 
 export {
   DataUpload,
@@ -38,4 +39,6 @@ export {
   Fit,
   Transform,
   ModelSteps,
+  Predict,
+  Score,
 };

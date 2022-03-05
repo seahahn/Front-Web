@@ -12,24 +12,26 @@ function FeatureTargetSplit({ formId, resultId }) {
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
   const colObjArray = [...columns.map((column) => ({ label: column, value: column }))]; // MultiSelect에서 사용하는 객체 목록
 
-  const [cols, setCols] = useState([]); // 타겟 컬럼 MultiSelect
+  const [params, setParams] = useState({
+    cols: [], // 타겟 컬럼 MultiSelect
+  });
 
   const colsRef = useRef();
 
   // 컬럼 선택(MultiSelect)
   const settingCols = (e) => {
-    // console.log(e);
-    setCols([...e.map((col) => col.value)]);
+    setParams({
+      ...params,
+      cols: [...e.map((col) => col.value)],
+    });
   };
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
-    // 백앤드 전송을 위한 설정
-    const params = { cols: cols }; // 입력해야 할 파라미터 설정
     // 입력해야 할 파라미터가 있는지 확인
-    if (cols.length === 0) {
+    if (params.cols.length === 0) {
       // 생성 또는 변경할 컬럼명 입력 여부 확인
       colsRef.current.focus();
       return;
@@ -42,7 +44,6 @@ function FeatureTargetSplit({ formId, resultId }) {
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         saveFeatureTarget(blockId, data);
         showDataResult(dfd, JSON.parse(data).X, resultId);
       })
@@ -59,4 +60,4 @@ function FeatureTargetSplit({ formId, resultId }) {
   );
 }
 
-export default React.memo(FeatureTargetSplit);
+export default FeatureTargetSplit;

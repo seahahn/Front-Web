@@ -8,6 +8,7 @@ import {
   URLS_TRAIN,
   httpConfig,
 } from "MLComponents/CompoOptions/networkConfigs";
+import { NUM_PARAMS } from "MLComponents/constants";
 import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
 
 // 백앤드로 보내 가공 처리한 데이터프레임을 웹 스토리지에 저장
@@ -31,8 +32,6 @@ export const loadDf = (leftBlockId, rightBlockId) => {
 // 데이터셋의 특성 / 타겟 분리하여 각각 웹 스토리지에 저장
 export const saveFeatureTarget = (blockId, data) => {
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
-    console.log(JSON.parse(data).X);
-    console.log(JSON.parse(data).y);
     window.sessionStorage.setItem(blockId + "_X", JSON.parse(data).X); // 웹 스토리지에 특성 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_y", JSON.parse(data).y); // 웹 스토리지에 타겟 데이터프레임(JSON) 저장
   }
@@ -47,10 +46,6 @@ export const loadFeatureTarget = (blockId) => {
 
 export const saveTrainTest = (dfd, blockId, data, resultId, valid = false) => {
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
-    // console.log(JSON.parse(data).X_train);
-    // console.log(JSON.parse(data).X_test);
-    // console.log(JSON.parse(data).y_train);
-    // console.log(JSON.parse(data).y_test);
     window.sessionStorage.setItem(blockId + "_XTrain", JSON.parse(data).X_train); // 웹 스토리지에 특성 훈련 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_XTest", JSON.parse(data).X_test); // 웹 스토리지에 특성 테스트 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_yTrain", JSON.parse(data).y_train); // 웹 스토리지에 타겟 훈련 데이터프레임(JSON) 저장
@@ -59,7 +54,6 @@ export const saveTrainTest = (dfd, blockId, data, resultId, valid = false) => {
       window.sessionStorage.setItem(blockId + "_XValid", JSON.parse(data).X_valid); // 웹 스토리지에 특성 검증 데이터프레임(JSON) 저장
       window.sessionStorage.setItem(blockId + "_yValid", JSON.parse(data).y_valid); // 웹 스토리지에 타겟 검증 데이터프레임(JSON) 저장
     }
-    showShape(dfd, JSON.parse(data), resultId, valid);
   } else {
     document.getElementById(resultId).innerHTML = data; // 올바른 입력이 아니면 에러 메시지 출력
   }
@@ -79,6 +73,24 @@ export const loadTrainTest = (blockId) => {
     y_test: yTest,
     X_valid: XValid,
     y_valid: yValid,
+  };
+};
+
+export const saveYPred = (blockId, data) => {
+  const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
+  window.sessionStorage.setItem(blockId + "_yTrue", yTest); // 웹 스토리지에 실제 결과 데이터프레임(JSON) 저장
+  window.sessionStorage.setItem(blockId + "_yPred", JSON.parse(data).y_pred); // 웹 스토리지에 예측 결과 데이터프레임(JSON) 저장
+  window.sessionStorage.setItem(blockId + "_yPredProba", JSON.parse(data).y_pred_proba); // 웹 스토리지에 예측 결과 확률 데이터프레임(JSON) 저장
+};
+
+export const loadYPred = (blockId) => {
+  const yTrue = window.sessionStorage.getItem(blockId + "_yTrue"); // 웹 스토리지에 저장된 예측 결과 데이터프레임(JSON) 불러오기
+  const yPred = window.sessionStorage.getItem(blockId + "_yPred"); // 웹 스토리지에 저장된 예측 결과 데이터프레임(JSON) 불러오기
+  const yPredProba = window.sessionStorage.getItem(blockId + "_yPredProba"); // 웹 스토리지에 저장된 예측 결과 확률 데이터프레임(JSON) 불러오기
+  return {
+    y_true: yTrue,
+    y_pred: yPred,
+    y_pred_proba: yPredProba,
   };
 };
 
@@ -109,11 +121,10 @@ export const jsonToFile = (jsonData) => {
 
 // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
 export const showDataFrame = (dfd, data, resultId) => {
-  document.getElementById(resultId).innerHTML = ""; // 기존 결과 지우기
   dfd
     .readJSON(jsonToFile(data))
     .then((df) => {
-      df.print();
+      // df.print();
       df.plot(resultId).table({ config: funcResultConfig, layout: funcResultLayout }); // 결과 영역에 출력
     })
     .catch((err) => {
@@ -132,6 +143,7 @@ export const showPlot = (data, resultId) => {
 };
 
 export const showDataResult = (dfd, data, resultId) => {
+  document.getElementById(resultId).innerHTML = ""; // 기존 결과 지우기
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
     showDataFrame(dfd, data, resultId);
   } else {
@@ -170,6 +182,7 @@ export const getModelSteps = async (key, modelName) => {
     name: modelName,
     key: key,
   };
+  console.log(params);
   const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.ModelSteps), params);
   return await fetch(targetUrl, { mode: "cors" })
     .then((response) => response.json())
@@ -179,3 +192,15 @@ export const getModelSteps = async (key, modelName) => {
     })
     .catch((error) => console.error(error));
 };
+
+export const convertNumParams = (name, value, options, setOptions, defaultVal) => {
+  // 수치형인 경우 Number로 변환
+  value === ""
+    ? setOptions({ ...options, [name]: defaultVal[name] })
+    : NUM_PARAMS.hasOwnProperty(name)
+    ? setOptions({ ...options, [name]: Number(value) })
+    : setOptions({ ...options, [name]: value });
+};
+
+// 테스트용 임시 모델 목록
+export const modelList = ["refac_test"];

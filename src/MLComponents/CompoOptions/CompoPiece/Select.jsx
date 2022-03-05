@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, forwardRef } from "react";
 import classNames from "classnames";
 import { inputStyle } from "MLComponents/componentStyle";
 
@@ -25,4 +25,4 @@ function Select({ options, optionText, name, value, id, text: labelText, onChang
   );
 }
 
-export default React.forwardRef(Select);
+export default memo(forwardRef(Select));

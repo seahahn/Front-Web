@@ -56,6 +56,12 @@ export const URLS_TRAIN = {
   ModelSteps: "steps",
 };
 
+export const URLS_EVAL = {
+  // 모델 제작 & 훈련
+  Predict: "predict",
+  Score: "score",
+};
+
 // fetch API로 HTTP 통신하기 위한 설정
 export const httpConfig = (data) => ({
   method: "POST",

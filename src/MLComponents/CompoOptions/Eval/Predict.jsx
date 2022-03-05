@@ -1,26 +1,26 @@
 import React, { useState, useContext } from "react";
 import _ from "lodash";
-import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_EVAL, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { BlockContext } from "MLComponents/Column";
-import { showDataResult, loadTrainTest, modelList } from "MLComponents/CompoOptions/util";
+import { showDataResult, loadTrainTest, saveYPred, modelList } from "MLComponents/CompoOptions/util";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 
 /**
- * 모델 훈련 기능을 위한 컴포넌트.
- * MakePipeline에서 만든 파이프라인(모델)에 X_train, y_train을 전송하여 훈련을 진행한다.
- * 만약 인코더 또는 스케일러까지만 포함된 파이프라인을 사용하는 경우, 해당 부분까지 fit 진행.
+ * 테스트셋의 예측 결과(y_pred)를 얻기 위한 컴포넌트.
+ * MakePipeline에서 만든 파이프라인(모델)에 X_test를 전송하여 결과를 가져온다.
+ * 만약 분류 모델인 경우 y_pred_proba도 가져온다.
  *
- * @returns "training completed"
+ * @returns {
+            "y_pred"      : pd.DataFrame(pipe.predict(X_test)).to_json(orient="records"),
+            "y_pred_proba": pd.DataFrame(pipe.predict_proba(X_test)).to_json(orient="records") # 분류 모델인 경우 포함
+        }
  */
-function Fit({ formId, resultId }) {
-  const { dfd, storage } = useContext(AppContext);
+function Predict({ formId, resultId }) {
+  const { dfd } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
   const [modelName, setModelName] = useState(modelList[0]);
-
-  // TODO DB 구현되면 DB에서 목록 가져오기
-  // const modelList = ["ahn0304", "ahn_test", "ahn_new", "ahngyeongho", "ahngyeongho1", "ahngyeongho2"];
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
@@ -36,14 +36,15 @@ function Fit({ formId, resultId }) {
       name: modelName,
       key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
     }; // 입력해야 할 파라미터 설정
-    const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Fit), params);
-    const df = _.pick(loadTrainTest(blockId), ["X_train", "y_train"]); // 훈련 데이터셋 가져오기
-    console.log(df);
+    const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_EVAL.Predict), params);
+    const XTest = _.pick(loadTrainTest(blockId), ["X_test"].X_test); // 테스트셋 가져오기
+    console.log(XTest);
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
-    await fetch(targetUrl, httpConfig(JSON.stringify(df)))
+    await fetch(targetUrl, httpConfig(JSON.stringify(XTest)))
       .then((response) => response.json())
       .then((data) => {
-        showDataResult(dfd, data, resultId);
+        saveYPred(blockId, data);
+        showDataResult(dfd, JSON.stringify(JSON.parse(data).y_pred), resultId); // y_pred 결과만 보여주기
       })
       .catch((error) => console.error(error));
   };
@@ -55,4 +56,4 @@ function Fit({ formId, resultId }) {
   );
 }
 
-export default React.memo(Fit);
+export default React.memo(Predict);

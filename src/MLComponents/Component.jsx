@@ -37,6 +37,7 @@ const Component = ({ data, compoType, path }) => {
   // 컴포넌트 출력 결과 영역의 숨김/표시 상태
   const [optionOpened, setOptionOpened] = useState(true);
   const [resultOpened, setResultOpened] = useState(true);
+  const [render, setRender] = useState(false);
 
   // 컴포넌트의 기능에 맞춰 옵션 영역 집어넣기
   const OptionList = [
@@ -72,6 +73,8 @@ const Component = ({ data, compoType, path }) => {
     "Fit",
     "Transform",
     "ModelSteps",
+    "Predict",
+    "Score",
   ];
   let Options = AllCompo[data.func];
   if (!OptionList.includes(data.func)) {
@@ -94,6 +97,9 @@ const Component = ({ data, compoType, path }) => {
           <span>{component.id}</span>
         </div>
         <div>
+          <button className={buttonStyle} onClick={() => setRender(!render)}>
+            새로 고침
+          </button>
           <button className={buttonStyle} onClick={() => setOptionOpened(!optionOpened)}>
             {optionOpened ? "옵션 숨김" : "옵션 표시"}
           </button>

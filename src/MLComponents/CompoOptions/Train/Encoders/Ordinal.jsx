@@ -16,11 +16,11 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
   }); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
-    cols: null,
-    drop_invariant: false,
-    return_df: true,
-    handle_unknown: "value",
-    handle_missing: "value",
+    // cols: null,
+    // drop_invariant: false,
+    // return_df: true,
+    // handle_unknown: "value",
+    // handle_missing: "value",
     mapping: null,
   };
 
@@ -135,4 +135,4 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
   );
 }
 
-export default React.memo(Ordinal);
+export default Ordinal;

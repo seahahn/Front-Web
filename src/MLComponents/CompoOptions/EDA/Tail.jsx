@@ -3,18 +3,22 @@ import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig 
 import { AppContext } from "App";
 import { inputStyle } from "MLComponents/componentStyle";
 import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
-import { jsonToFile } from "MLComponents/CompoOptions/util";
+import { showDataResult } from "MLComponents/CompoOptions/util";
 import { BlockContext } from "MLComponents/Column";
 
 function Tail({ formId, resultId }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
-  const [lineNum, setLineNum] = useState();
+  const [params, setParams] = useState({ line: 5 });
 
   // 숫자 입력 시 변화 감지하여 상태 값 변경
   const handleChange = (event) => {
-    setLineNum(event.target.value);
+    const { name, value } = event.target;
+    setParams({
+      ...params,
+      [name]: value,
+    });
   };
 
   // 백앤드로 데이터 전송
@@ -22,8 +26,6 @@ function Tail({ formId, resultId }) {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 전송을 위한 설정
-    const params = { line: lineNum }; // 입력해야 할 파라미터 설정
-    // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.Tail), params);
     const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
@@ -32,14 +34,7 @@ function Tail({ formId, resultId }) {
       .then((response) => response.json())
       .then((data) => {
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-        dfd
-          .readJSON(jsonToFile(data))
-          .then((df) => {
-            df.plot(resultId).table({ funcResultConfig, funcResultLayout }); // 결과 영역에 출력
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        showDataResult(dfd, data, resultId);
       })
       .catch((error) => console.error(error));
   };
@@ -48,7 +43,7 @@ function Tail({ formId, resultId }) {
     <form id={formId} onSubmit={handleSubmit}>
       <label>
         출력할 행 수
-        <input className={inputStyle} type="number" min="1" defaultValue="5" onChange={handleChange} />
+        <input className={inputStyle} name={"line"} type="number" min="1" defaultValue="5" onChange={handleChange} />
       </label>
     </form>
   );
