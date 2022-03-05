@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import classNames from "classnames";
 import TrashDropZone from "MLComponents/TrashDropZone";
@@ -33,6 +33,9 @@ const Container = () => {
   const initialLayout = initialData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
   const [layout, setLayout] = useState(initialLayout);
   const [movingEnabled, setMovingEnabled] = useState(false); // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
+  useEffect(() => {
+    console.log(layout);
+  }, [layout]);
 
   // TrashDropZone에 아이템 드랍 시 아이템 삭제 기능
   const handleDropToTrashBin = useCallback(
@@ -69,7 +72,7 @@ const Container = () => {
         // 실제로 Container에 추가된 컴포넌트의 정보
         const newItem = {
           id: shortid.generate(), // layout에 포함되기 위해 새로운 id를 생성
-          type: item.type, // 전처리 / 훈련 / 평가 구분하기 위한 값
+          type: item.type.split("/")[1], // 전처리 / 훈련 / 평가 구분하기 위한 값
           func: item.func, // 사이드바 아이템의 func가 어떤 기능인지 나타냄
         };
         // setComponents({

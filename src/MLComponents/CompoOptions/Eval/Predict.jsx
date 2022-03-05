@@ -37,14 +37,14 @@ function Predict({ formId, resultId }) {
       key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
     }; // 입력해야 할 파라미터 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_EVAL.Predict), params);
-    const XTest = _.pick(loadTrainTest(blockId), ["X_test"].X_test); // 테스트셋 가져오기
-    console.log(XTest);
+    const XTest = _.pick(loadTrainTest(blockId), ["X_test"]).X_test; // 테스트셋 가져오기
+    // console.log(XTest);
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(XTest)))
       .then((response) => response.json())
       .then((data) => {
         saveYPred(blockId, data);
-        showDataResult(dfd, JSON.stringify(JSON.parse(data).y_pred), resultId); // y_pred 결과만 보여주기
+        showDataResult(dfd, data.y_pred, resultId); // y_pred 결과만 보여주기
       })
       .catch((error) => console.error(error));
   };

@@ -55,7 +55,14 @@ function Transform({ formId, resultId }) {
     <form id={formId} onSubmit={handleSubmit}>
       <div className="grid grid-rows-2 gap-2">
         <Select className="flex-1 self-center justify-self-stretch" options={modelList} text="모델 목록" name={"name"} onChange={handleChange} />
-        <Select className="flex-1 self-center justify-self-stretch" options={targetList} text="스텝 목록" name={"target"} onChange={handleChange} />
+        <Select
+          className="flex-1 self-center justify-self-stretch"
+          options={["", ...targetList]}
+          optionText={["전체", ...targetList]}
+          text="스텝 목록"
+          name={"target"}
+          onChange={handleChange}
+        />
       </div>
     </form>
   );

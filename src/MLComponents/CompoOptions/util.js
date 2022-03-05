@@ -79,8 +79,8 @@ export const loadTrainTest = (blockId) => {
 export const saveYPred = (blockId, data) => {
   const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
   window.sessionStorage.setItem(blockId + "_yTrue", yTest); // 웹 스토리지에 실제 결과 데이터프레임(JSON) 저장
-  window.sessionStorage.setItem(blockId + "_yPred", JSON.parse(data).y_pred); // 웹 스토리지에 예측 결과 데이터프레임(JSON) 저장
-  window.sessionStorage.setItem(blockId + "_yPredProba", JSON.parse(data).y_pred_proba); // 웹 스토리지에 예측 결과 확률 데이터프레임(JSON) 저장
+  window.sessionStorage.setItem(blockId + "_yPred", data.y_pred); // 웹 스토리지에 예측 결과 데이터프레임(JSON) 저장
+  window.sessionStorage.setItem(blockId + "_yPredProba", data.y_pred_proba); // 웹 스토리지에 예측 결과 확률 데이터프레임(JSON) 저장
 };
 
 export const loadYPred = (blockId) => {

@@ -5,7 +5,7 @@ import { SIDEBAR_ITEM } from "./constants";
 
 const DropZone = ({ data, onDrop, accept, isLast, className }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: [SIDEBAR_ITEM + accept, accept], // 드랍받을 수 있는 type. Component의 compoType을 기준으로 함.
+    accept: [SIDEBAR_ITEM + "/" + accept, accept], // 드랍받을 수 있는 type. Component의 compoType을 기준으로 함.
     drop: (item, monitor) => {
       onDrop(data, item);
     },

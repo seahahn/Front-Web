@@ -18,7 +18,7 @@ function Score({ formId, resultId }) {
   const { blockId } = useContext(BlockContext);
 
   const [modelCategory, setModelCategory] = useState("reg");
-  const [metric, setMetric] = useState();
+  const [metric, setMetric] = useState(METRICS_REG[0]);
 
   const modelCategoryRef = useRef();
   const metricRef = useRef();
@@ -28,6 +28,7 @@ function Score({ formId, resultId }) {
     switch (event.target) {
       case modelCategoryRef.current:
         setModelCategory(event.target.value);
+        event.target.value === "reg" ? setMetric(METRICS_REG[0]) : setMetric(METRICS_CLS[0]);
         break;
       case metricRef.current:
         setMetric(event.target.value);
