@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Switch } from "MLComponents/CompoOptions/CompoPiece";
+import { convertNumParams } from "MLComponents/CompoOptions/util";
 
 function Linear({ handleSteps }) {
   // 옵션 상태 값 저장
@@ -10,7 +11,13 @@ function Linear({ handleSteps }) {
     n_jobs: -1,
     positive: false,
   }); // 입력해야 할 파라미터 설정
-  console.log(options);
+
+  const defaultVal = {
+    // fit_intercept: true,
+    // copy_X: true,
+    n_jobs: -1,
+    // positive: false,
+  };
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
@@ -33,7 +40,8 @@ function Linear({ handleSteps }) {
         [name]: checked,
       });
     } else {
-      value === "" ? setOptions({ ...options, [name]: -1 }) : setOptions({ ...options, [name]: value });
+      convertNumParams(name, value, options, setOptions, defaultVal);
+      // value === "" ? setOptions({ ...options, [name]: defaultVal[name] }) : setOptions({ ...options, [name]: value });
     }
   };
 

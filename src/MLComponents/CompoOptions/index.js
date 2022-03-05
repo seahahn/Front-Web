@@ -3,7 +3,8 @@ import { ColumnList, Corr, Describe, Dtype, Groupby, Head, IsNa, Shape, Tail, Un
 import { ColConditionDf, Drop, DropNa, ILocDf, LocDf, RenameCol, SortValue, SetColumn, Transpose } from "./Preprocess";
 import { BoxPlot, HistPlot, CountPlot, ScatterPlot } from "./Visualization";
 import { FeatureTargetSplit, TrainTestSplit, MergeDf, ConcatDf } from "./DataPrep";
-import { MakePipeline } from "./Train";
+import { MakePipeline, Fit, Transform, ModelSteps } from "./Train";
+import { Predict, Score } from "./Eval";
 
 export {
   DataUpload,
@@ -35,4 +36,9 @@ export {
   MergeDf,
   ConcatDf,
   MakePipeline,
+  Fit,
+  Transform,
+  ModelSteps,
+  Predict,
+  Score,
 };

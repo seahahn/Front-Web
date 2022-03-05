@@ -70,4 +70,4 @@ function BoxPlot({ formId, resultId }) {
   );
 }
 
-export default React.memo(BoxPlot);
+export default BoxPlot;

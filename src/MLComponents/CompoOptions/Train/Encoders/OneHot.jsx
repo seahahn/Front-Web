@@ -5,7 +5,7 @@ import MultiSelect from "react-select";
 function OneHot({ handleOptions, handleSteps, colObjArray, steps }) {
   // 옵션 상태 값 저장
   const [options, setOptions] = useState({
-    cols: [],
+    cols: null,
     drop_invariant: false,
     return_df: true,
     handle_unknown: "value",
@@ -90,4 +90,4 @@ function OneHot({ handleOptions, handleSteps, colObjArray, steps }) {
   );
 }
 
-export default React.memo(OneHot);
+export default OneHot;

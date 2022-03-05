@@ -1,5 +1,3 @@
-import "./App.css";
-import "./styles.css";
 import { createContext } from "react";
 import Navbar from "./Navbar/Navbar";
 import Container from "./MLComponents/Container";

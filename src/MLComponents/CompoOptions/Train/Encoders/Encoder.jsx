@@ -1,5 +1,5 @@
 import React from "react";
-import * as Encoders from "./Encoders";
+import * as Encoders from ".";
 
 function Encoder({ encoder, handleSteps, colObjArray, steps }) {
   const handleOptions = ["value", "error", "return_nan", "indicator"];

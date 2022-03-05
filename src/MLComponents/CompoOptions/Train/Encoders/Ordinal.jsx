@@ -16,11 +16,11 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
   }); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
-    cols: null,
-    drop_invariant: false,
-    return_df: true,
-    handle_unknown: "value",
-    handle_missing: "value",
+    // cols: null,
+    // drop_invariant: false,
+    // return_df: true,
+    // handle_unknown: "value",
+    // handle_missing: "value",
     mapping: null,
   };
 
@@ -30,8 +30,8 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
-    const mappingResult = [...Object.values(mapping)];
-    // console.log(mappingResult);
+    const mappingResult = mapping === "" ? [...Object.values(mapping)] : defaultVal.mapping;
+    console.log(mappingResult);
     steps.hasOwnProperty("encoders")
       ? handleSteps({ encoders: Object.assign(steps.encoders, { ordinal_encoder: { ...options, mapping: mappingResult } }) })
       : handleSteps({ encoders: Object.assign({}, { ordinal_encoder: { ...options, mapping: mappingResult } }) });
@@ -135,4 +135,4 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
   );
 }
 
-export default React.memo(Ordinal);
+export default Ordinal;

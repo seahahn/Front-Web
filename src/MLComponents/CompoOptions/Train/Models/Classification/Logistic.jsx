@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Switch, Select } from "MLComponents/CompoOptions/CompoPiece";
 import classNames from "classnames";
+import { convertNumParams } from "MLComponents/CompoOptions/util";
 
 /**
  * https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html?highlight=logistic#sklearn.linear_model.LogisticRegression
@@ -32,12 +33,12 @@ function Logistic({ handleSteps }) {
   }); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
-    penalty: "l2", // {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}, default=’l2’
-    solver: "lbfgs", // {‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}, default=’lbfgs’
-    multi_class: "auto", // {‘auto’, ‘ovr’, ‘multinomial’}, default=’auto’
-    dual: false, // bool, default=False
-    fit_intercept: true, // bool, default=True
-    warm_start: false, // bool, default=False
+    // penalty: "l2", // {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}, default=’l2’
+    // solver: "lbfgs", // {‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}, default=’lbfgs’
+    // multi_class: "auto", // {‘auto’, ‘ovr’, ‘multinomial’}, default=’auto’
+    // dual: false, // bool, default=False
+    // fit_intercept: true, // bool, default=True
+    // warm_start: false, // bool, default=False
     class_weight: null, // dict(={class_label: weight}) or ‘balanced’, default=None
     tol: 1e-4, // float, default=1e-4
     C: 1.0, // float, default=1.0
@@ -48,6 +49,9 @@ function Logistic({ handleSteps }) {
     random_state: null, // int, RandomState instance, default=None
     // verbose: 0, // int, default=0
   }; // 초기값 저장하여 input 미입력 시 기본값 넣기
+
+  // 수치형 입력 값 구분하기 위한 리스트
+  // const nums = ["tol", "C", "intercept_scaling", "max_iter", "l1_ratio", "n_jobs", "random_state"];
 
   // const [classWeight, setClassWeight] = useState(null); // 클래스 비율 설정
 
@@ -82,7 +86,13 @@ function Logistic({ handleSteps }) {
         classWeightRef.current.style.border = "1px solid red";
       }
     } else {
-      value === "" ? setOptions({ ...options, [name]: defaultVal[name] }) : setOptions({ ...options, [name]: value });
+      // 수치형인 경우 Number로 변환
+      convertNumParams(name, value, options, setOptions, defaultVal);
+      // value === ""
+      //   ? setOptions({ ...options, [name]: defaultVal[name] })
+      //   : NUM_PARAMS.hasOwnProperty(name)
+      //   ? setOptions({ ...options, [name]: Number(value) })
+      //   : setOptions({ ...options, [name]: value });
     }
   };
 

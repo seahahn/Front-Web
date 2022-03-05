@@ -288,4 +288,4 @@ function SetColumn({ formId, resultId }) {
   );
 }
 
-export default React.memo(SetColumn);
+export default SetColumn;

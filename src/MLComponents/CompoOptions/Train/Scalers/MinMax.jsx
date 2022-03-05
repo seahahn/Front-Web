@@ -33,7 +33,7 @@ function MinMax({ handleSteps }) {
     } else {
       name === "minRange"
         ? setOptions({ ...options, feature_range: (value, options.feature_range[1]) })
-        : setOptions({ ...options, feature_range: [options.feature_range[0], value] });
+        : setOptions({ ...options, feature_range: (options.feature_range[0], value) });
     }
   };
 
