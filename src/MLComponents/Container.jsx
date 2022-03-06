@@ -1,15 +1,17 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import classNames from "classnames";
+import Navbar from "Navbar/Navbar";
 import TrashDropZone from "MLComponents/TrashDropZone";
 import SideBar from "MLComponents/SideBar";
 import Column from "MLComponents/Column";
+import emptyData from "MLComponents/initial-data"; // COLUMN-ROW-COMPONENT
 import initialData from "MLComponents/initial-data-test"; // COLUMN-ROW-COMPONENT
 import initialBlockForm from "MLComponents/initial-data-form"; // 새로운 블록 생성 폼
 import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "MLComponents/helpers";
 import styled from "styled-components";
-
 import { SIDEBAR_ITEM, COLUMN } from "MLComponents/constants";
+import { httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import shortid from "shortid";
 
 const Toolbox = styled.div`
@@ -29,13 +31,31 @@ const Toolbox = styled.div`
   }
 `;
 
+const USER_IDX = 2;
+const PROJ_IDX = 2;
+// UPM = User-Proj-Managing
+const UPM_URL = "http://localhost:3001/project"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
+const UPM_TARGET = `/${USER_IDX}/${PROJ_IDX}`; // 사용자 및 프로젝트 고유 번호(프로젝트 불러오기, 수정, 삭제에 사용)
+
 const Container = () => {
+  const emptyLayout = emptyData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
   const initialLayout = initialData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
-  const [layout, setLayout] = useState(initialLayout);
+
+  const loadProject = async () => {
+    const response = await fetch(UPM_URL + UPM_TARGET, httpConfig("GET"));
+    response.ok ? setLayout((await response.json()).layout) : setLayout(initialLayout);
+  };
+
+  const [layout, setLayout] = useState(emptyLayout);
   const [movingEnabled, setMovingEnabled] = useState(false); // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
   useEffect(() => {
-    console.log(layout);
-  }, [layout]);
+    console.log("loadProject");
+    loadProject();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(layout);
+  // }, [layout]);
 
   // TrashDropZone에 아이템 드랍 시 아이템 삭제 기능
   const handleDropToTrashBin = useCallback(
@@ -161,64 +181,67 @@ const Container = () => {
   );
 
   return (
-    <div className="flex flex-row h-full mt-16">
-      <div className="flex flex-col bg-slate-700">
-        {/* 요소 확대/축소 및 위치 이동 기능을 넣기 위한 Wrapper */}
-        <TransformWrapper minScale={0.1} maxScale={2} limitToBounds={false} disabled={!movingEnabled}>
-          {/* 확대 / 축소 / 원 위치 이동 함수 넣기 */}
-          {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-            <React.Fragment>
-              <Toolbox>
-                {/* 위치 이동 가능 여부를 설정할 수 있는 버튼 추가 */}
-                <button
-                  className={classNames(movingEnabled ? "bg-green-500" : "bg-green-50", "rounded-bl-lg")}
-                  onClick={() => setMovingEnabled(!movingEnabled)}>
-                  Move
-                </button>
-                {/* 확대 / 축소 / 원 위치 이동을 위한 버튼 */}
-                <button className="bg-green-50" onClick={() => zoomIn(0.2)}>
-                  Zoom In
-                </button>
-                <button className="bg-green-50" onClick={() => zoomOut(0.2)}>
-                  Zoom Out
-                </button>
-                <button className="bg-green-50 rounded-br-lg" onClick={() => resetTransform()}>
-                  Reset
-                </button>
-              </Toolbox>
-              {/* TransformComponent 안의 컴포넌트가 실제로 확대 / 축소 / 위치 이동 기능이 적용되는 대상임 */}
-              <TransformComponent>
-                <div className="page columns h-full">
-                  {/* layout 데이터에서 column 하나씩 내놓음. 한 column에 한 index */}
-                  {layout.map((column, index) => {
-                    const currentPath = `${index}`; // index는 현재 경로로 지정됨
-                    return (
-                      <React.Fragment key={column.id}>
-                        {/* column 하나마다 좌측에 TrashDropZone 놔둠 */}
-                        <TrashDropZone data={{ layout }} onDrop={handleDropToTrashBin} />
-                        {/* column 데이터 하나씩 전달하여 column 생성
+    <React.Fragment>
+      <Navbar layout={layout} />
+      <div className="flex flex-row h-full mt-16">
+        <div className="flex flex-col bg-slate-700">
+          {/* 요소 확대/축소 및 위치 이동 기능을 넣기 위한 Wrapper */}
+          <TransformWrapper minScale={0.1} maxScale={2} limitToBounds={false} disabled={!movingEnabled}>
+            {/* 확대 / 축소 / 원 위치 이동 함수 넣기 */}
+            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+              <React.Fragment>
+                <Toolbox>
+                  {/* 위치 이동 가능 여부를 설정할 수 있는 버튼 추가 */}
+                  <button
+                    className={classNames(movingEnabled ? "bg-green-500" : "bg-green-50", "rounded-bl-lg")}
+                    onClick={() => setMovingEnabled(!movingEnabled)}>
+                    Move
+                  </button>
+                  {/* 확대 / 축소 / 원 위치 이동을 위한 버튼 */}
+                  <button className="bg-green-50" onClick={() => zoomIn(0.2)}>
+                    Zoom In
+                  </button>
+                  <button className="bg-green-50" onClick={() => zoomOut(0.2)}>
+                    Zoom Out
+                  </button>
+                  <button className="bg-green-50 rounded-br-lg" onClick={() => resetTransform()}>
+                    Reset
+                  </button>
+                </Toolbox>
+                {/* TransformComponent 안의 컴포넌트가 실제로 확대 / 축소 / 위치 이동 기능이 적용되는 대상임 */}
+                <TransformComponent>
+                  <div className="page columns h-full">
+                    {/* layout 데이터에서 column 하나씩 내놓음. 한 column에 한 index */}
+                    {layout.map((column, index) => {
+                      const currentPath = `${index}`; // index는 현재 경로로 지정됨
+                      return (
+                        <React.Fragment key={column.id}>
+                          {/* column 하나마다 좌측에 TrashDropZone 놔둠 */}
+                          <TrashDropZone data={{ layout }} onDrop={handleDropToTrashBin} />
+                          {/* column 데이터 하나씩 전달하여 column 생성
                         동시에 각각의 column의 index를 전달하여 해당 column의 경로로 지정 */}
-                        {renderColumn(column, currentPath)}
-                      </React.Fragment>
-                    );
-                  })}
-                  {/* layout.length === 0 이면 새로운 블록 추가 요청 메시지 보이기 */}
-                  {layout.length === 0 ? (
-                    <div className="fixed top-0 bottom-0 left-0 right-0 text-5xl text-cyan-200 flex justify-center items-center">
-                      <h1>블록을 추가해주세요!</h1>
-                    </div>
-                  ) : null}
-                  {/* column 다 추가하고 나면 마지막으로 맨 오른쪽에 TrashDropZone 추가 */}
-                  <TrashDropZone data={{ layout }} onDrop={handleDropToTrashBin} />
-                </div>
-              </TransformComponent>
-            </React.Fragment>
-          )}
-        </TransformWrapper>
+                          {renderColumn(column, currentPath)}
+                        </React.Fragment>
+                      );
+                    })}
+                    {/* layout.length === 0 이면 새로운 블록 추가 요청 메시지 보이기 */}
+                    {layout.length === 0 ? (
+                      <div className="fixed top-0 bottom-0 left-0 right-0 text-5xl text-cyan-200 flex justify-center items-center">
+                        <h1>블록을 추가해주세요!</h1>
+                      </div>
+                    ) : null}
+                    {/* column 다 추가하고 나면 마지막으로 맨 오른쪽에 TrashDropZone 추가 */}
+                    <TrashDropZone data={{ layout }} onDrop={handleDropToTrashBin} />
+                  </div>
+                </TransformComponent>
+              </React.Fragment>
+            )}
+          </TransformWrapper>
+        </div>
+        {/* 사이드바와 사이드바 내 아이템들 */}
+        <SideBar addNewBlock={addNewBlock} />
       </div>
-      {/* 사이드바와 사이드바 내 아이템들 */}
-      <SideBar addNewBlock={addNewBlock} />
-    </div>
+    </React.Fragment>
   );
 };
 export default React.memo(Container);

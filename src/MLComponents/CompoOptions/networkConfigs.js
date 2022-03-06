@@ -63,9 +63,9 @@ export const URLS_EVAL = {
 };
 
 // fetch API로 HTTP 통신하기 위한 설정
-export const httpConfig = (data) => ({
-  method: "POST",
-  mode: CORS,
+export const httpConfig = (method = "POST", data = null) => ({
+  method: method,
+  mode: CORS, // 'cors'
   body: data,
 });
 

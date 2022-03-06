@@ -13,7 +13,7 @@ import {
   HiOutlineHome,
 } from "react-icons/hi";
 
-export default function LeftSidebar() {
+export default function LeftSidebar({ saveProject, updateProject }) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -57,7 +57,7 @@ export default function LeftSidebar() {
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={(e) => console.log(e)}
+                  onClick={updateProject}
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlineSave className="inline mx-2" />
                   프로젝트 저장
