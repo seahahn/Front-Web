@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Switch, Select } from "MLComponents/CompoOptions/CompoPiece";
-import { convertNumParams } from "MLComponents/CompoOptions/util";
+import { convertNumParams, equalsIgnoreOrder } from "MLComponents/CompoOptions/util";
 
 /**
  * https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html
  * Decision Tree Regressor
  */
-function RFReg({ handleSteps }) {
+function RFReg({ step, handleSteps }) {
   const criterion = ["squared_error", "absolute_error", "poisson"];
   const maxFeatures = [null, "auto", "sqrt", "log2"];
   const maxFeaturesText = ["None", "auto", "sqrt", "log2"];
 
-  // 옵션 상태 값 저장
-  const [options, setOptions] = useState({
+  const initialOpts = {
     criterion: "squared_error", // {“squared_error”, “absolute_error”, “poisson”}, default=”squared_error”
     max_features: null, // int, float or {“auto”, “sqrt”, “log2”}, default=None
     n_estimators: 100, // int, default=100
@@ -30,7 +29,10 @@ function RFReg({ handleSteps }) {
     oob_score: false, // bool, default=False
     warm_start: false, // bool, default=False
     random_state: null, // int, RandomState instance, default=None
-  }); // 입력해야 할 파라미터 설정
+  };
+
+  // 옵션 상태 값 저장
+  const [options, setOptions] = useState(step && equalsIgnoreOrder(Object.keys(step), Object.keys(initialOpts)) ? step : initialOpts); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
     // criterion: "squared_error", // {“squared_error”, “absolute_error”, “poisson”}, default=”squared_error”
@@ -66,15 +68,21 @@ function RFReg({ handleSteps }) {
       });
     } else {
       convertNumParams(name, value, options, setOptions, defaultVal);
-      // value === "" ? setOptions({ ...options, [name]: defaultVal[name] }) : setOptions({ ...options, [name]: value });
     }
   };
 
   return (
     <div className="flex flex-col space-y-2 border border-blue-400 rounded-lg p-1">
-      <h3>RFReg Regression</h3>
+      <h3>Random Forest Regressor</h3>
       <div className="flex flex-row space-x-2">
-        <Select className="flex-1 self-center justify-self-stretch" options={criterion} text="criterion" onChange={handleChange} name="criterion" />
+        <Select
+          className="flex-1 self-center justify-self-stretch"
+          options={criterion}
+          text="criterion"
+          onChange={handleChange}
+          name="criterion"
+          defaultValue={options.criterion}
+        />
         <Select
           className="flex-1 self-center justify-self-stretch"
           options={maxFeatures}
@@ -82,31 +90,122 @@ function RFReg({ handleSteps }) {
           text="max_features"
           onChange={handleChange}
           name="max_features"
+          defaultValue={options.max_features}
         />
       </div>
       <div className="grid grid-cols-2 gap-2">
         <label>n_estimators :</label>
-        <input className={inputStyle} type="number" min={1} placeholder={"기본값 100"} onChange={handleChange} name="n_estimators" />
+        <input
+          className={inputStyle}
+          type="number"
+          min={1}
+          placeholder={"기본값 100"}
+          onChange={handleChange}
+          name="n_estimators"
+          defaultValue={options.n_estimators}
+        />
         <label>max_depth :</label>
-        <input className={inputStyle} type="number" min={1} placeholder={"기본값 없음"} onChange={handleChange} name="max_depth" />
+        <input
+          className={inputStyle}
+          type="number"
+          min={1}
+          placeholder={"기본값 없음"}
+          onChange={handleChange}
+          name="max_depth"
+          defaultValue={options.max_depth}
+        />
         <label>max_leaf_nodes :</label>
-        <input className={inputStyle} type="number" min={1} placeholder={"기본값 없음"} onChange={handleChange} name="max_leaf_nodes" />
+        <input
+          className={inputStyle}
+          type="number"
+          min={1}
+          placeholder={"기본값 없음"}
+          onChange={handleChange}
+          name="max_leaf_nodes"
+          defaultValue={options.max_leaf_nodes}
+        />
         <label>min_samples_split :</label>
-        <input className={inputStyle} type="number" min={2} step="any" placeholder={"기본값 2"} onChange={handleChange} name="min_samples_split" />
+        <input
+          className={inputStyle}
+          type="number"
+          min={2}
+          step="any"
+          placeholder={"기본값 2"}
+          onChange={handleChange}
+          name="min_samples_split"
+          defaultValue={options.min_samples_split}
+        />
         <label>min_samples_leaf :</label>
-        <input className={inputStyle} type="number" min={1} step="any" placeholder={"기본값 1"} onChange={handleChange} name="min_samples_leaf" />
+        <input
+          className={inputStyle}
+          type="number"
+          min={1}
+          step="any"
+          placeholder={"기본값 1"}
+          onChange={handleChange}
+          name="min_samples_leaf"
+          defaultValue={options.min_samples_leaf}
+        />
         <label>max_samples :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 없음"} onChange={handleChange} name="max_samples" />
+        <input
+          className={inputStyle}
+          type="number"
+          step="any"
+          placeholder={"기본값 없음"}
+          onChange={handleChange}
+          name="max_samples"
+          defaultValue={options.max_samples}
+        />
         <label>min_weight_fraction_leaf :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 0.0"} onChange={handleChange} name="min_weight_fraction_leaf" />
+        <input
+          className={inputStyle}
+          type="number"
+          step="any"
+          placeholder={"기본값 0.0"}
+          onChange={handleChange}
+          name="min_weight_fraction_leaf"
+          defaultValue={options.min_weight_fraction_leaf}
+        />
         <label>min_impurity_decrease :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 0.0"} onChange={handleChange} name="min_impurity_decrease" />
+        <input
+          className={inputStyle}
+          type="number"
+          step="any"
+          placeholder={"기본값 0.0"}
+          onChange={handleChange}
+          name="min_impurity_decrease"
+          defaultValue={options.min_impurity_decrease}
+        />
         <label>ccp_alpha :</label>
-        <input className={inputStyle} type="number" min={0} step="any" placeholder={"기본값 0.0"} onChange={handleChange} name="ccp_alpha" />
+        <input
+          className={inputStyle}
+          type="number"
+          min={0}
+          step="any"
+          placeholder={"기본값 0.0"}
+          onChange={handleChange}
+          name="ccp_alpha"
+          defaultValue={options.ccp_alpha}
+        />
         <label>n_jobs :</label>
-        <input className={inputStyle} type="number" min={1} placeholder={"미입력시 -1(최대 자원 사용)"} onChange={handleChange} name="n_jobs" />
+        <input
+          className={inputStyle}
+          type="number"
+          min={1}
+          placeholder={"미입력시 -1(최대 자원 사용)"}
+          onChange={handleChange}
+          name="n_jobs"
+          defaultValue={options.n_jobs}
+        />
         <label>random_state :</label>
-        <input className={inputStyle} type="number" placeholder={"기본값 없음"} onChange={handleChange} name="random_state" />
+        <input
+          className={inputStyle}
+          type="number"
+          placeholder={"기본값 없음"}
+          onChange={handleChange}
+          name="random_state"
+          defaultValue={options.random_state}
+        />
       </div>
       <div className="flex flex-row space-x-2">
         <Switch text="bootstrap : " onChange={handleChange} name={"bootstrap"} checked={options.bootstrap} />

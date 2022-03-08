@@ -1,50 +1,15 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { useCallback } from "react";
+import React, { useMemo } from "react";
 import classNames from "classnames";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
-import { httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import LeftSidebar from "./LeftSidebar";
 
-const USER_IDX = 2;
-const PROJ_IDX = 2;
-// UPM = User-Proj-Managing
-const UPM_URL = "http://localhost:3001/project"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
-const UPM_TARGET = `/${USER_IDX}/${PROJ_IDX}`; // 사용자 및 프로젝트 고유 번호(프로젝트 불러오기, 수정, 삭제에 사용)
-
-function Navbar({ layout }) {
-  const saveProject = useCallback(async () => {
-    // 새 프로젝트 생성 시 사용할 함수
-    const projectData = {
-      user_idx: USER_IDX,
-      proj_idx: PROJ_IDX,
-      layout: layout,
-    };
-    await fetch(UPM_URL, Object.assign(httpConfig(JSON.stringify(projectData)), { headers: { "Content-Type": "application/json" } }))
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
-  }, [layout]);
-
-  const updateProject = useCallback(async () => {
-    // 기존 프로젝트 수정 시 사용할 함수
-    // const params = {
-    //   user_idx: 1,
-    //   proj_idx: 1,
-    // };
-    const projectData = {
-      layout: layout,
-    };
-    await fetch(UPM_URL + UPM_TARGET, Object.assign(httpConfig("PUT", JSON.stringify(projectData)), { headers: { "Content-Type": "application/json" } }))
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
-  }, [layout]);
+function Navbar({ isSaving, saveProject, updateProject }) {
+  const lastSavingTime = useMemo(() => {
+    return isSaving ? "저장 중..." : `마지막 저장 시점 : ${new Date().toLocaleString()}`;
+  }, [isSaving]);
 
   return (
     <Disclosure as="nav" className="bg-gray-800 fixed top-0 left-0 right-0 z-50">
@@ -55,7 +20,7 @@ function Navbar({ layout }) {
             <LeftSidebar saveProject={saveProject} updateProject={updateProject} />
             <div className="flex items-center leading-normal space-x-4">
               <div className="text-gray-300 text-lg font-medium">프로젝트명</div>
-              <div className="text-gray-300 text-sm font-medium">마지막 저장 시점 : {new Date().toLocaleString()}</div>
+              <div className="text-gray-300 text-sm font-medium">{lastSavingTime}</div>
             </div>
           </div>
 

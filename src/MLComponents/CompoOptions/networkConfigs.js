@@ -9,6 +9,12 @@ export const MLFUNCS_SUFFIX_PLOT = "plot/"; // 시각화 기능 경로
 export const MLTRAIN_URL = "http://localhost:8001/"; // ML-Train 서버 주소
 export const MLTRAIN_SUFFIX_MODEL = "model/"; // 모델 학습 기능 경로
 
+// UPM = User-Proj-Managing
+export const USER_IDX = 1;
+export const PROJ_IDX = 1;
+export const UPM_URL = "http://localhost:3001/project/"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
+export const UPM_TARGET = `${USER_IDX}/${PROJ_IDX}`; // 사용자 및 프로젝트 고유 번호(프로젝트 불러오기, 수정, 삭제에 사용)
+
 // EDA, 전처리 기능 각각의 최종 URL 경로
 export const URLS_PREPROCESS = {
   // EDA
@@ -63,7 +69,7 @@ export const URLS_EVAL = {
 };
 
 // fetch API로 HTTP 통신하기 위한 설정
-export const httpConfig = (method = "POST", data = null) => ({
+export const httpConfig = (data = null, method = "POST") => ({
   method: method,
   mode: CORS, // 'cors'
   body: data,

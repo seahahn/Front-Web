@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef, createContext } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import classNames from "classnames";
 import Navbar from "Navbar/Navbar";
@@ -11,7 +11,7 @@ import initialBlockForm from "MLComponents/initial-data-form"; // 새로운 블�
 import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "MLComponents/helpers";
 import styled from "styled-components";
 import { SIDEBAR_ITEM, COLUMN } from "MLComponents/constants";
-import { httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { httpConfig, UPM_URL, UPM_TARGET, USER_IDX, PROJ_IDX } from "MLComponents/CompoOptions/networkConfigs";
 import shortid from "shortid";
 
 const Toolbox = styled.div`
@@ -31,31 +31,78 @@ const Toolbox = styled.div`
   }
 `;
 
-const USER_IDX = 2;
-const PROJ_IDX = 2;
-// UPM = User-Proj-Managing
-const UPM_URL = "http://localhost:3001/project"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
-const UPM_TARGET = `/${USER_IDX}/${PROJ_IDX}`; // 사용자 및 프로젝트 고유 번호(프로젝트 불러오기, 수정, 삭제에 사용)
+export const LayoutContext = createContext(); // 전체 프로젝트 구조(layout)를 개별 컴포넌트에 전달하기 위한 컨텍스트
 
 const Container = () => {
   const emptyLayout = emptyData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
   const initialLayout = initialData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
 
-  const loadProject = async () => {
-    const response = await fetch(UPM_URL + UPM_TARGET, httpConfig("GET"));
-    response.ok ? setLayout((await response.json()).layout) : setLayout(initialLayout);
-  };
-
   const [layout, setLayout] = useState(emptyLayout);
   const [movingEnabled, setMovingEnabled] = useState(false); // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
+  const [isSaving, setIsSaving] = useState(false); // 저장 중 상태
+
+  /**
+   * 프로젝트 구조 저장을 하기 위한 레퍼런스.
+   * layout state를 사용할 경우, 사소한 개별 옵션 값 변경에도 과도한 rerender 발생함.
+   * (layout state를 사용하는 Container 내에 모든 컴포넌트들이 있기 때문)
+   * 따라서 별도로 layout 데이터를 저장할 ref를 생성하여 rerender를 방지하였음.
+   */
+  const layoutRef = useRef(layout);
+
+  // 프로젝트 실행 시 프로젝트 구조 불러와서 적용하기
+  const initProject = async () => {
+    // 사용자 번호와 프로젝트 번호를 통해 프로젝트 구조 불러오기
+    const response = await fetch(UPM_URL + UPM_TARGET, httpConfig(null, "GET"));
+    // 기존 프로젝트라면 불러오고, 새로운 프로젝트라면 새로운 프로젝트 데이터 생성
+    response.ok ? setLayout((await response.json()).layout) : saveProject();
+  };
+
+  // 새 프로젝트 생성 시 사용할 함수
+  const saveProject = useCallback(async () => {
+    setLayout(initialLayout);
+    const projectData = {
+      user_idx: USER_IDX,
+      proj_idx: PROJ_IDX,
+      layout: initialLayout,
+    };
+    await fetch(UPM_URL, Object.assign(httpConfig(JSON.stringify(projectData)), { headers: { "Content-Type": "application/json" } }))
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.error(error));
+  }, [initialLayout]);
+
+  const updateProject = useCallback(async () => {
+    // 기존 프로젝트 수정 시 사용할 함수
+    setIsSaving(true); // 저장 시작
+    console.log(layoutRef.current);
+    const projectData = {
+      layout: layoutRef.current,
+    };
+    await fetch(UPM_URL + UPM_TARGET, Object.assign(httpConfig(JSON.stringify(projectData), "PUT"), { headers: { "Content-Type": "application/json" } }))
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        console.log(layout);
+        setIsSaving(false); // 저장 완료
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsSaving(false); // 저장 완료
+      });
+  }, [layout]);
+
+  // 프로젝트 실행 시 초기 세팅
   useEffect(() => {
-    console.log("loadProject");
-    loadProject();
+    console.log("initProject");
+    initProject();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(layout);
-  // }, [layout]);
+  useEffect(() => {
+    // layout 데이터 변경 시 저장
+    layoutRef.current = layout;
+  }, [layout]);
 
   // TrashDropZone에 아이템 드랍 시 아이템 삭제 기능
   const handleDropToTrashBin = useCallback(
@@ -69,12 +116,12 @@ const Container = () => {
   // DropZone에 아이템 드랍 시 아이템 추가 기능
   const handleDrop = useCallback(
     (dropZone, item) => {
-      console.log("item", item);
+      // console.log("item", item);
 
       const splitDropZonePath = dropZone.path.split("-");
       const pathToDropZone = splitDropZonePath.slice(0, -1).join("-");
 
-      const newItem = { id: item.id, type: item.type, func: item.func };
+      const newItem = { id: item.id, type: item.type, func: item.func, param: item.param ? item.param : null };
       // console.log('newItem id type', newItem);
       // if (item.type === COLUMN) {
       //   newItem.children = item.children;
@@ -94,6 +141,7 @@ const Container = () => {
           id: shortid.generate(), // layout에 포함되기 위해 새로운 id를 생성
           type: item.type.split("/")[1], // 전처리 / 훈련 / 평가 구분하기 위한 값
           func: item.func, // 사이드바 아이템의 func가 어떤 기능인지 나타냄
+          param: item.param ? item.param : null, // 사이드바 아이템의 기능에서 사용되는 parameter
         };
         // setComponents({
         //   ...components,
@@ -101,31 +149,24 @@ const Container = () => {
         // });
 
         setLayout(handleMoveSidebarComponentIntoParent(layout, splitDropZonePath, newItem));
-        // console.log(layout);
         return;
       }
 
       // move down here since sidebar items dont have path
       const splitItemPath = item.path.split("-");
       const pathToItem = splitItemPath.slice(0, -1).join("-");
-      // console.log('splitItemPath', splitItemPath)
-      // console.log('pathToItem', pathToItem)
 
       // 2. 단순 이동인 경우
       if (splitItemPath.length === splitDropZonePath.length) {
         // 2.a. move within parent
         if (pathToItem === pathToDropZone) {
-          // console.log('move within parent');
           setLayout(handleMoveWithinParent(layout, splitDropZonePath, splitItemPath));
-          // console.log(layout);
           return;
         }
 
         // 2.b. OR move different parent
         // TODO FIX columns. item includes children
-        // console.log('move different parent');
         setLayout(handleMoveToDifferentParent(layout, splitDropZonePath, splitItemPath, newItem));
-        // console.log(layout);
         return;
       }
 
@@ -169,9 +210,7 @@ const Container = () => {
   // 블록 삭제 기능
   const removeBlock = useCallback(
     (event) => {
-      // console.log(event.target.value);
       const newLayout = layout.filter((value, index, arr) => {
-        // console.log(value.id, index, arr);
         return value.id !== event.target.value;
       });
 
@@ -182,7 +221,7 @@ const Container = () => {
 
   return (
     <React.Fragment>
-      <Navbar layout={layout} />
+      <Navbar isSaving={isSaving} saveProject={saveProject} updateProject={updateProject} />
       <div className="flex flex-row h-full mt-16">
         <div className="flex flex-col bg-slate-700">
           {/* 요소 확대/축소 및 위치 이동 기능을 넣기 위한 Wrapper */}
@@ -212,18 +251,20 @@ const Container = () => {
                 <TransformComponent>
                   <div className="page columns h-full">
                     {/* layout 데이터에서 column 하나씩 내놓음. 한 column에 한 index */}
-                    {layout.map((column, index) => {
-                      const currentPath = `${index}`; // index는 현재 경로로 지정됨
-                      return (
-                        <React.Fragment key={column.id}>
-                          {/* column 하나마다 좌측에 TrashDropZone 놔둠 */}
-                          <TrashDropZone data={{ layout }} onDrop={handleDropToTrashBin} />
-                          {/* column 데이터 하나씩 전달하여 column 생성
+                    <LayoutContext.Provider value={{ layoutRef }}>
+                      {layout.map((column, index) => {
+                        const currentPath = `${index}`; // index는 현재 경로로 지정됨
+                        return (
+                          <React.Fragment key={column.id}>
+                            {/* column 하나마다 좌측에 TrashDropZone 놔둠 */}
+                            <TrashDropZone data={{ layout }} onDrop={handleDropToTrashBin} />
+                            {/* column 데이터 하나씩 전달하여 column 생성
                         동시에 각각의 column의 index를 전달하여 해당 column의 경로로 지정 */}
-                          {renderColumn(column, currentPath)}
-                        </React.Fragment>
-                      );
-                    })}
+                            {renderColumn(column, currentPath)}
+                          </React.Fragment>
+                        );
+                      })}
+                    </LayoutContext.Provider>
                     {/* layout.length === 0 이면 새로운 블록 추가 요청 메시지 보이기 */}
                     {layout.length === 0 ? (
                       <div className="fixed top-0 bottom-0 left-0 right-0 text-5xl text-cyan-200 flex justify-center items-center">

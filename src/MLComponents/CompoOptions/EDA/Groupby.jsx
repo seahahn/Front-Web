@@ -6,7 +6,7 @@ import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
 import { BlockContext } from "MLComponents/Column";
 
-function Groupby({ formId, resultId }) {
+function Groupby({ formId, resultId, param, setParam }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
@@ -15,22 +15,22 @@ function Groupby({ formId, resultId }) {
 
   const groupbyFuncs = ["sum", "count", "mean", "min", "max", "std", "median"];
 
-  const [params, setParams] = useState({
-    by: columns[0],
-    func: groupbyFuncs[0],
-    axis: 0,
-    as_index: true,
-    sort: true,
-    group_keys: true,
-    observed: false,
-    dropna: true,
-  });
+  // const [params, setParams] = useState({
+  //   by: columns[0],
+  //   func: groupbyFuncs[0],
+  //   axis: 0,
+  //   as_index: true,
+  //   sort: true,
+  //   group_keys: true,
+  //   observed: false,
+  //   dropna: true,
+  // });
 
   // 컬럼 선택(MultiSelect)
   const settingBy = (e) => {
-    setParams({
-      ...params,
-      by: [...e.map((col) => col.value)],
+    setParam({
+      ...param,
+      by: e,
     });
   };
 
@@ -38,13 +38,13 @@ function Groupby({ formId, resultId }) {
   const handleChange = (event) => {
     const { name, value, checked } = event.target;
     if (event.target.type === "checkbox") {
-      setParams({
-        ...params,
+      setParam({
+        ...param,
         [name]: checked,
       });
     } else {
-      setParams({
-        ...params,
+      setParam({
+        ...param,
         [name]: value,
       });
     }
@@ -55,9 +55,13 @@ function Groupby({ formId, resultId }) {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 전송을 위한 설정
-    console.log(params);
+    const paramResult = {
+      ...param,
+      by: [...param.by.map((col) => col.value)],
+    };
+    console.log(paramResult);
     // 백앤드 API URL에 파라미터 추가
-    const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.Groupby), params);
+    const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.Groupby), paramResult);
     const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
@@ -74,16 +78,23 @@ function Groupby({ formId, resultId }) {
       <div className="flex flex-col space-y-2">
         <div className="flex flex-row mr-4 space-x-2">
           <label className="self-center">정렬 기준 컬럼</label>
-          <MultiSelect options={colObjArray} onChange={settingBy} className="flex-1" isMulti={true} closeMenuOnSelect={false} defaultInputValue={columns[0]} />
-          <Select className="flex-1 self-center justify-self-stretch" options={groupbyFuncs} name={"func"} text="계산 방식" onChange={handleChange} />
+          <MultiSelect options={colObjArray} onChange={settingBy} className="flex-1" isMulti={true} closeMenuOnSelect={false} defaultValue={param.by} />
+          <Select
+            className="flex-1 self-center justify-self-stretch"
+            options={groupbyFuncs}
+            name={"func"}
+            text="계산 방식"
+            onChange={handleChange}
+            defaultValue={param.func}
+          />
         </div>
         <div className="flex flex-col flex-1">
-          <Select options={[0, 1]} optionText={["행", "열"]} name={"axis"} text="축 선택" onChange={handleChange} />
-          <Switch name={"as_index"} text="asIndex" onChange={handleChange} checked={params.as_index} />
-          <Switch name={"sort"} text="sort" onChange={handleChange} checked={params.sort} />
-          <Switch name={"group_keys"} text="groupKeys" onChange={handleChange} checked={params.group_keys} />
-          <Switch name={"observed"} text="observed" onChange={handleChange} checked={params.observed} />
-          <Switch name={"dropna"} text="dropNa" onChange={handleChange} checked={params.dropna} />
+          <Select options={[0, 1]} optionText={["행", "열"]} name={"axis"} text="축 선택" onChange={handleChange} defaultValue={param.axis} />
+          <Switch name={"as_index"} text="asIndex" onChange={handleChange} checked={param.as_index} />
+          <Switch name={"sort"} text="sort" onChange={handleChange} checked={param.sort} />
+          <Switch name={"group_keys"} text="groupKeys" onChange={handleChange} checked={param.group_keys} />
+          <Switch name={"observed"} text="observed" onChange={handleChange} checked={param.observed} />
+          <Switch name={"dropna"} text="dropNa" onChange={handleChange} checked={param.dropna} />
         </div>
       </div>
     </form>

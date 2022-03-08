@@ -45,21 +45,17 @@ export const reorderChildren = (children, splitDropZonePath, splitItemPath) => {
   const nodeChildren = updatedChildren[curIndex];
   updatedChildren[curIndex] = {
     ...nodeChildren,
-    children: reorderChildren(
-      nodeChildren.children,
-      splitDropZoneChildrenPath,
-      splitItemChildrenPath
-    ),
+    children: reorderChildren(nodeChildren.children, splitDropZoneChildrenPath, splitItemChildrenPath),
   };
 
   return updatedChildren;
 };
 
 export const removeChildFromChildren = (children, splitItemPath) => {
-  // 아이템 경로 길이가 1이면 row임
+  // 아이템 경로 길이가 1이면 column임
   if (splitItemPath.length === 1) {
-    const itemIndex = Number(splitItemPath[0]); // row의 index를 받아옴
-    return remove(children, itemIndex); // 해당 row 제외한 나머지 row들을 반환
+    const itemIndex = Number(splitItemPath[0]); // column의 index를 받아옴
+    return remove(children, itemIndex); // 해당 column 제외한 나머지 column들을 반환
   }
 
   const updatedChildren = [...children];
@@ -71,10 +67,7 @@ export const removeChildFromChildren = (children, splitItemPath) => {
   const nodeChildren = updatedChildren[curIndex];
   updatedChildren[curIndex] = {
     ...nodeChildren,
-    children: removeChildFromChildren(
-      nodeChildren.children,
-      splitItemChildrenPath
-    ),
+    children: removeChildFromChildren(nodeChildren.children, splitItemChildrenPath),
   };
 
   return updatedChildren;
@@ -95,21 +88,13 @@ export const addChildToChildren = (children, splitDropZonePath, item) => {
   const nodeChildren = updatedChildren[curIndex];
   updatedChildren[curIndex] = {
     ...nodeChildren,
-    children: addChildToChildren(
-      nodeChildren.children,
-      splitItemChildrenPath,
-      item
-    ),
+    children: addChildToChildren(nodeChildren.children, splitItemChildrenPath, item),
   };
 
   return updatedChildren;
 };
 
-export const handleMoveWithinParent = (
-  layout,
-  splitDropZonePath,
-  splitItemPath
-) => {
+export const handleMoveWithinParent = (layout, splitDropZonePath, splitItemPath) => {
   return reorderChildren(layout, splitDropZonePath, splitItemPath);
 };
 
@@ -129,12 +114,7 @@ export const handleAddColumDataToRow = (layout) => {
   });
 };
 
-export const handleMoveToDifferentParent = (
-  layout,
-  splitDropZonePath,
-  splitItemPath,
-  item
-) => {
+export const handleMoveToDifferentParent = (layout, splitDropZonePath, splitItemPath, item) => {
   let newLayoutStructure;
   const COLUMN_STRUCTURE = {
     type: COLUMN,
@@ -183,20 +163,12 @@ export const handleMoveToDifferentParent = (
   let updatedLayout = layout;
   updatedLayout = removeChildFromChildren(updatedLayout, splitItemPath);
   updatedLayout = handleAddColumDataToRow(updatedLayout);
-  updatedLayout = addChildToChildren(
-    updatedLayout,
-    splitDropZonePath,
-    newLayoutStructure
-  );
+  updatedLayout = addChildToChildren(updatedLayout, splitDropZonePath, newLayoutStructure);
 
   return updatedLayout;
 };
 
-export const handleMoveSidebarComponentIntoParent = (
-  layout,
-  splitDropZonePath,
-  item
-) => {
+export const handleMoveSidebarComponentIntoParent = (layout, splitDropZonePath, item) => {
   // let newLayoutStructure;
   // switch (splitDropZonePath.length) {
   //   case 1: {

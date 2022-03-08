@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_EVAL, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { METRICS_CLS, METRICS_REG } from "MLComponents/constants";
@@ -13,40 +13,31 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
  *
  * @returns "training completed"
  */
-function Score({ formId, resultId }) {
+function Score({ formId, resultId, param, setParam }) {
   const { dfd } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
-  const [modelCategory, setModelCategory] = useState("reg");
-  const [metric, setMetric] = useState(METRICS_REG[0]);
-
-  const modelCategoryRef = useRef();
-  const metricRef = useRef();
+  useEffect(() => {
+    setParam({
+      ...param,
+      metric: param.modelCategory === "reg" ? METRICS_REG[0] : METRICS_CLS[0],
+    });
+  }, [param.modelCategory]);
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
-    switch (event.target) {
-      case modelCategoryRef.current:
-        setModelCategory(event.target.value);
-        event.target.value === "reg" ? setMetric(METRICS_REG[0]) : setMetric(METRICS_CLS[0]);
-        break;
-      case metricRef.current:
-        setMetric(event.target.value);
-        break;
-      default:
-        break;
-    }
+    const { name, value } = event.target;
+    setParam({
+      ...param,
+      [name]: value,
+    });
   };
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
-    // 백앤드 전송을 위한 설정
-    const params = {
-      metric: metric,
-    }; // 입력해야 할 파라미터 설정
-    const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_EVAL.Score), params);
+    const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_EVAL.Score), param);
     const ys = loadYPred(blockId); // 타겟 실제 데이터와 타겟 예측 데이터 가져오기
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(ys)))
@@ -61,19 +52,21 @@ function Score({ formId, resultId }) {
     <form id={formId} onSubmit={handleSubmit}>
       <div className="flex flex-row space-x-2">
         <Select
-          ref={modelCategoryRef}
+          name={"modelCategory"}
           className="flex-1 justify-self-stretch"
           options={["reg", "cls"]}
           optionText={["회귀", "분류"]}
           text="모델 유형"
           onChange={handleChange}
+          defaultValue={param.modelCategory}
         />
         <Select
-          ref={metricRef}
+          name={"metric"}
           className="flex-1 justify-self-stretch"
-          options={modelCategory === "reg" ? METRICS_REG : METRICS_CLS}
+          options={param.modelCategory === "reg" ? METRICS_REG : METRICS_CLS}
           text="평가 지표 목록"
           onChange={handleChange}
+          defaultValue={param.metric}
         />
       </div>
     </form>

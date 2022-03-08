@@ -14,7 +14,6 @@ function ModelSteps({ formId, resultId }) {
 
   const [modelName, setModelName] = useState(modelList[0]);
 
-  // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
     setModelName(event.target.value);
   };

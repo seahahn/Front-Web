@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Switch, Select } from "MLComponents/CompoOptions/CompoPiece";
-import { convertNumParams } from "MLComponents/CompoOptions/util";
+import { convertNumParams, equalsIgnoreOrder } from "MLComponents/CompoOptions/util";
 
 /**
  * https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html
  * Ridge Regression
  */
-function Ridge({ handleSteps }) {
+function Ridge({ step, handleSteps }) {
   const solver = ["auto", "svd", "cholesky", "lsqr", "sparse_cg", "sag", "saga", "lbfgs"];
 
-  // 옵션 상태 값 저장
-  const [options, setOptions] = useState({
+  const initialOpts = {
     solver: "auto", // {‘auto’, ‘svd’, ‘cholesky’, ‘lsqr’, ‘sparse_cg’, ‘sag’, ‘saga’, ‘lbfgs’}, default=’auto’
     fit_intercept: true, // bool, default=True
     copy_X: true, // bool, default=True
@@ -20,7 +19,10 @@ function Ridge({ handleSteps }) {
     tol: 1e-3, // float, default=1e-3
     alpha: 1.0, // {float, ndarray of shape (n_targets,)}, default=1.0
     random_state: null, // int, RandomState instance, default=None
-  }); // 입력해야 할 파라미터 설정
+  };
+
+  // 옵션 상태 값 저장
+  const [options, setOptions] = useState(step && equalsIgnoreOrder(Object.keys(step), Object.keys(initialOpts)) ? step : initialOpts); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
     // solver: "auto", // {‘auto’, ‘svd’, ‘cholesky’, ‘lsqr’, ‘sparse_cg’, ‘sag’, ‘saga’, ‘lbfgs’}, default=’auto’
@@ -48,7 +50,6 @@ function Ridge({ handleSteps }) {
       });
     } else {
       convertNumParams(name, value, options, setOptions, defaultVal);
-      // value === "" ? setOptions({ ...options, [name]: defaultVal[name] }) : setOptions({ ...options, [name]: value });
     }
   };
 
@@ -56,7 +57,14 @@ function Ridge({ handleSteps }) {
     <div className="flex flex-col space-y-2 border border-blue-400 rounded-lg p-1">
       <h3>Ridge Regression</h3>
       <div className="flex flex-row space-x-2">
-        <Select className="flex-1 self-center justify-self-stretch" options={solver} text="solver" onChange={handleChange} name="solver" />
+        <Select
+          className="flex-1 self-center justify-self-stretch"
+          options={solver}
+          text="solver"
+          onChange={handleChange}
+          name="solver"
+          defaultValue={options.solver}
+        />
       </div>
       <div className="flex flex-row space-x-2">
         <Switch text="fit_intercept : " onChange={handleChange} name="fit_intercept" checked={options.fit_intercept} />
@@ -65,13 +73,29 @@ function Ridge({ handleSteps }) {
       </div>
       <div className="grid grid-cols-2 gap-2">
         <label>max_iter :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 없음"} onChange={handleChange} name="max_iter" />
+        <input
+          className={inputStyle}
+          type="number"
+          step="any"
+          placeholder={"기본값 없음"}
+          onChange={handleChange}
+          name="max_iter"
+          defaultValue={options.max_iter}
+        />
         <label>tol :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1e-3"} onChange={handleChange} name="tol" />
+        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1e-3"} onChange={handleChange} name="tol" defaultValue={options.tol} />
         <label>alpha :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1.0"} onChange={handleChange} name="alpha" />
+        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1.0"} onChange={handleChange} name="alpha" defaultValue={options.alpha} />
         <label>random_state :</label>
-        <input className={inputStyle} type="number" min={1} placeholder={"기본값 없음"} onChange={handleChange} name="random_state" />
+        <input
+          className={inputStyle}
+          type="number"
+          min={1}
+          placeholder={"기본값 없음"}
+          onChange={handleChange}
+          name="random_state"
+          defaultValue={options.random_state}
+        />
       </div>
     </div>
   );

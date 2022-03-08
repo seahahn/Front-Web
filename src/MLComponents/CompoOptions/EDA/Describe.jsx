@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { inputStyle } from "MLComponents/componentStyle";
@@ -6,31 +6,21 @@ import { showDataResult } from "MLComponents/CompoOptions/util";
 import Switch from "MLComponents/CompoOptions/CompoPiece/Switch";
 import { BlockContext } from "MLComponents/Column";
 
-function Describe({ formId, resultId }) {
+function Describe({ formId, resultId, param, setParam }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
-  const [params, setParams] = useState({
-    percentiles: "", // 확인할 퍼센트 수치들
-    num: true, // 수치형 컬럼 표시 여부
-    obj: false, // 객체형 컬럼 표시 여부
-    cat: false, // 범주형 컬럼 표시 여부
-    date: false, // 날짜형 컬럼 표시 여부
-    date2num: false, // 날짜형 컬럼을 수치형으로 변환할 지 여부
-  });
-
   // 옵션 상태 값 저장
   const handleChange = (event) => {
-    console.log(event.target);
     const { name, value, checked } = event.target;
     if (event.target.type === "checkbox") {
-      setParams({
-        ...params,
+      setParam({
+        ...param,
         [name]: checked,
       });
     } else {
-      setParams({
-        ...params,
+      setParam({
+        ...param,
         [name]: value,
       });
     }
@@ -42,11 +32,11 @@ function Describe({ formId, resultId }) {
 
     // 백앤드 전송을 위한 설정
     const paramResult = {
-      ...params,
-      num: params.num ? "1" : "0",
-      obj: params.obj ? "1" : "0",
-      cat: params.cat ? "1" : "0",
-      date: params.date ? "1" : "0",
+      ...param,
+      num: param.num ? "1" : "0",
+      obj: param.obj ? "1" : "0",
+      cat: param.cat ? "1" : "0",
+      date: param.date ? "1" : "0",
     }; // 입력해야 할 파라미터 설정
     console.log(paramResult);
     // 백앤드 API URL에 파라미터 추가
@@ -68,13 +58,13 @@ function Describe({ formId, resultId }) {
       <div className="flex flex-col">
         <label htmlFor="percentiles">
           확인할 퍼센트 값(소수, 콤마로 구분) 예) 0.25, 0.5, 0.75:
-          <input name={"percentiles"} className={inputStyle} type="text" onChange={handleChange} />
+          <input name={"percentiles"} className={inputStyle} type="text" onChange={handleChange} defaultValue={param.percentiles} />
         </label>
-        <Switch name={"num"} text="수치형 컬럼 표시 여부" onChange={handleChange} checked={params.num} />
-        <Switch name={"obj"} text="객체형 컬럼 표시 여부" onChange={handleChange} checked={params.obj} />
-        <Switch name={"cat"} text="범주형 컬럼 표시 여부" onChange={handleChange} checked={params.cat} />
-        <Switch name={"date"} text="날짜형 컬럼 표시 여부" onChange={handleChange} checked={params.date} />
-        <Switch name={"date2num"} text="날짜형->수치형 변환 여부" onChange={handleChange} checked={params.date2num} />
+        <Switch name={"num"} text="수치형 컬럼 표시 여부" onChange={handleChange} checked={param.num} />
+        <Switch name={"obj"} text="객체형 컬럼 표시 여부" onChange={handleChange} checked={param.obj} />
+        <Switch name={"cat"} text="범주형 컬럼 표시 여부" onChange={handleChange} checked={param.cat} />
+        <Switch name={"date"} text="날짜형 컬럼 표시 여부" onChange={handleChange} checked={param.date} />
+        <Switch name={"date2num"} text="날짜형->수치형 변환 여부" onChange={handleChange} checked={param.date2num} />
       </div>
     </form>
   );

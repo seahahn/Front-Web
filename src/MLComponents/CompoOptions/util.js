@@ -182,7 +182,6 @@ export const getModelSteps = async (key, modelName) => {
     name: modelName,
     key: key,
   };
-  console.log(params);
   const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.ModelSteps), params);
   return await fetch(targetUrl, { mode: "cors" })
     .then((response) => response.json())
@@ -200,6 +199,27 @@ export const convertNumParams = (name, value, options, setOptions, defaultVal) =
     : NUM_PARAMS.hasOwnProperty(name)
     ? setOptions({ ...options, [name]: Number(value) })
     : setOptions({ ...options, [name]: value });
+};
+
+// 순서 상관 없이 배열이 같은지 찾아내는 함수(두 객체가 동일한 키 목록을 갖고 있는지 확인 시 사용함)
+export const equalsIgnoreOrder = (a, b) => {
+  if (a.length !== b.length) return false;
+  const uniqueValues = new Set([...a, ...b]);
+  for (const v of uniqueValues) {
+    const aCount = a.filter((e) => e === v).length;
+    const bCount = b.filter((e) => e === v).length;
+    if (aCount !== bCount) return false;
+  }
+  return true;
+};
+
+export const colArrayToObjArray = (cols) => {
+  if (!cols) return null;
+  const objArray = [];
+  for (const col of cols) {
+    objArray.push({ label: col, value: col });
+  }
+  return objArray;
 };
 
 // 테스트용 임시 모델 목록
