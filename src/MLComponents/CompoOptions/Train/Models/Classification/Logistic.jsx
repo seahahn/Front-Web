@@ -2,19 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Switch, Select } from "MLComponents/CompoOptions/CompoPiece";
 import classNames from "classnames";
-import { convertNumParams } from "MLComponents/CompoOptions/util";
+import { convertNumParams, equalsIgnoreOrder } from "MLComponents/CompoOptions/util";
 
 /**
  * https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html?highlight=logistic#sklearn.linear_model.LogisticRegression
  * Logistic Regression
  */
-function Logistic({ handleSteps }) {
+function Logistic({ step, handleSteps }) {
   const penalty = ["l2", "l1", "elasticnet", "none"];
   const solver = ["lbfgs", "newton-cg", "liblinear", "sag", "saga"];
   const multiClass = ["auto", "ovr", "multinomial"];
 
-  // 옵션 상태 값 저장
-  const [options, setOptions] = useState({
+  const initialOpts = {
     penalty: "l2", // {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}, default=’l2’
     solver: "lbfgs", // {‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}, default=’lbfgs’
     multi_class: "auto", // {‘auto’, ‘ovr’, ‘multinomial’}, default=’auto’
@@ -30,7 +29,9 @@ function Logistic({ handleSteps }) {
     n_jobs: -1, // int, default=None
     random_state: null, // int, RandomState instance, default=None
     // verbose: 0, // int, default=0
-  }); // 입력해야 할 파라미터 설정
+  };
+  // 옵션 상태 값 저장
+  const [options, setOptions] = useState(step && equalsIgnoreOrder(Object.keys(step), Object.keys(initialOpts)) ? step : initialOpts); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
     // penalty: "l2", // {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}, default=’l2’
@@ -57,8 +58,8 @@ function Logistic({ handleSteps }) {
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
+    console.log("option changed");
     const classW = options.class_weight === "unbalanced" ? null : options.class_weight;
-    // console.log(classW);
     handleSteps({ model: { ...options, class_weight: classW } });
   }, [handleSteps, options]);
 
@@ -88,11 +89,6 @@ function Logistic({ handleSteps }) {
     } else {
       // 수치형인 경우 Number로 변환
       convertNumParams(name, value, options, setOptions, defaultVal);
-      // value === ""
-      //   ? setOptions({ ...options, [name]: defaultVal[name] })
-      //   : NUM_PARAMS.hasOwnProperty(name)
-      //   ? setOptions({ ...options, [name]: Number(value) })
-      //   : setOptions({ ...options, [name]: value });
     }
   };
 
@@ -100,9 +96,30 @@ function Logistic({ handleSteps }) {
     <div className="flex flex-col space-y-2 border border-blue-400 rounded-lg p-1">
       <h3>Logistic Regression</h3>
       <div className="flex flex-row space-x-2">
-        <Select className="flex-1 self-center justify-self-stretch" options={penalty} text="penalty" onChange={handleChange} name={"penalty"} />
-        <Select className="flex-1 self-center justify-self-stretch" options={solver} text="solver" onChange={handleChange} name={"solver"} />
-        <Select className="flex-1 self-center justify-self-stretch" options={multiClass} text="multiClass" onChange={handleChange} name={"multi_class"} />
+        <Select
+          className="flex-1 self-center justify-self-stretch"
+          options={penalty}
+          text="penalty"
+          onChange={handleChange}
+          name={"penalty"}
+          defaultValue={options.penalty}
+        />
+        <Select
+          className="flex-1 self-center justify-self-stretch"
+          options={solver}
+          text="solver"
+          onChange={handleChange}
+          name={"solver"}
+          defaultValue={options.solver}
+        />
+        <Select
+          className="flex-1 self-center justify-self-stretch"
+          options={multiClass}
+          text="multiClass"
+          onChange={handleChange}
+          name={"multi_class"}
+          defaultValue={options.multi_class}
+        />
       </div>
       <div className="flex flex-row space-x-2">
         <Switch text="dual : " onChange={handleChange} name={"dual"} checked={options.dual} />
@@ -117,6 +134,7 @@ function Logistic({ handleSteps }) {
           text="class_weight :"
           onChange={handleChange}
           name={"class_weight"}
+          defaultValue={options.class_weight}
         />
         <div className={classNames([null, "balanced"].includes(options.class_weight) ? "hidden" : "", "flex flex-row flex-1")}>
           <label className="self-center">weight 쌍 입력 :</label>
@@ -127,24 +145,66 @@ function Logistic({ handleSteps }) {
             placeholder={'예시) {"class_label1": weight1, "class_label2": weight2, ...}'}
             onChange={handleChange}
             name={"class_weight_dict"}
+            defaultValue={["", "balanced"].includes(options.class_weight) ? "" : JSON.stringify(options.class_weight)}
           />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2">
         <label>tol :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1e-4"} onChange={handleChange} name={"tol"} />
+        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1e-4"} onChange={handleChange} name={"tol"} defaultValue={options.tol} />
         <label>C :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1.0"} onChange={handleChange} name={"C"} />
+        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1.0"} onChange={handleChange} name={"C"} defaultValue={options.C} />
         <label>intercept_scaling :</label>
-        <input className={inputStyle} type="number" step="any" placeholder={"기본값 1.0"} onChange={handleChange} name={"intercept_scaling"} />
+        <input
+          className={inputStyle}
+          type="number"
+          step="any"
+          placeholder={"기본값 1.0"}
+          onChange={handleChange}
+          name={"intercept_scaling"}
+          defaultValue={options.intercept_scaling}
+        />
         <label>max_iter :</label>
-        <input className={inputStyle} type="number" min={1} placeholder={"기본값 100"} onChange={handleChange} name={"max_iter"} />
+        <input
+          className={inputStyle}
+          type="number"
+          min={1}
+          placeholder={"기본값 100"}
+          onChange={handleChange}
+          name={"max_iter"}
+          defaultValue={options.max_iter}
+        />
         <label>l1_ratio :</label>
-        <input className={inputStyle} type="number" min={0} max={1} step="any" placeholder={"기본값 None"} onChange={handleChange} name={"l1_ratio"} />
+        <input
+          className={inputStyle}
+          type="number"
+          min={0}
+          max={1}
+          step="any"
+          placeholder={"기본값 None"}
+          onChange={handleChange}
+          name={"l1_ratio"}
+          defaultValue={options.l1_ratio}
+        />
         <label>n_jobs :</label>
-        <input className={inputStyle} type="number" min={1} placeholder={"미입력시 -1(최대 자원 사용)"} onChange={handleChange} name={"n_jobs"} />
+        <input
+          className={inputStyle}
+          type="number"
+          min={1}
+          placeholder={"미입력시 -1(최대 자원 사용)"}
+          onChange={handleChange}
+          name={"n_jobs"}
+          defaultValue={options.n_jobs}
+        />
         <label>random_state :</label>
-        <input className={inputStyle} type="number" placeholder={"기본값 None"} onChange={handleChange} name={"random_state"} />
+        <input
+          className={inputStyle}
+          type="number"
+          placeholder={"기본값 None"}
+          onChange={handleChange}
+          name={"random_state"}
+          defaultValue={options.random_state}
+        />
       </div>
     </div>
   );

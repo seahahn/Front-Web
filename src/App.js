@@ -1,5 +1,4 @@
 import { createContext } from "react";
-import Navbar from "./Navbar/Navbar";
 import Container from "./MLComponents/Container";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
@@ -12,7 +11,6 @@ export const AppContext = createContext({ dfd, storage });
 function App() {
   return (
     <div className="App text-base md:text-sm sm:text-xs">
-      <Navbar />
       <DndProvider backend={HTML5Backend}>
         <AppContext.Provider value={{ dfd, storage }}>
           <Container />

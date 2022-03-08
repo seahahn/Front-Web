@@ -1,4 +1,5 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
+import _ from "lodash";
 import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
@@ -11,7 +12,7 @@ import Encoder from "./Encoders/Encoder";
 import Scaler from "./Scalers/Scaler";
 import Model from "./Models/Model";
 
-function MakePipeline({ formId, resultId }) {
+function MakePipeline({ formId, resultId, param, setParam }) {
   const { dfd } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
@@ -21,61 +22,68 @@ function MakePipeline({ formId, resultId }) {
   const scalers = Object.keys(SCALERS_MAPPING);
   const models = Object.keys(MODELS_MAPPING);
 
-  const [steps, setSteps] = useState({}); // 파이프라인 steps 파라미터 설정
+  const [steps, setSteps] = useState(param.steps); // 파이프라인 steps 파라미터 설정
   const handleSteps = (step) => {
     setSteps(Object.assign(steps, step));
   };
 
-  const [params, setParams] = useState({
-    name: "", // input text
-    key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
-    encoder: [], // MultiSelect
-    scaler: scalers[0], // Select
-    model: models[0], // Select
-    // verbose: verbose,
-  });
-
   // DOM 접근 위한 Ref
   const nameRef = useRef();
 
+  useEffect(() => {
+    setParam({
+      ...param,
+      steps: steps,
+    });
+  }, [steps]);
+
   // 컬럼 선택(MultiSelect)
   const settingEncoders = (e) => {
-    setParams({
-      ...params,
+    setParam({
+      ...param,
       encoder: e,
     });
+
+    // 선택한 인코더에 맞춰 steps의 encoders 수정하기
+    const encArray = [...e.map((enc) => enc.value)];
+    setSteps({ ...steps, encoders: _.pick(steps.encoders, encArray) });
   };
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setParams({
-      ...params,
+    setParam({
+      ...param,
       [name]: value,
     });
+
+    // 스케일러 혹은 모델 미선택 시 steps에서 제거
+    if (value === "None") {
+      setSteps(_.omit(steps, name));
+    }
   };
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
-    console.log(params);
     // 입력 필수 값 체크
-    if (params.name === "") {
+    if (param.name === "") {
       // 모델명 미입력시 포커스 주기
       nameRef.current.focus();
       return;
     }
-    if (params.encoder.length === 0 && params.scaler === "None" && params.model === "None") {
+    if (param.encoder.length === 0 && param.scaler === "None" && param.model === "None") {
       // 인코더, 스케일러, 모델 모두 선택 안 했을 시 경고 메시지 띄우기
       document.getElementById(resultId).innerHTML = '<span style="color: red;">인코더, 스케일러, 모델 중 최소 한 가지는 선택해주세요!</span>';
       return;
     }
 
     const paramResult = {
-      ...params,
-      name: params.name.replace(" ", "_"),
-      encoder: [...params.encoder.map((enc) => enc.value)],
+      ...param,
+      name: param.name.replace(" ", "_"),
+      encoder: [...param.encoder.map((enc) => enc.value)],
+      key: "test",
     }; // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.MakePipeline), paramResult);
@@ -100,23 +108,38 @@ function MakePipeline({ formId, resultId }) {
             type="text"
             placeholder={"저장할 모델 이름을 입력하세요"}
             onChange={handleChange}
+            defaultValue={param.name}
           />
         </div>
         <div className="flex flex-row space-x-2">
           <label className="self-center">인코더 선택</label>
-          <MultiSelect options={ENCODERS_MAPPING} onChange={settingEncoders} className="flex-1" isMulti={true} closeMenuOnSelect={false} />
+          <MultiSelect
+            options={ENCODERS_MAPPING}
+            onChange={settingEncoders}
+            className="flex-1"
+            isMulti={true}
+            closeMenuOnSelect={false}
+            defaultValue={param.encoder}
+          />
         </div>
         <div className="flex flex-col space-y-2">
-          {Object.values(params.encoder).map((encoder) => (
-            <Encoder key={encoder.value} encoder={encoder.label} handleSteps={handleSteps} steps={steps} colObjArray={colObjArray} />
+          {Object.values(param.encoder).map((encoder) => (
+            <Encoder key={encoder.value} encoder={encoder.label} encVal={encoder.value} handleSteps={handleSteps} steps={steps} colObjArray={colObjArray} />
           ))}
         </div>
-        <hr className="border border-teal-500" />
-        <Select className="flex-1 justify-self-stretch" options={scalers} name={"scaler"} text="스케일러 선택" onChange={handleChange} />
-        <Scaler scaler={params.scaler} handleSteps={handleSteps} />
-        <hr className="border border-teal-500" />
-        <Select className="flex-1 justify-self-stretch" options={models} name={"model"} text="모델 선택" onChange={handleChange} />
-        <Model model={params.model} handleSteps={handleSteps} />
+        <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
+        <Select
+          className="flex-1 justify-self-stretch"
+          options={scalers}
+          name={"scaler"}
+          text="스케일러 선택"
+          onChange={handleChange}
+          defaultValue={param.scaler}
+        />
+        <Scaler scaler={param.scaler} step={param.steps.scaler} handleSteps={handleSteps} />
+        <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
+        <Select className="flex-1 justify-self-stretch" options={models} name={"model"} text="모델 선택" onChange={handleChange} defaultValue={param.model} />
+        <Model model={param.model} step={param.steps.model} handleSteps={handleSteps} />
       </div>
     </form>
   );

@@ -12,26 +12,21 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
  *
  * @returns 정상 작동 시 가공된 데이터프레임, 파이프라인 fit을 하지 않은 경우 "훈련되지 않은 모델입니다."
  */
-function Transform({ formId, resultId }) {
+function Transform({ formId, resultId, param, setParam }) {
   const { dfd } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
   const [targetList, setTargetList] = useState([]);
-  const [params, setParams] = useState({
-    name: modelList[0],
-    key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
-    target: "",
-  });
 
   useEffect(() => {
-    getModelSteps("test", params.name).then((res) => setTargetList(res));
-  }, [params.name]);
+    getModelSteps("test", param.name ? param.name : modelList[0]).then((res) => setTargetList(res));
+  }, [param.name]);
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setParams({
-      ...params,
+    setParam({
+      ...param,
       [name]: value,
     });
   };
@@ -40,8 +35,13 @@ function Transform({ formId, resultId }) {
   const handleSubmit = async (event) => {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
-    const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Transform), params);
+    const paramResult = {
+      ...param,
+      key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
+    }; // 입력해야 할 파라미터 설정
+    const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Transform), paramResult);
     const df = _.pick(loadTrainTest(blockId), ["X_train"]).X_train; // 훈련 데이터셋 가져오기
+
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
@@ -54,8 +54,22 @@ function Transform({ formId, resultId }) {
   return (
     <form id={formId} onSubmit={handleSubmit}>
       <div className="grid grid-rows-2 gap-2">
-        <Select className="flex-1 self-center justify-self-stretch" options={modelList} text="모델 목록" name={"name"} onChange={handleChange} />
-        <Select className="flex-1 self-center justify-self-stretch" options={targetList} text="스텝 목록" name={"target"} onChange={handleChange} />
+        <Select
+          className="flex-1 self-center justify-self-stretch"
+          options={modelList}
+          text="모델 목록"
+          name={"name"}
+          onChange={handleChange}
+          defaultValue={param.name ? param.name : modelList[0]}
+        />
+        <Select
+          className="flex-1 self-center justify-self-stretch"
+          options={["", ...targetList]}
+          optionText={["전체", ...targetList]}
+          text="스텝 목록"
+          name={"target"}
+          onChange={handleChange}
+        />
       </div>
     </form>
   );

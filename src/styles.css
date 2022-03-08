@@ -10,14 +10,6 @@
   background: #e1e1e1;
 }
 
-.sideBarItem {
-  border: 1px solid #000;
-  border-radius: 3px;
-  padding: 10px;
-  margin-top: 10px;
-  background: #ccc;
-}
-
 .page {
   padding: 0 20px;
 }
@@ -52,9 +44,6 @@
   transition: 100ms all;
 }
 
-/* .component {
-} */
-
 .column {
   border: 1px solid blue;
   flex: auto;
@@ -87,14 +76,6 @@
   height: auto;
   transition: 200ms all;
 }
-
-/* .pageContainer {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  margin-bottom: 100px;
-  position: relative;
-} */
 
 /* ML Components Container Area */
 .react-transform-wrapper {
@@ -131,10 +112,6 @@ body::-webkit-scrollbar {
 .sideBar::-webkit-scrollbar-thumb {
   background-color: #000000;
 }
-
-/* div.resultArea > * {
-  overscroll-behavior: none;
-} */
 
 .color-picker input {
   display: block;

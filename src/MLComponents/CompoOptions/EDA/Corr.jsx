@@ -6,24 +6,24 @@ import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import { BlockContext } from "MLComponents/Column";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 
-function Corr({ formId, resultId }) {
+function Corr({ formId, resultId, param, setParam }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
 
-  const [params, setParams] = useState({
-    method: "pearson", // 상관 관계 방식 ["pearson", "kendall", "spearman"]
-    req_min: 1, // 결측치 제외한 최소 데이터 수(결측치가 너무 많은 컬럼 제거 목적)
-    col1: "", // 기준 컬럼
-    col2: "", // 대상 컬럼
-  });
+  // const [params, setParams] = useState({
+  //   method: "pearson", // 상관 관계 방식 ["pearson", "kendall", "spearman"]
+  //   req_min: 1, // 결측치 제외한 최소 데이터 수(결측치가 너무 많은 컬럼 제거 목적)
+  //   col1: "", // 기준 컬럼
+  //   col2: "", // 대상 컬럼
+  // });
 
   // 상관 관계 옵션 상태 값 저장
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setParams({
-      ...params,
+    setParam({
+      ...param,
       [name]: value,
     });
   };
@@ -33,7 +33,7 @@ function Corr({ formId, resultId }) {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 전송을 위한 설정
-    const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.Corr), params);
+    const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.Corr), param);
     const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
@@ -53,13 +53,13 @@ function Corr({ formId, resultId }) {
   return (
     <form id={formId} onSubmit={handleSubmit}>
       <div className="flex flex-col space-y-1">
-        <Select options={["pearson", "kendall", "spearman"]} name={"method"} text="상관 관계 계산 방식" onChange={handleChange} />
+        <Select options={["pearson", "kendall", "spearman"]} name={"method"} text="상관 관계 계산 방식" onChange={handleChange} defaultValue={param.method} />
         <label>
           최소 데이터 수
           <input name="req_min" className={inputStyle} type="number" min="1" defaultValue="1" onChange={handleChange} />
         </label>
-        <Select options={["", ...columns]} optionText={["전체", ...columns]} name={"col1"} text="기준 컬럼" onChange={handleChange} />
-        <Select options={["", ...columns]} optionText={["전체", ...columns]} name={"col2"} text="대상 컬럼" onChange={handleChange} />
+        <Select options={["", ...columns]} optionText={["전체", ...columns]} name={"col1"} text="기준 컬럼" onChange={handleChange} defaultValue={param.col1} />
+        <Select options={["", ...columns]} optionText={["전체", ...columns]} name={"col2"} text="대상 컬럼" onChange={handleChange} defaultValue={param.col2} />
       </div>
     </form>
   );

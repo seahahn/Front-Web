@@ -11,7 +11,7 @@ const SideBarItem = ({ data }) => {
   });
 
   return (
-    <div className="sideBarItem min-w-full" ref={drag} style={{ opacity }}>
+    <div className="rounded-lg bg-lime-800 text-slate-100 px-2 py-1 mt-2 min-w-full" ref={drag} style={{ opacity }}>
       {/* {data.id}
       <br /> */}
       {/* break-normal whitespace-nowrap => 크기 줄여도 텍스트 줄바꿈 일어나지 않음 */}

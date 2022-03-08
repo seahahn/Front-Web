@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import _ from "lodash";
 import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
@@ -13,32 +13,30 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
  *
  * @returns "training completed"
  */
-function Fit({ formId, resultId }) {
-  const { dfd, storage } = useContext(AppContext);
+function Fit({ formId, resultId, param, setParam }) {
+  const { dfd } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
-
-  const [modelName, setModelName] = useState(modelList[0]);
-
-  // TODO DB 구현되면 DB에서 목록 가져오기
-  // const modelList = ["ahn0304", "ahn_test", "ahn_new", "ahngyeongho", "ahngyeongho1", "ahngyeongho2"];
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
-    setModelName(event.target.value);
+    const { name, value } = event.target;
+    setParam({
+      ...param,
+      [name]: value,
+    });
   };
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
-    // 백앤드 전송을 위한 설정
-    const params = {
-      name: modelName,
+    const paramResult = {
+      ...param,
       key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
     }; // 입력해야 할 파라미터 설정
-    const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Fit), params);
+    const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Fit), paramResult);
     const df = _.pick(loadTrainTest(blockId), ["X_train", "y_train"]); // 훈련 데이터셋 가져오기
-    console.log(df);
+
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
@@ -50,7 +48,13 @@ function Fit({ formId, resultId }) {
 
   return (
     <form id={formId} onSubmit={handleSubmit}>
-      <Select className="flex-1 self-center justify-self-stretch" options={modelList} text="모델 목록" onChange={handleChange} />
+      <Select
+        className="flex-1 self-center justify-self-stretch"
+        options={modelList}
+        text="모델 목록"
+        onChange={handleChange}
+        defaultValue={param.name ? param.name : modelList[0]}
+      />
     </form>
   );
 }

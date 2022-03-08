@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Switch } from "MLComponents/CompoOptions/CompoPiece";
+import { equalsIgnoreOrder } from "MLComponents/CompoOptions/util";
 
-function Standard({ handleSteps }) {
-  // 옵션 상태 값 저장
-  const [options, setOptions] = useState({
+function Standard({ step, handleSteps }) {
+  const initialOpts = {
     copy: true,
     with_mean: true,
     with_std: true,
-  }); // 입력해야 할 파라미터 설정
+  };
+
+  // 옵션 상태 값 저장
+  const [options, setOptions] = useState(step && equalsIgnoreOrder(Object.keys(step), Object.keys(initialOpts)) ? step : initialOpts); // 입력해야 할 파라미터 설정
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
-    // console.log(options);
     handleSteps({ scaler: options });
   }, [handleSteps, options]);
 
@@ -22,7 +24,6 @@ function Standard({ handleSteps }) {
   // 옵션 상태 값 저장
   const handleChange = (event) => {
     const { name, checked } = event.target;
-    console.log(event.target);
     setOptions({
       ...options,
       [name]: checked,

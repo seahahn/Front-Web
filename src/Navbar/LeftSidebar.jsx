@@ -1,4 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
+import classNames from "classnames";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
@@ -12,11 +13,7 @@ import {
   HiOutlineHome,
 } from "react-icons/hi";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
-export default function LeftSidebar() {
+export default function LeftSidebar({ saveProject, updateProject }) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -40,41 +37,41 @@ export default function LeftSidebar() {
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="https://github.com/AI-Play/Front-Web"
-                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
+                <div
+                  onClick={(e) => console.log(e)}
+                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlinePlusCircle className="inline mx-2" /> 새 프로젝트
-                </a>
+                </div>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="https://github.com/seahahn/Front-Web/tree/main"
-                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
+                <div
+                  onClick={(e) => console.log(e)}
+                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlineFolderOpen className="inline mx-2" />
                   프로젝트 열기
-                </a>
+                </div>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="https://github.com/AI-Play"
-                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
+                <div
+                  onClick={updateProject}
+                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlineSave className="inline mx-2" />
                   프로젝트 저장
-                </a>
+                </div>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="https://tailwindcss.com/"
-                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
+                <div
+                  onClick={(e) => console.log(e)}
+                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlineIdentification className="inline mx-2" />
                   프로젝트명 변경
-                </a>
+                </div>
               )}
             </Menu.Item>
           </div>

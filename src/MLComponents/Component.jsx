@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useDrag } from "react-dnd";
 import classNames from "classnames";
-import { COMPONENT, ITEMS } from "./constants";
+import { ITEMS } from "./constants";
 import * as AllCompo from "./CompoOptions";
 import CompoResult from "./CompoResult";
 import { componentBodyStyle, buttonStyle } from "MLComponents/componentStyle";
+import { LayoutContext } from "MLComponents/Container";
+import { BlockContext } from "MLComponents/Column";
 
 /*
 data : initialData.layout으로부터 시작되어 내려온 데이터
@@ -12,6 +14,17 @@ compoType : Row로 구분되는 컴포넌트 타입(PREPROCESS, TRAIN, EVAL)
 path : 컴포넌트의 위치를 구분하기 위한 경로
  */
 const Component = ({ data, compoType, path }) => {
+  const { layoutRef } = useContext(LayoutContext); // 프로젝트 전체 구조를 가지고 있는 컨텍스트
+  const { blockId } = useContext(BlockContext); // 컬럼에 속한 모든 컴포넌트들에 블록 ID를 전달하기 위한 컨텍스트
+
+  // 전체 프로젝트 구조 데이터 중 컴포넌트에 해당하는 부분만 따로 가져오기
+  const compoRef =
+    layoutRef.current.find((col) => col.id === blockId) &&
+    layoutRef.current
+      .find((col) => col.id === blockId)
+      .children.find((row) => row.id === compoType)
+      .children.find((compo) => compo.id === data.id);
+
   const [{ opacity }, drag, preview] = useDrag({
     type: compoType,
     item: {
@@ -22,14 +35,9 @@ const Component = ({ data, compoType, path }) => {
       path: path,
     },
     collect: (monitor) => ({
-      // isDragging: monitor.isDragging(),
       opacity: monitor.isDragging() ? 0.4 : 1,
     }),
   });
-
-  // 컴포넌트 드래그할 때 해당 컴포넌트의 투명도 조절
-  // const opacity = isDragging ? 0 : 1;
-  // drag(ref);
 
   // layout에 지정된 func에 해당되는 component를 가져옴
   const component = ITEMS[data.func];
@@ -38,6 +46,15 @@ const Component = ({ data, compoType, path }) => {
   const [optionOpened, setOptionOpened] = useState(true);
   const [resultOpened, setResultOpened] = useState(true);
   const [render, setRender] = useState(false);
+
+  const [compoParam, setCompoParam] = useState(data.param); // 컴포넌트 기능의 옵션 값 모음
+
+  // 기능의 옵션 값 변경 시 프로젝트 구조 데이터에도 반영(저장 목적)
+  useEffect(() => {
+    if (compoRef && compoRef.hasOwnProperty("param")) {
+      compoRef.param = compoParam;
+    }
+  }, [compoParam, compoRef]);
 
   // 컴포넌트의 기능에 맞춰 옵션 영역 집어넣기
   const OptionList = [
@@ -90,13 +107,22 @@ const Component = ({ data, compoType, path }) => {
     <div ref={preview} style={{ opacity }} className={componentBodyStyle}>
       {/* 메인 영역 */}
       <div ref={drag} className="flex justify-between my-2 cursor-move">
-        <div>
+        <div className="space-x-1">
           <button type="submit" form={formId} className={buttonStyle}>
             실행
           </button>
           <span>{component.id}</span>
+          <button
+            type="button"
+            onClick={() => {
+              console.log(layoutRef.current);
+              console.log(compoRef);
+            }}
+            className={buttonStyle}>
+            로그 확인
+          </button>
         </div>
-        <div>
+        <div className="space-x-2">
           <button className={buttonStyle} onClick={() => setRender(!render)}>
             새로 고침
           </button>
@@ -111,7 +137,7 @@ const Component = ({ data, compoType, path }) => {
 
       {/* 옵션 & 출력 영역 */}
       <div className={classNames(optionOpened ? "my-2" : "hidden", "max-w-full")}>
-        <Options formId={formId} resultId={resultId} />
+        <Options formId={formId} resultId={resultId} param={compoParam} setParam={setCompoParam} />
       </div>
       <div className={classNames(resultOpened ? "" : "hidden", "max-w-full")}>
         <CompoResult resultId={resultId} />
@@ -119,4 +145,4 @@ const Component = ({ data, compoType, path }) => {
     </div>
   );
 };
-export default Component;
+export default React.memo(Component);

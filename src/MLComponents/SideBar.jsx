@@ -42,7 +42,7 @@ function SideBar({ addNewBlock }) {
 
   return (
     // 사이드바와 사이드바 내 아이템들
-    <div className={classNames(isSidebarHidden ? "" : "bottom-0", "sideBar w-1/5 overflow-y-scroll space-y-2")}>
+    <div className={classNames(isSidebarHidden ? "rounded-bl-lg" : "bottom-0", "sideBar w-1/5 overflow-y-scroll space-y-2")}>
       <div className="relative flex flex-row justify-between">
         <button type="button" onClick={addNewBlock} className={buttonStyle}>
           블록 추가
@@ -63,17 +63,19 @@ function SideBar({ addNewBlock }) {
             <SideBarItem key={sideBarItem.id} data={sideBarItem} />
           ))}
         </div>
+        <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
         <div className={classNames("flex flex-row justify-between")}>
           <span>EDA / 전처리 기능</span>
           <button ref={isPreprocessHiddenRef} type="button" onClick={handleHidden} className={buttonStyle}>
             {isPreprocessHidden ? "보이기" : "숨기기"}
           </button>
         </div>
-        <div className={classNames(isPreprocessHidden ? "hidden" : "")}>
+        <div className={classNames(isPreprocessHidden ? "hidden" : "", "grid grid-cols-2 gap-1")}>
           {Object.values(ITEMS_PREPROCESS).map((sideBarItem, index) => (
             <SideBarItem key={sideBarItem.id} data={sideBarItem} />
           ))}
         </div>
+        <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
         <div className={classNames("flex flex-row justify-between")}>
           <span>모델 훈련 기능</span>
           <button ref={isTrainHiddenRef} type="button" onClick={handleHidden} className={buttonStyle}>
@@ -85,6 +87,7 @@ function SideBar({ addNewBlock }) {
             <SideBarItem key={sideBarItem.id} data={sideBarItem} />
           ))}
         </div>
+        <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
         <div className={classNames("flex flex-row justify-between")}>
           <span>모델 평가 기능</span>
           <button ref={isEvalHiddenRef} type="button" onClick={handleHidden} className={buttonStyle}>

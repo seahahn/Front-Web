@@ -3,17 +3,19 @@ import _ from "lodash";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
+import { equalsIgnoreOrder, colArrayToObjArray } from "MLComponents/CompoOptions/util";
 
-function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
-  // 옵션 상태 값 저장
-  const [options, setOptions] = useState({
+function Ordinal({ handleOptions, colObjArray, handleSteps, steps, step }) {
+  const initialOpts = {
     cols: null,
     drop_invariant: false,
     return_df: true,
     handle_unknown: "value",
     handle_missing: "value",
     mapping: null,
-  }); // 입력해야 할 파라미터 설정
+  };
+  // 옵션 상태 값 저장
+  const [options, setOptions] = useState(step && equalsIgnoreOrder(Object.keys(step), Object.keys(initialOpts)) ? step : initialOpts); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
     // cols: null,
@@ -24,19 +26,17 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
     mapping: null,
   };
 
-  const [selectedCols, setSelectedCols] = useState([]);
+  const [selectedCols, setSelectedCols] = useState(colArrayToObjArray(options.cols));
   const [mapping, setMapping] = useState({});
-  // console.log(options);
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
-    const mappingResult = mapping === "" ? [...Object.values(mapping)] : defaultVal.mapping;
-    console.log(mappingResult);
+    const mappingResult = mapping !== "" ? [...Object.values(mapping)] : defaultVal.mapping;
+
     steps.hasOwnProperty("encoders")
       ? handleSteps({ encoders: Object.assign(steps.encoders, { ordinal_encoder: { ...options, mapping: mappingResult } }) })
       : handleSteps({ encoders: Object.assign({}, { ordinal_encoder: { ...options, mapping: mappingResult } }) });
-    // setEncoders(Object.assign(encoders, { ordinal_encoder: { ...options, mapping: mappingResult } }));
-  }, [handleSteps, options]);
+  }, [handleSteps, mapping, options]);
 
   const colsRef = useRef();
   const dropInvariantRef = useRef();
@@ -55,16 +55,16 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
-    const { name, value, checked } = event.target;
-    // console.log(event.target);
-    if (event.target.type === "checkbox") {
+    const { name, value, checked, type } = event.target;
+    if (type === "checkbox") {
       setOptions({
         ...options,
         [name]: checked,
       });
-    } else if (event.target.type === "text") {
+    } else if (type === "text") {
       try {
         if (Object.keys(JSON.parse(value)).length === 0) {
+          console.log("value is empty");
           throw new Error("매핑 값을 입력해주세요.");
         }
         setMapping({ ...mapping, [name]: { col: name, mapping: JSON.parse(value.replace("None", null)) } });
@@ -86,12 +86,28 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
     }
   };
 
+  const mappingFilter = (array, target) => {
+    const result = array ? array.filter((elem) => elem.col === target)[0] : null;
+    if (result) {
+      return JSON.stringify(result.mapping);
+    }
+    return "";
+  };
+
   return (
     <div className="flex flex-col space-y-2 border border-blue-400 rounded-lg p-1">
       <h3>Ordinal Encoder</h3>
       <div className="flex flex-row space-x-2">
         <label className="self-center">대상 컬럼 선택</label>
-        <MultiSelect ref={colsRef} options={colObjArray} onChange={settingCols} className="flex-1" isMulti={true} closeMenuOnSelect={false} />
+        <MultiSelect
+          ref={colsRef}
+          options={colObjArray}
+          onChange={settingCols}
+          className="flex-1"
+          isMulti={true}
+          closeMenuOnSelect={false}
+          defaultValue={colArrayToObjArray(options.cols)}
+        />
       </div>
       <div className="flex flex-col space-y-2">
         {Object.values(selectedCols).map((col) => (
@@ -103,6 +119,7 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
               name={col.label}
               placeholder={'예시) {"None": 0, "a": 1, "b": 2, ...} / 미입력시 자동 지정'}
               onChange={handleChange}
+              defaultValue={mappingFilter(options.mapping, col.label)}
             />
           </div>
         ))}
@@ -114,21 +131,21 @@ function Ordinal({ handleOptions, handleSteps, colObjArray, steps }) {
       <div className="flex flex-row space-x-2">
         <Select
           name={"handle_unknown"}
-          value={options.handle_unknown}
           className="flex-1 self-center justify-self-stretch"
           options={handleOptions}
           ref={handleUnknownRef}
           text="handleUnknown"
           onChange={handleChange}
+          defaultValue={options.handle_unknown}
         />
         <Select
           name={"handle_missing"}
-          value={options.handle_missing}
           className="flex-1 self-center justify-self-stretch"
           options={handleOptions}
           ref={handleMissingRef}
           text="handleMissing"
           onChange={handleChange}
+          defaultValue={options.handle_missing}
         />
       </div>
     </div>
