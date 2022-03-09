@@ -68,4 +68,4 @@ function CountPlot({ formId, resultId, param, setParam }) {
   );
 }
 
-export default React.memo(CountPlot);
+export default CountPlot;

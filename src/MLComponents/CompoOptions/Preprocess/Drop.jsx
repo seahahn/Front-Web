@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { saveDf, showDataResult, getColumns } from "MLComponents/CompoOptions/util";
@@ -14,13 +14,6 @@ function Drop({ formId, resultId, param, setParam }) {
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
   const colObjArray = [...columns.map((column) => ({ label: column, value: column }))]; // MultiSelect에서 사용하는 객체 목록
-
-  // const [whichAxis, setWhichAxis] = useState(param.axis); // 어느 축에서 제거할지 선택
-  // const [params, setParams] = useState({
-  //   labels: [],
-  //   axis: 1,
-  //   errors: "raise",
-  // });
 
   // DOM 접근 위한 Ref
   const labelsColRef = useRef();

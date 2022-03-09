@@ -223,4 +223,4 @@ export const colArrayToObjArray = (cols) => {
 };
 
 // 테스트용 임시 모델 목록
-export const modelList = ["refac_test"];
+export const modelList = ["refac_test", "ahn_model"];

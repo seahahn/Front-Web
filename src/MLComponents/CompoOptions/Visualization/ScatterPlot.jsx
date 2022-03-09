@@ -47,4 +47,4 @@ function ScatterPlot({ formId, resultId, param, setParam }) {
   );
 }
 
-export default React.memo(ScatterPlot);
+export default ScatterPlot;

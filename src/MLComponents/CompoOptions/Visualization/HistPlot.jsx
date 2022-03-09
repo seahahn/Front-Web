@@ -44,4 +44,4 @@ function HistPlot({ formId, resultId, param, setParam }) {
   );
 }
 
-export default React.memo(HistPlot);
+export default HistPlot;

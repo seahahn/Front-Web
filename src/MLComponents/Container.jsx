@@ -20,11 +20,13 @@ const Toolbox = styled.div`
   z-index: 5;
   justify-content: center;
   width: 80%;
+  pointer-events: none;
   button {
     padding: 10px 5px;
     width: 5rem;
     font-size: 0.8em;
     border: 1px solid #ccc;
+    pointer-events: auto;
   }
   button:hover {
     color: #008cba;
@@ -76,7 +78,6 @@ const Container = () => {
   const updateProject = useCallback(async () => {
     // 기존 프로젝트 수정 시 사용할 함수
     setIsSaving(true); // 저장 시작
-    console.log(layoutRef.current);
     const projectData = {
       layout: layoutRef.current,
     };
@@ -84,7 +85,7 @@ const Container = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        console.log(layout);
+        console.log("project updated");
         setIsSaving(false); // 저장 완료
       })
       .catch((error) => {
