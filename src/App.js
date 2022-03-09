@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { useEffect, createContext } from "react";
 import Container from "./MLComponents/Container";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
@@ -9,6 +9,11 @@ const storage = window.sessionStorage; // 데이터프레임 저장을 위한 �
 export const AppContext = createContext({ dfd, storage });
 
 function App() {
+  window.onbeforeunload = (e) => {
+    // 창 닫기 또는 새로고침 시 경고 띄우기
+    e.preventDefault();
+    e.returnValue = "";
+  };
   return (
     <div className="App text-base md:text-sm sm:text-xs">
       <DndProvider backend={HTML5Backend}>

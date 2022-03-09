@@ -26,6 +26,13 @@ const initialData = {
               id: shortid.generate(),
               type: TRAIN,
               func: FUNCS_CODE.MakePipeline,
+              param: {
+                name: "", // input text
+                encoder: [], // MultiSelect
+                scaler: "None", // Select
+                model: "None", // Select
+                steps: {}, // 파이프라인 steps 파라미터 설정
+              },
             },
           ],
         },
@@ -37,6 +44,9 @@ const initialData = {
               id: shortid.generate(),
               type: EVAL,
               func: FUNCS_CODE.Predict,
+              param: {
+                name: "",
+              },
             },
           ],
         },

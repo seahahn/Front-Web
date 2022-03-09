@@ -10,8 +10,11 @@ export const MLTRAIN_URL = "http://localhost:8001/"; // ML-Train 서버 주소
 export const MLTRAIN_SUFFIX_MODEL = "model/"; // 모델 학습 기능 경로
 
 // UPM = User-Proj-Managing
+
 export const USER_IDX = 1;
-export const PROJ_IDX = 1;
+// export const PROJ_IDX = 777;
+export const PROJ_IDX = window.sessionStorage.getItem("aiplay_proj_idx");
+console.log(PROJ_IDX);
 export const UPM_URL = "http://localhost:3001/project/"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
 export const UPM_TARGET = `${USER_IDX}/${PROJ_IDX}`; // 사용자 및 프로젝트 고유 번호(프로젝트 불러오기, 수정, 삭제에 사용)
 
@@ -69,10 +72,13 @@ export const URLS_EVAL = {
 };
 
 // fetch API로 HTTP 통신하기 위한 설정
-export const httpConfig = (data = null, method = "POST") => ({
+export const httpConfig = (data = null, method = "POST", contentJson = false) => ({
   method: method,
   mode: CORS, // 'cors'
   body: data,
+  headers: {
+    "Content-Type": contentJson ? "application/json" : "text/plain;charset=UTF-8",
+  },
 });
 
 // 요청 대상 URL에 쿼리 파라미터를 추가하는 함수
