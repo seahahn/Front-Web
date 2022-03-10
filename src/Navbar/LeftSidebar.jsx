@@ -128,8 +128,8 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
         </Menu.Items>
       </Transition>
       <NewProject isOpened={isNewProjectOpened} setIsOpened={setIsNewProjectOpened} newProject={newProject} />
-      <ProjNameChange isOpened={isProjNameChangeOpened} setIsOpened={setIsProjNameChangeOpened} updateProjName={updateProjName} />
       <LoadProject isOpened={isLoadProjectOpened} setIsOpened={setIsLoadProjectOpened} initProject={initProject} deleteProject={deleteProject} />
+      <ProjNameChange isOpened={isProjNameChangeOpened} setIsOpened={setIsProjNameChangeOpened} updateProjName={updateProjName} />
     </Menu>
   );
 };

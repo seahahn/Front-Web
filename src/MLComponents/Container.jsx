@@ -57,26 +57,29 @@ const Container = () => {
   const layoutRef = useRef(layout);
 
   // 새 프로젝트 생성
-  const newProject = async (proj_name) => {
-    setIsLoading(true);
-    const projectData = {
-      user_idx: USER_IDX,
-      proj_name: proj_name,
-      layout: initialLayout,
-    };
-    const response = await fetch(UPM_URL, httpConfig(JSON.stringify(projectData), "POST", true));
-    const newProjIdx = await response.json();
-    console.log(newProjIdx);
+  const newProject = useCallback(
+    async (proj_name) => {
+      setIsLoading(true);
+      const projectData = {
+        user_idx: USER_IDX,
+        proj_name: proj_name,
+        layout: initialLayout,
+      };
+      const response = await fetch(UPM_URL, httpConfig(JSON.stringify(projectData), "POST", true));
+      const newProjIdx = await response.json();
+      console.log(newProjIdx);
 
-    window.sessionStorage.clear(); // 기존 프로젝트 데이터 삭제
-    window.localStorage.setItem("aiplay_proj_idx", newProjIdx); // 새로운 프로젝트 고유 번호 지정
-    setLayout(initialLayout);
-    setProjName(proj_name);
-    setIsLoading(false);
-  };
+      window.sessionStorage.clear(); // 기존 프로젝트 데이터 삭제
+      window.localStorage.setItem("aiplay_proj_idx", newProjIdx); // 새로운 프로젝트 고유 번호 지정
+      setLayout(initialLayout);
+      setProjName(proj_name);
+      setIsLoading(false);
+    },
+    [initialLayout]
+  );
 
   // 프로젝트 목록에서 수행 가능한 프로젝트 삭제 기능
-  const deleteProject = async (proj_idx) => {
+  const deleteProject = useCallback(async (proj_idx) => {
     if (window.confirm("정말로 삭제하시겠어요?")) {
       setIsLoading(true);
       const response = await fetch(UPM_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "DELETE"));
@@ -86,10 +89,10 @@ const Container = () => {
       return true;
     }
     return false;
-  };
+  }, []);
 
   // 프로젝트명 변경
-  const updateProjName = async (proj_name) => {
+  const updateProjName = useCallback(async (proj_name) => {
     setIsLoading(true);
     const projectData = {
       proj_name: proj_name,
@@ -99,7 +102,7 @@ const Container = () => {
     console.log(result);
     result === true && setProjName(proj_name);
     setIsLoading(false);
-  };
+  }, []);
 
   // 프로젝트 실행 시 프로젝트 구조 불러와서 적용하기
   const initProject = async (proj_idx) => {
@@ -157,7 +160,7 @@ const Container = () => {
         console.error(error);
         setIsLoading(false); // 저장 완료
       });
-  }, [layout]);
+  }, []);
 
   // 프로젝트 실행 시 초기 세팅
   useEffect(() => {

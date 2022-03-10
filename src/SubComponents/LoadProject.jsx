@@ -8,6 +8,8 @@ import { UPM_URL, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
 function LoadProject({ isOpened, setIsOpened, initProject, deleteProject }) {
   const projIdx = Number(window.localStorage.getItem("aiplay_proj_idx"));
 
+  const [projList, setProjList] = useState(null);
+
   const getProjList = async () => {
     const response = await fetch(UPM_URL + "/list/" + USER_IDX);
     const projList = await response.json();
@@ -15,12 +17,12 @@ function LoadProject({ isOpened, setIsOpened, initProject, deleteProject }) {
     setProjList(projList);
   };
 
+  // 프로젝트 목록 열 때마다 목록 갱신
   useEffect(() => {
     getProjList();
-  }, []);
+  }, [isOpened]);
 
   const [selectedProj, setSelectedProj] = useState(null);
-  const [projList, setProjList] = useState(null);
 
   const handleChange = (e) => {
     setSelectedProj(Number(e.target.value));
