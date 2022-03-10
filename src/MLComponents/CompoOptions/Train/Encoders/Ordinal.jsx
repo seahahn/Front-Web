@@ -26,12 +26,12 @@ function Ordinal({ handleOptions, colObjArray, handleSteps, steps, step }) {
     mapping: null,
   };
 
-  const [selectedCols, setSelectedCols] = useState(colArrayToObjArray(options.cols));
+  const [selectedCols, setSelectedCols] = useState(colArrayToObjArray(options.cols ? options.cols : []));
   const [mapping, setMapping] = useState({});
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
-    const mappingResult = mapping !== "" ? [...Object.values(mapping)] : defaultVal.mapping;
+    const mappingResult = mapping.length > 0 ? [...Object.values(mapping)] : defaultVal.mapping;
 
     steps.hasOwnProperty("encoders")
       ? handleSteps({ encoders: Object.assign(steps.encoders, { ordinal_encoder: { ...options, mapping: mappingResult } }) })
@@ -91,7 +91,7 @@ function Ordinal({ handleOptions, colObjArray, handleSteps, steps, step }) {
     if (result) {
       return JSON.stringify(result.mapping);
     }
-    return "";
+    return result;
   };
 
   return (

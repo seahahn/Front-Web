@@ -11,7 +11,7 @@ function Select({ options, optionText, name, value, id, text: labelText, onChang
           {options.map((option, index) => {
             return (
               <option
-                key={option + index}
+                key={option + "/" + index}
                 value={option === "처음" || option === "끝" ? "" : option}
                 // selected={defaultValue && defaultValue === option ? true : false}
               >

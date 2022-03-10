@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { inputStyle } from "MLComponents/componentStyle";
@@ -17,21 +17,6 @@ function ILocDf({ formId, resultId, param, setParam }) {
   const colFromArray = ["처음", ...columnIdxs];
   const colToArray = ["끝", ...columnIdxs];
   const colObjArray = [...columns.map((_, idx) => ({ label: String(idx), value: String(idx) }))]; // MultiSelect에서 사용하는 객체 목록
-
-  // 선택 : 불러올 인덱스 또는 컬럼을 개별 선택 / 범위 : 시작부터 종료까지의 범위 선택
-  // 선택을 하면 범위 지정 불가. 반대도 마찬가지.
-  // 인덱스는 선택, 컬럼은 범위 지정 가능. 반대도 마찬가지.
-  // const [params, setParams] = useState({
-  //   idx: "", // 선택 인덱스 목록(1, 2, 3, ...)
-  //   idx_from: "", // 범위 시작 인덱스
-  //   idx_to: "", // 범위 종료 인덱스
-  //   cols: "", // 선택 컬럼 목록(컬럼1, 컬럼2, ...)
-  //   col_from: "", // 범위 시작 컬럼
-  //   col_to: "", // 범위 종료 컬럼
-  // });
-
-  // const [isIdxRange, setIsIdxRange] = useState(false); // 인덱스 범위 지정 여부
-  // const [isColRange, setIsColRange] = useState(false); // 컬럼 범위 지정 여부
 
   // DOM 접근 위한 Ref
   const idxRef = useRef();
@@ -77,7 +62,6 @@ function ILocDf({ formId, resultId, param, setParam }) {
       col_from: param.isColRange ? param.col_from : "",
       col_to: param.isColRange ? param.col_to : "",
     }; // 입력해야 할 파라미터 설정
-    console.log(param);
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.ILocDf), paramResult);
     const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기
@@ -107,7 +91,7 @@ function ILocDf({ formId, resultId, param, setParam }) {
                 onChange={handleChange}
                 defaultValue={param.idx}
                 placeholder="예시) 1, 2, 3, ..."
-                pattern="/[0-9,]/gm"
+                pattern="[\d,\s]+"
               />
             </label>
           </div>

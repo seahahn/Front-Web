@@ -49,6 +49,7 @@ function Fit({ formId, resultId, param, setParam }) {
   return (
     <form id={formId} onSubmit={handleSubmit}>
       <Select
+        name="name"
         className="flex-1 self-center justify-self-stretch"
         options={modelList}
         text="모델 목록"

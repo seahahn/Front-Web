@@ -103,4 +103,4 @@ function ColConditionDf({ formId, resultId, param, setParam }) {
   );
 }
 
-export default React.memo(ColConditionDf);
+export default ColConditionDf;

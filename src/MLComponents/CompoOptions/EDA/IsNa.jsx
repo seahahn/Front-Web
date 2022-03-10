@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { showDataResult } from "MLComponents/CompoOptions/util";
@@ -8,8 +8,6 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
 function IsNa({ formId, resultId, param, setParam }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
-
-  // const [params, setParams] = useState({ sum: false });
 
   // 결측치 개수 합계 표시 여부 상태 값 저장
   const handleChange = (event) => {

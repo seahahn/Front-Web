@@ -1,4 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
+import React, { useState, useContext, useEffect } from "react";
 import classNames from "classnames";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -12,8 +13,15 @@ import {
   HiOutlineQuestionMarkCircle,
   HiOutlineHome,
 } from "react-icons/hi";
+import NewProject from "SubComponents/NewProject";
+import ProjNameChange from "SubComponents/ProjNameChange";
+import LoadProject from "SubComponents/LoadProject";
 
-export default function LeftSidebar({ saveProject, updateProject }) {
+const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, deleteProject }) => {
+  const [isNewProjectOpened, setIsNewProjectOpened] = useState(false);
+  const [isProjNameChangeOpened, setIsProjNameChangeOpened] = useState(false);
+  const [isLoadProjectOpened, setIsLoadProjectOpened] = useState(false);
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -38,7 +46,7 @@ export default function LeftSidebar({ saveProject, updateProject }) {
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={(e) => console.log(e)}
+                  onClick={() => setIsNewProjectOpened(true)}
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlinePlusCircle className="inline mx-2" /> 새 프로젝트
                 </div>
@@ -47,7 +55,7 @@ export default function LeftSidebar({ saveProject, updateProject }) {
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={(e) => console.log(e)}
+                  onClick={() => setIsLoadProjectOpened(true)}
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlineFolderOpen className="inline mx-2" />
                   프로젝트 열기
@@ -67,7 +75,7 @@ export default function LeftSidebar({ saveProject, updateProject }) {
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={(e) => console.log(e)}
+                  onClick={() => setIsProjNameChangeOpened(true)}
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlineIdentification className="inline mx-2" />
                   프로젝트명 변경
@@ -119,6 +127,11 @@ export default function LeftSidebar({ saveProject, updateProject }) {
           </div>
         </Menu.Items>
       </Transition>
+      <NewProject isOpened={isNewProjectOpened} setIsOpened={setIsNewProjectOpened} newProject={newProject} />
+      <LoadProject isOpened={isLoadProjectOpened} setIsOpened={setIsLoadProjectOpened} initProject={initProject} deleteProject={deleteProject} />
+      <ProjNameChange isOpened={isProjNameChangeOpened} setIsOpened={setIsProjNameChangeOpened} updateProjName={updateProjName} />
     </Menu>
   );
-}
+};
+
+export default React.memo(LeftSidebar);

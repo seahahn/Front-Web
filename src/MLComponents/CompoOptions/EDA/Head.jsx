@@ -9,9 +9,6 @@ function Head({ formId, resultId, param, setParam }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
-  // const [params, setParams] = useState({ line: 5 });
-  // const [params, setParams] = useState(param);
-
   // 숫자 입력 시 변화 감지하여 상태 값 변경
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -19,10 +16,6 @@ function Head({ formId, resultId, param, setParam }) {
       ...param,
       [name]: value,
     });
-    // setParams({
-    //   ...params,
-    //   [name]: value,
-    // });
   };
 
   // 백앤드로 데이터 전송
