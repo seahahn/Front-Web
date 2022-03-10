@@ -1,10 +1,19 @@
 import React from "react";
 import classNames from "classnames";
 import { inputStyle } from "MLComponents/componentStyle";
-import { USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
 
-function ProjNameChange({ isOpened, setIsOpened, projNameChange }) {
+function ProjNameChange({ isOpened, setIsOpened, updateProjName }) {
   const [newProjName, setNewProjName] = React.useState("");
+
+  const handleConfirm = () => {
+    if (newProjName) {
+      setIsOpened(false);
+      updateProjName(newProjName);
+      setNewProjName("");
+    } else {
+      alert("프로젝트명을 입력해주세요.");
+    }
+  };
 
   return (
     <div className={classNames(!isOpened && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
@@ -21,10 +30,7 @@ function ProjNameChange({ isOpened, setIsOpened, projNameChange }) {
         <div className="flex flex-row justify-around">
           <button
             type="button"
-            onClick={() => {
-              setIsOpened(false);
-              projNameChange(newProjName);
-            }}
+            onClick={handleConfirm}
             className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
             확인
           </button>

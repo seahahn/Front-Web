@@ -17,7 +17,7 @@ import NewProject from "SubComponents/NewProject";
 import ProjNameChange from "SubComponents/ProjNameChange";
 import LoadProject from "SubComponents/LoadProject";
 
-const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName }) => {
+const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, deleteProject }) => {
   const [isNewProjectOpened, setIsNewProjectOpened] = useState(false);
   const [isProjNameChangeOpened, setIsProjNameChangeOpened] = useState(false);
   const [isLoadProjectOpened, setIsLoadProjectOpened] = useState(false);
@@ -129,7 +129,7 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName })
       </Transition>
       <NewProject isOpened={isNewProjectOpened} setIsOpened={setIsNewProjectOpened} newProject={newProject} />
       <ProjNameChange isOpened={isProjNameChangeOpened} setIsOpened={setIsProjNameChangeOpened} updateProjName={updateProjName} />
-      <LoadProject isOpened={isLoadProjectOpened} setIsOpened={setIsLoadProjectOpened} initProject={initProject} />
+      <LoadProject isOpened={isLoadProjectOpened} setIsOpened={setIsLoadProjectOpened} initProject={initProject} deleteProject={deleteProject} />
     </Menu>
   );
 };

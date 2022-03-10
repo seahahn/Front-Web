@@ -12,7 +12,7 @@ import initialBlockForm from "MLComponents/initial-data-form"; // 새로운 블�
 import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "MLComponents/helpers";
 import styled from "styled-components";
 import { SIDEBAR_ITEM, COLUMN } from "MLComponents/constants";
-import { httpConfig, UPM_URL, UPM_TARGET, USER_IDX, PROJ_IDX } from "MLComponents/CompoOptions/networkConfigs";
+import { httpConfig, UPM_URL, UPM_TARGET, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
 import shortid from "shortid";
 
 const Toolbox = styled.div`
@@ -40,6 +40,9 @@ const Container = () => {
   const emptyLayout = emptyData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
   const initialLayout = initialData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
 
+  const projIdx = Number(window.localStorage.getItem("aiplay_proj_idx"));
+  console.log(projIdx);
+
   const [projName, setProjName] = useState("");
   const [layout, setLayout] = useState(emptyLayout);
   const [movingEnabled, setMovingEnabled] = useState(false); // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
@@ -53,6 +56,7 @@ const Container = () => {
    */
   const layoutRef = useRef(layout);
 
+  // 새 프로젝트 생성
   const newProject = async (proj_name) => {
     setIsLoading(true);
     const projectData = {
@@ -60,23 +64,37 @@ const Container = () => {
       proj_name: proj_name,
       layout: initialLayout,
     };
-    const response = await fetch(UPM_URL + "new", httpConfig(JSON.stringify(projectData), "POST", true));
+    const response = await fetch(UPM_URL, httpConfig(JSON.stringify(projectData), "POST", true));
     const newProjIdx = await response.json();
     console.log(newProjIdx);
 
     window.sessionStorage.clear(); // 기존 프로젝트 데이터 삭제
-    window.sessionStorage.setItem("aiplay_proj_idx", newProjIdx); // 새로운 프로젝트 고유 번호 지정
+    window.localStorage.setItem("aiplay_proj_idx", newProjIdx); // 새로운 프로젝트 고유 번호 지정
     setLayout(initialLayout);
     setProjName(proj_name);
     setIsLoading(false);
   };
 
+  // 프로젝트 목록에서 수행 가능한 프로젝트 삭제 기능
+  const deleteProject = async (proj_idx) => {
+    if (window.confirm("정말로 삭제하시겠어요?")) {
+      setIsLoading(true);
+      const response = await fetch(UPM_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "DELETE"));
+      const result = await response.json();
+      console.log(result);
+      setIsLoading(false);
+      return true;
+    }
+    return false;
+  };
+
+  // 프로젝트명 변경
   const updateProjName = async (proj_name) => {
     setIsLoading(true);
     const projectData = {
       proj_name: proj_name,
     };
-    const response = await fetch(UPM_URL + "name/" + UPM_TARGET, httpConfig(JSON.stringify(projectData), "PUT", true));
+    const response = await fetch(UPM_URL + "/name" + UPM_TARGET, httpConfig(JSON.stringify(projectData), "PUT", true));
     const result = await response.json();
     console.log(result);
     result === true && setProjName(proj_name);
@@ -84,41 +102,43 @@ const Container = () => {
   };
 
   // 프로젝트 실행 시 프로젝트 구조 불러와서 적용하기
-  const initProject = async (proj_idx, proj_name = null) => {
+  const initProject = async (proj_idx) => {
+    console.log(proj_idx);
     // 사용자 번호와 프로젝트 번호를 통해 프로젝트 구조 불러오기
-    const response = await fetch(UPM_URL + `${USER_IDX}/${proj_idx}`, httpConfig(null, "GET"));
+    const response = await fetch(UPM_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "GET"));
     // 기존 프로젝트라면 불러오고, 새로운 프로젝트라면 새로운 프로젝트 데이터 생성
     if (response.ok) {
       const data = await response.json();
       console.log(data);
+      window.localStorage.setItem("aiplay_proj_idx", proj_idx);
       setLayout(data.layout);
       setProjName(data.proj_name);
     } else {
-      saveProject(proj_idx, proj_name);
+      console.log("initProject error");
+      // saveProject(proj_idx, proj_name);
     }
-    window.sessionStorage.setItem("aiplay_proj_idx", proj_idx);
   };
 
   // 새 프로젝트 생성 시 사용할 함수 -> newProject에게 역할 빼앗김
-  const saveProject = useCallback(
-    async (proj_idx, proj_name) => {
-      setLayout(initialLayout);
-      setProjName(proj_name);
-      const projectData = {
-        user_idx: USER_IDX,
-        proj_idx: proj_idx,
-        proj_name: proj_name ? proj_name : "untitled",
-        layout: initialLayout,
-      };
-      await fetch(UPM_URL, httpConfig(JSON.stringify(projectData), "POST", true))
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => console.error(error));
-    },
-    [initialLayout]
-  );
+  // const saveProject = useCallback(
+  //   async (proj_idx, proj_name) => {
+  //     setLayout(initialLayout);
+  //     setProjName(proj_name);
+  //     const projectData = {
+  //       user_idx: USER_IDX,
+  //       proj_idx: proj_idx,
+  //       proj_name: proj_name ? proj_name : "untitled",
+  //       layout: initialLayout,
+  //     };
+  //     await fetch(UPM_URL, httpConfig(JSON.stringify(projectData), "POST", true))
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //       })
+  //       .catch((error) => console.error(error));
+  //   },
+  //   [initialLayout]
+  // );
 
   const updateProject = useCallback(async () => {
     // 기존 프로젝트 수정 시 사용할 함수
@@ -142,8 +162,8 @@ const Container = () => {
   // 프로젝트 실행 시 초기 세팅
   useEffect(() => {
     console.log("initProject");
-    initProject(PROJ_IDX);
-  }, []);
+    initProject(projIdx);
+  }, [projIdx]);
 
   useEffect(() => {
     // layout 데이터 변경 시 저장
@@ -274,6 +294,7 @@ const Container = () => {
         updateProject={updateProject}
         newProject={newProject}
         updateProjName={updateProjName}
+        deleteProject={deleteProject}
       />
       <div className="flex flex-row h-full mt-16">
         <div className="flex flex-col bg-slate-700">
@@ -318,12 +339,6 @@ const Container = () => {
                         );
                       })}
                     </LayoutContext.Provider>
-                    {/* layout.length === 0 이면 새로운 블록 추가 요청 메시지 보이기 */}
-                    {layout.length === 0 ? (
-                      <div className="fixed top-0 bottom-0 left-0 right-0 text-5xl text-cyan-200 flex justify-center items-center">
-                        <h1>블록을 추가해주세요!</h1>
-                      </div>
-                    ) : null}
                     {/* column 다 추가하고 나면 마지막으로 맨 오른쪽에 TrashDropZone 추가 */}
                     <TrashDropZone data={{ layout }} onDrop={handleDropToTrashBin} />
                   </div>
@@ -332,10 +347,17 @@ const Container = () => {
             )}
           </TransformWrapper>
         </div>
+        {/* layout.length === 0 이면 새로운 블록 추가 요청 메시지 보이기 */}
+        {layout.length === 0 ? (
+          <div className="fixed inset-0 w-4/5 text-5xl text-cyan-200 flex justify-center items-center">
+            <h1>블록을 추가해주세요!</h1>
+          </div>
+        ) : null}
         {/* 사이드바와 사이드바 내 아이템들 */}
         <SideBar addNewBlock={addNewBlock} />
       </div>
-      <div className={classNames(!isLoading && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
+      {/* 데이터 저장, 불러오기 등 진행 시 로딩 애니메이션 출력 */}
+      <div className={classNames(!isLoading && "hidden", "fixed inset-0 z-50 flex justify-center items-center")}>
         <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
         <LoadingSpin />
       </div>

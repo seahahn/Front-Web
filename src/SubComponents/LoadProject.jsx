@@ -1,19 +1,18 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
+import _ from "lodash";
 import { Radio } from "MLComponents/CompoOptions/CompoPiece";
 import { inputStyle } from "MLComponents/componentStyle";
 import { UPM_URL, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
 
-function LoadProject({ isOpened, setIsOpened, initProject }) {
+function LoadProject({ isOpened, setIsOpened, initProject, deleteProject }) {
+  const projIdx = Number(window.localStorage.getItem("aiplay_proj_idx"));
+
   const getProjList = async () => {
-    const response = await fetch(UPM_URL + "list/" + USER_IDX);
+    const response = await fetch(UPM_URL + "/list/" + USER_IDX);
     const projList = await response.json();
-    // console.log(projList);
+    console.log(projList);
     setProjList(projList);
-    // const proj_idxs = projList.map((proj) => proj.idx);
-    // const proj_names = projList.map((proj) => proj.proj_name);
-    // console.log(proj_idxs);
-    // console.log(proj_names);
   };
 
   useEffect(() => {
@@ -22,31 +21,47 @@ function LoadProject({ isOpened, setIsOpened, initProject }) {
 
   const [selectedProj, setSelectedProj] = useState(null);
   const [projList, setProjList] = useState(null);
-  console.log(projList);
 
   const handleChange = (e) => {
-    setSelectedProj(e.target.value);
+    setSelectedProj(Number(e.target.value));
+  };
+
+  const handleDelete = (e) => {
+    const value = Number(e.target.value);
+    const result = deleteProject(value);
+    if (result) {
+      setProjList(_.remove(projList, (proj) => proj.idx !== value));
+      value === selectedProj && setSelectedProj(null);
+    }
+  };
+
+  const handleConfirm = () => {
+    if (selectedProj) {
+      setIsOpened(false);
+      initProject(selectedProj);
+    } else {
+      alert("프로젝트를 선택해주세요.");
+    }
   };
 
   return (
     <div className={classNames(!isOpened && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <div className="absolute w-2/5 min-h-2/5 bg-white border-2 rounded-lg flex flex-col justify-around divide-solid">
+      <div className="absolute w-2/5 min-h-2/5 bg-white border-2 rounded-lg flex flex-col justify-around divide-solid p-2">
         <h3 className="text-xl p-2">프로젝트 목록</h3>
         <Radio
-          options={projList && projList.map((proj) => proj.idx)}
-          optionText={projList && projList.map((proj) => proj.proj_name)}
+          options={projList ? projList.map((proj) => proj.idx) : []}
+          optionText={projList ? projList.map((proj) => proj.proj_name) : null}
           group="projList"
-          className="flex flex-col space-y-2 p-2"
+          className="flex flex-col space-y-2 px-2 py-4"
           handleChange={handleChange}
+          handleDelete={handleDelete}
+          disabledTarget={projIdx}
         />
         <div className="flex flex-row justify-around">
           <button
             type="button"
-            onClick={() => {
-              setIsOpened(false);
-              initProject(selectedProj);
-            }}
+            onClick={handleConfirm}
             className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
             확인
           </button>

@@ -6,8 +6,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import LeftSidebar from "./LeftSidebar";
 
-function Navbar({ projName, isLoading, initProject, updateProject, newProject, projNameChange: updateProjName }) {
-  console.log(projName);
+function Navbar({ projName, isLoading, initProject, updateProject, newProject, updateProjName, deleteProject }) {
   const lastSavingTime = useMemo(() => {
     return isLoading ? "저장 중..." : `마지막 저장 시점 : ${new Date().toLocaleString()}`;
   }, [isLoading]);
@@ -18,7 +17,13 @@ function Navbar({ projName, isLoading, initProject, updateProject, newProject, p
         <div className="relative flex items-center justify-between h-16">
           {/* 좌측 메뉴 */}
           <div className="flex-1 flex items-center leading-normal space-x-4 sm:items-stretch sm:justify-start">
-            <LeftSidebar initProject={initProject} updateProject={updateProject} newProject={newProject} updateProjName={updateProjName} />
+            <LeftSidebar
+              initProject={initProject}
+              updateProject={updateProject}
+              newProject={newProject}
+              updateProjName={updateProjName}
+              deleteProject={deleteProject}
+            />
             <div className="flex items-center leading-normal space-x-4">
               <div className="text-gray-300 text-lg font-medium">{projName ? projName : "untitled"}</div>
               <div className="text-gray-300 text-sm font-medium">{lastSavingTime}</div>
