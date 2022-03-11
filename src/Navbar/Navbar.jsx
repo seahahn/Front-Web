@@ -1,12 +1,15 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import classNames from "classnames";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import LeftSidebar from "./LeftSidebar";
+import ServiceUsage from "SubComponents/ServiceUsage";
 
 function Navbar({ projName, isLoading, initProject, updateProject, newProject, updateProjName, deleteProject }) {
+  const [isServiceUsageOpened, setIsServiceUsageOpened] = useState(false);
+
   const lastSavingTime = useMemo(() => {
     return isLoading ? "저장 중..." : `마지막 저장 시점 : ${new Date().toLocaleString()}`;
   }, [isLoading]);
@@ -63,16 +66,21 @@ function Navbar({ projName, isLoading, initProject, updateProject, newProject, u
                 <Menu.Items className="z-50 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <Menu.Item>
                     {({ active }) => (
-                      <a href="https://www.naver.com" className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
-                        프로필 설정
-                      </a>
+                      <div className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>프로필 설정</div>
                     )}
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <a href="https://www.google.com" className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
-                        로그아웃
-                      </a>
+                      <div
+                        onClick={() => setIsServiceUsageOpened(true)}
+                        className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>
+                        서비스 사용 현황
+                      </div>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <div className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>로그아웃</div>
                     )}
                   </Menu.Item>
                 </Menu.Items>
@@ -81,6 +89,7 @@ function Navbar({ projName, isLoading, initProject, updateProject, newProject, u
           </div>
         </div>
       </div>
+      <ServiceUsage isOpen={isServiceUsageOpened} setIsOpen={setIsServiceUsageOpened} />
     </Disclosure>
   );
 }

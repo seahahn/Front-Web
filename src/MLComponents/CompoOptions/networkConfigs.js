@@ -11,11 +11,13 @@ export const MLTRAIN_SUFFIX_MODEL = "model/"; // 모델 학습 기능 경로
 
 // UPM = User-Proj-Managing
 
+export const MODEL_KEY_PREFIX = "model/";
 export const USER_IDX = 1;
 // export const PROJ_IDX = 777;
 export const PROJ_IDX = Number(window.localStorage.getItem("aiplay_proj_idx"));
 console.log(PROJ_IDX);
-export const UPM_URL = "http://localhost:3001/project"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
+export const UPM_PROJ_URL = "http://localhost:3001/project"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
+export const UPM_MODEL_URL = "http://localhost:3001/model"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
 export const UPM_TARGET = `/${USER_IDX}/${PROJ_IDX}`; // 사용자 및 프로젝트 고유 번호(프로젝트 불러오기, 수정, 삭제에 사용)
 
 // EDA, 전처리 기능 각각의 최종 URL 경로

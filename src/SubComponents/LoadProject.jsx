@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import classNames from "classnames";
 import _ from "lodash";
+import { ContainerContext } from "MLComponents/Container";
 import { Radio } from "MLComponents/CompoOptions/CompoPiece";
 import { inputStyle } from "MLComponents/componentStyle";
-import { UPM_URL, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
+import { httpConfig, UPM_PROJ_URL, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
+import { getProjList } from "MLComponents/CompoOptions/util";
 
 function LoadProject({ isOpened, setIsOpened, initProject, deleteProject }) {
   const projIdx = Number(window.localStorage.getItem("aiplay_proj_idx"));
+  const { projListRef, isLoading } = useContext(ContainerContext);
 
   const [projList, setProjList] = useState(null);
 
-  const getProjList = async () => {
-    const response = await fetch(UPM_URL + "/list/" + USER_IDX);
-    const projList = await response.json();
-    console.log(projList);
-    setProjList(projList);
-  };
+  // const getProjList = async () => {
+  //   const response = await fetch(UPM_PROJ_URL + "/list/" + USER_IDX, httpConfig(null, "GET"));
+  //   const projList = await response.json();
+  //   // console.log(projList);
+  //   setProjList(projList);
+  // };
 
   // 프로젝트 목록 열 때마다 목록 갱신
   useEffect(() => {
-    getProjList();
-  }, [isOpened]);
+    getProjList(USER_IDX, projListRef).then((result) => setProjList(result));
+  }, [isLoading, projListRef]);
 
   const [selectedProj, setSelectedProj] = useState(null);
 
@@ -32,7 +35,8 @@ function LoadProject({ isOpened, setIsOpened, initProject, deleteProject }) {
     const value = Number(e.target.value);
     const result = deleteProject(value);
     if (result) {
-      setProjList(_.remove(projList, (proj) => proj.idx !== value));
+      projListRef.current = _.remove(projListRef.current, (proj) => proj.idx !== value);
+      // setProjList(_.remove(projList, (proj) => proj.idx !== value));
       value === selectedProj && setSelectedProj(null);
     }
   };

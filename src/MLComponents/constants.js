@@ -409,8 +409,8 @@ export const ITEMS_TRAIN = [
     param: {
       name: "", // input text
       encoder: [], // MultiSelect
-      scaler: "None", // Select
-      model: "None", // Select
+      scaler: "", // Select
+      model: "", // Select
       steps: {}, // 파이프라인 steps 파라미터 설정
     },
   },
