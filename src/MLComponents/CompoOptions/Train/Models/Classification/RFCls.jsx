@@ -26,7 +26,7 @@ function RFCls({ step, handleSteps }) {
     min_weight_fraction_leaf: 0.0, // float, default=0.0
     min_impurity_decrease: 0.0, // float, default=0.0
     ccp_alpha: 0.0, // non-negative float, default=0.0
-    n_jobs: -1, // int, default=None
+    n_jobs: 1, // int, default=None
     bootstrap: true, // bool, default=True
     oob_score: false, // bool, default=False
     warm_start: false, // bool, default=False
@@ -49,7 +49,7 @@ function RFCls({ step, handleSteps }) {
     min_weight_fraction_leaf: 0.0, // float, default=0.0
     min_impurity_decrease: 0.0, // float, default=0.0
     ccp_alpha: 0.0, // non-negative float, default=0.0
-    n_jobs: -1, // int, default=None
+    n_jobs: 1, // int, default=None
     // bootstrap: true, // bool, default=True
     // oob_score: false, // bool, default=False
     // warm_start: false, // bool, default=False
@@ -229,15 +229,7 @@ function RFCls({ step, handleSteps }) {
           defaultValue={options.ccp_alpha}
         />
         <label>n_jobs :</label>
-        <input
-          className={inputStyle}
-          type="number"
-          min={1}
-          placeholder={"미입력시 -1(최대 자원 사용)"}
-          onChange={handleChange}
-          name="n_jobs"
-          defaultValue={options.n_jobs}
-        />
+        <input className={inputStyle} type="number" min={1} placeholder={"기본값 1"} onChange={handleChange} name="n_jobs" defaultValue={options.n_jobs} />
         <label>random_state :</label>
         <input
           className={inputStyle}

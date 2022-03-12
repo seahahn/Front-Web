@@ -8,13 +8,13 @@ import { convertNumParams, equalsIgnoreOrder } from "MLComponents/CompoOptions/u
  * Decision Tree Regressor
  */
 function DTReg({ step, handleSteps }) {
-  const solver = ["squared_error", "friedman_mse", "absolute_error", "poisson"];
+  const criterion = ["squared_error", "friedman_mse", "absolute_error", "poisson"];
   const splitter = ["best", "random"];
   const maxFeatures = [null, "auto", "sqrt", "log2"];
   const maxFeaturesText = ["None", "auto", "sqrt", "log2"];
 
   const initialOpts = {
-    solver: "squared_error", // {“squared_error”, “friedman_mse”, “absolute_error”, “poisson”}, default=”squared_error”
+    criterion: "squared_error", // {“squared_error”, “friedman_mse”, “absolute_error”, “poisson”}, default=”squared_error”
     splitter: "best", // {“best”, “random”}, default=”best”
     max_features: null, // int, float or {“auto”, “sqrt”, “log2”}, default=None
     max_depth: null, // int, default=None
@@ -31,7 +31,7 @@ function DTReg({ step, handleSteps }) {
   const [options, setOptions] = useState(step && equalsIgnoreOrder(Object.keys(step), Object.keys(initialOpts)) ? step : initialOpts); // 입력해야 할 파라미터 설정
 
   const defaultVal = {
-    // solver: "squared_error", // {“squared_error”, “friedman_mse”, “absolute_error”, “poisson”}, default=”squared_error”
+    // criterion: "squared_error", // {“squared_error”, “friedman_mse”, “absolute_error”, “poisson”}, default=”squared_error”
     // splitter: "best", // {“best”, “random”}, default=”best”
     // max_features: null, // int, float or {“auto”, “sqrt”, “log2”}, default=None
     max_depth: null, // int, default=None
@@ -68,11 +68,11 @@ function DTReg({ step, handleSteps }) {
       <div className="flex flex-row space-x-2">
         <Select
           className="flex-1 self-center justify-self-stretch"
-          options={solver}
-          text="solver"
+          options={criterion}
+          text="criterion"
           onChange={handleChange}
-          name="solver"
-          defaultValue={options.solver}
+          name="criterion"
+          defaultValue={options.criterion}
         />
         <Select
           className="flex-1 self-center justify-self-stretch"

@@ -1,8 +1,18 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import _ from "lodash";
-import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import {
+  targetURL,
+  MLTRAIN_URL,
+  MLTRAIN_SUFFIX_MODEL,
+  URLS_TRAIN,
+  httpConfig,
+  MODEL_KEY_PREFIX,
+  USER_IDX,
+  UPM_MODEL_URL,
+} from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
-import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
+import { ContainerContext } from "MLComponents/Container";
+import { showDataResult, getColumns, getModelList } from "MLComponents/CompoOptions/util";
 import { ENCODERS_MAPPING, MODELS_MAPPING, SCALERS_MAPPING } from "MLComponents/constants";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
@@ -14,6 +24,7 @@ import Model from "./Models/Model";
 
 function MakePipeline({ formId, resultId, param, setParam }) {
   const { dfd } = useContext(AppContext);
+  const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
@@ -54,7 +65,7 @@ function MakePipeline({ formId, resultId, param, setParam }) {
     const { name, value } = event.target;
     setParam({
       ...param,
-      [name]: value,
+      [name]: value === "None" ? "" : value,
     });
 
     // 스케일러 혹은 모델 미선택 시 steps에서 제거
@@ -73,25 +84,36 @@ function MakePipeline({ formId, resultId, param, setParam }) {
       nameRef.current.focus();
       return;
     }
-    if (param.encoder.length === 0 && param.scaler === "None" && param.model === "None") {
+    if (param.encoder.length === 0 && param.scaler === "" && param.model === "") {
       // 인코더, 스케일러, 모델 모두 선택 안 했을 시 경고 메시지 띄우기
       document.getElementById(resultId).innerHTML = '<span style="color: red;">인코더, 스케일러, 모델 중 최소 한 가지는 선택해주세요!</span>';
       return;
     }
-
+    const modelName = param.name.replace(" ", "_");
     const paramResult = {
       ...param,
-      name: param.name.replace(" ", "_"),
+      name: modelName,
       encoder: [...param.encoder.map((enc) => enc.value)],
-      key: "test",
+      key: MODEL_KEY_PREFIX + USER_IDX,
     }; // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.MakePipeline), paramResult);
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(steps)))
       .then((response) => response.json())
-      .then((data) => {
-        showDataResult(dfd, data, resultId);
+      .then(async (data) => {
+        console.log(data);
+        if (data.result) {
+          const modelData = {
+            user_idx: USER_IDX,
+            model_name: modelName,
+          };
+          const response = await fetch(UPM_MODEL_URL, httpConfig(JSON.stringify(modelData), "POST", true));
+          const freshModelList = await response.json();
+          console.log(freshModelList);
+          showDataResult(dfd, data.message, resultId);
+          modelListRef.current = freshModelList; // 모델 목록 최신화
+        }
       })
       .catch((error) => console.error(error));
   };

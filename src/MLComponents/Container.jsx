@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef, createContext } from "react";
-import LoadingSpin from "react-loading-spin";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import shortid from "shortid";
 import classNames from "classnames";
+import styled from "styled-components";
+import LoadingSpin from "react-loading-spin";
 import Navbar from "Navbar/Navbar";
 import TrashDropZone from "MLComponents/TrashDropZone";
 import SideBar from "MLComponents/SideBar";
@@ -10,10 +12,8 @@ import emptyData from "MLComponents/initial-data"; // COLUMN-ROW-COMPONENT
 import initialData from "MLComponents/initial-data-test"; // COLUMN-ROW-COMPONENT
 import initialBlockForm from "MLComponents/initial-data-form"; // 새로운 블록 생성 폼
 import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "MLComponents/helpers";
-import styled from "styled-components";
 import { SIDEBAR_ITEM, COLUMN } from "MLComponents/constants";
-import { httpConfig, UPM_URL, UPM_TARGET, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
-import shortid from "shortid";
+import { httpConfig, UPM_PROJ_URL, UPM_TARGET, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
 
 const Toolbox = styled.div`
   display: flex;
@@ -34,6 +34,7 @@ const Toolbox = styled.div`
   }
 `;
 
+export const ContainerContext = createContext(); // Navbar 및 MLComponents 모두에 사용되는 변수를 전달하기 위한 컨텍스트
 export const LayoutContext = createContext(); // 전체 프로젝트 구조(layout)를 개별 컴포넌트에 전달하기 위한 컨텍스트
 
 const Container = () => {
@@ -48,6 +49,10 @@ const Container = () => {
   const [movingEnabled, setMovingEnabled] = useState(false); // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
   const [isLoading, setIsLoading] = useState(false); // 저장 중 상태
 
+  const handleLoading = (input) => {
+    setIsLoading(input);
+  };
+
   /**
    * 프로젝트 구조 저장을 하기 위한 레퍼런스.
    * layout state를 사용할 경우, 사소한 개별 옵션 값 변경에도 과도한 rerender 발생함.
@@ -55,6 +60,11 @@ const Container = () => {
    * 따라서 별도로 layout 데이터를 저장할 ref를 생성하여 rerender를 방지하였음.
    */
   const layoutRef = useRef(layout);
+
+  // 사용자 프로젝트 목록을 담아둘 레퍼런스
+  const projListRef = useRef();
+  // 사용자 모델 목록을 담아둘 레퍼런스
+  const modelListRef = useRef();
 
   // 새 프로젝트 생성
   const newProject = useCallback(
@@ -65,7 +75,7 @@ const Container = () => {
         proj_name: proj_name,
         layout: initialLayout,
       };
-      const response = await fetch(UPM_URL, httpConfig(JSON.stringify(projectData), "POST", true));
+      const response = await fetch(UPM_PROJ_URL, httpConfig(JSON.stringify(projectData), "POST", true));
       const newProjIdx = await response.json();
       console.log(newProjIdx);
 
@@ -82,7 +92,7 @@ const Container = () => {
   const deleteProject = useCallback(async (proj_idx) => {
     if (window.confirm("정말로 삭제하시겠어요?")) {
       setIsLoading(true);
-      const response = await fetch(UPM_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "DELETE"));
+      const response = await fetch(UPM_PROJ_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "DELETE"));
       const result = await response.json();
       console.log(result);
       setIsLoading(false);
@@ -97,7 +107,7 @@ const Container = () => {
     const projectData = {
       proj_name: proj_name,
     };
-    const response = await fetch(UPM_URL + "/name" + UPM_TARGET, httpConfig(JSON.stringify(projectData), "PUT", true));
+    const response = await fetch(UPM_PROJ_URL + "/name" + UPM_TARGET, httpConfig(JSON.stringify(projectData), "PUT", true));
     const result = await response.json();
     console.log(result);
     result === true && setProjName(proj_name);
@@ -108,7 +118,7 @@ const Container = () => {
   const initProject = async (proj_idx) => {
     console.log(proj_idx);
     // 사용자 번호와 프로젝트 번호를 통해 프로젝트 구조 불러오기
-    const response = await fetch(UPM_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "GET"));
+    const response = await fetch(UPM_PROJ_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "GET"));
     // 기존 프로젝트라면 불러오고, 새로운 프로젝트라면 새로운 프로젝트 데이터 생성
     if (response.ok) {
       const data = await response.json();
@@ -122,34 +132,13 @@ const Container = () => {
     }
   };
 
-  // 새 프로젝트 생성 시 사용할 함수 -> newProject에게 역할 빼앗김
-  // const saveProject = useCallback(
-  //   async (proj_idx, proj_name) => {
-  //     setLayout(initialLayout);
-  //     setProjName(proj_name);
-  //     const projectData = {
-  //       user_idx: USER_IDX,
-  //       proj_idx: proj_idx,
-  //       proj_name: proj_name ? proj_name : "untitled",
-  //       layout: initialLayout,
-  //     };
-  //     await fetch(UPM_URL, httpConfig(JSON.stringify(projectData), "POST", true))
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log(data);
-  //       })
-  //       .catch((error) => console.error(error));
-  //   },
-  //   [initialLayout]
-  // );
-
   const updateProject = useCallback(async () => {
     // 기존 프로젝트 수정 시 사용할 함수
     setIsLoading(true); // 저장 시작
     const projectData = {
       layout: layoutRef.current,
     };
-    await fetch(UPM_URL + UPM_TARGET, httpConfig(JSON.stringify(projectData), "PUT", true))
+    await fetch(UPM_PROJ_URL + UPM_TARGET, httpConfig(JSON.stringify(projectData), "PUT", true))
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -166,6 +155,7 @@ const Container = () => {
   useEffect(() => {
     console.log("initProject");
     initProject(projIdx);
+    // getModelList(USER_IDX, modelListRef);
   }, [projIdx]);
 
   useEffect(() => {
@@ -289,7 +279,7 @@ const Container = () => {
   );
 
   return (
-    <React.Fragment>
+    <ContainerContext.Provider value={{ modelListRef, projListRef, handleLoading, isLoading }}>
       <Navbar
         projName={projName}
         isLoading={isLoading}
@@ -364,7 +354,7 @@ const Container = () => {
         <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
         <LoadingSpin />
       </div>
-    </React.Fragment>
+    </ContainerContext.Provider>
   );
 };
 export default React.memo(Container);

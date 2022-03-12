@@ -26,7 +26,7 @@ function Logistic({ step, handleSteps }) {
     intercept_scaling: 1.0, // float, default=1
     max_iter: 100, // int, default=100
     l1_ratio: null, // float, default=None
-    n_jobs: -1, // int, default=None
+    n_jobs: 1, // int, default=None
     random_state: null, // int, RandomState instance, default=None
     // verbose: 0, // int, default=0
   };
@@ -46,7 +46,7 @@ function Logistic({ step, handleSteps }) {
     intercept_scaling: 1.0, // float, default=1
     max_iter: 100, // int, default=100
     l1_ratio: null, // float, default=None
-    n_jobs: -1, // int, default=None
+    n_jobs: 1, // int, default=None
     random_state: null, // int, RandomState instance, default=None
     // verbose: 0, // int, default=0
   }; // 초기값 저장하여 input 미입력 시 기본값 넣기
@@ -187,15 +187,7 @@ function Logistic({ step, handleSteps }) {
           defaultValue={options.l1_ratio}
         />
         <label>n_jobs :</label>
-        <input
-          className={inputStyle}
-          type="number"
-          min={1}
-          placeholder={"미입력시 -1(최대 자원 사용)"}
-          onChange={handleChange}
-          name={"n_jobs"}
-          defaultValue={options.n_jobs}
-        />
+        <input className={inputStyle} type="number" min={1} placeholder={"기본값 1"} onChange={handleChange} name={"n_jobs"} defaultValue={options.n_jobs} />
         <label>random_state :</label>
         <input
           className={inputStyle}

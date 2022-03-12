@@ -7,7 +7,7 @@ function Linear({ step, handleSteps }) {
   const initialOpts = {
     fit_intercept: true,
     copy_X: true,
-    n_jobs: -1,
+    n_jobs: 1,
     positive: false,
   };
   // 옵션 상태 값 저장
@@ -16,7 +16,7 @@ function Linear({ step, handleSteps }) {
   const defaultVal = {
     // fit_intercept: true,
     // copy_X: true,
-    n_jobs: -1,
+    n_jobs: 1,
     // positive: false,
   };
 
@@ -48,15 +48,7 @@ function Linear({ step, handleSteps }) {
       </div>
       <label>
         n_jobs :
-        <input
-          className={inputStyle}
-          type="number"
-          min={1}
-          placeholder={"미입력시 -1(최대 자원 사용)"}
-          onChange={handleChange}
-          name={"n_jobs"}
-          defaultValue={options.n_jobs}
-        />
+        <input className={inputStyle} type="number" min={1} placeholder={"기본값 1"} onChange={handleChange} name={"n_jobs"} defaultValue={options.n_jobs} />
       </label>
     </div>
   );

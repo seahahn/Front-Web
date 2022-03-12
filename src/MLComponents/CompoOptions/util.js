@@ -7,6 +7,8 @@ import {
   URLS_PREPROCESS,
   URLS_TRAIN,
   httpConfig,
+  UPM_PROJ_URL,
+  UPM_MODEL_URL,
 } from "MLComponents/CompoOptions/networkConfigs";
 import { NUM_PARAMS } from "MLComponents/constants";
 import { funcResultConfig, funcResultLayout } from "MLComponents/CompoOptions/funcResultConfigs";
@@ -222,5 +224,21 @@ export const colArrayToObjArray = (cols) => {
   return objArray;
 };
 
+export const getProjList = async (userIdx, ref) => {
+  const response = await fetch(UPM_PROJ_URL + "/list/" + userIdx, httpConfig(null, "GET"));
+  const projList = await response.json();
+  ref.current = projList;
+  return projList;
+  // console.log(ref.current);
+};
+
 // 테스트용 임시 모델 목록
 export const modelList = ["refac_test", "ahn_model"];
+
+export const getModelList = async (userIdx, ref) => {
+  const response = await fetch(UPM_MODEL_URL + "/list/" + userIdx, httpConfig(null, "GET"));
+  const modelList = await response.json();
+  ref.current = modelList;
+  // console.log(ref.current);
+  return modelList;
+};
