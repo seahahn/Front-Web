@@ -65,6 +65,7 @@ export const URLS_TRAIN = {
   Fit: "fit",
   Transform: "transform",
   ModelSteps: "steps",
+  ModelStepsDetail: "steps_detail",
 };
 
 export const URLS_EVAL = {
@@ -80,6 +81,7 @@ export const httpConfig = (data = null, method = "POST", contentJson = false) =>
   body: data,
   headers: {
     "Content-Type": contentJson ? "application/json" : "text/plain;charset=UTF-8",
+    "User-Id": USER_IDX,
   },
 });
 

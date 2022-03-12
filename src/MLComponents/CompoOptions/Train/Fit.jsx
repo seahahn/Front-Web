@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import _ from "lodash";
-import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig, MODEL_KEY_PREFIX, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
+import { ContainerContext } from "MLComponents/Container";
 import { BlockContext } from "MLComponents/Column";
-import { showDataResult, loadTrainTest, modelList } from "MLComponents/CompoOptions/util";
+import { showDataResult, loadTrainTest } from "MLComponents/CompoOptions/util";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 
 /**
@@ -13,9 +14,18 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
  *
  * @returns "training completed"
  */
-function Fit({ formId, resultId, param, setParam }) {
+function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { dfd } = useContext(AppContext);
+  const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
+
+  const initialModelList = modelListRef.current ? modelListRef.current.map((model) => model.model_name) : [];
+  const [modelList, setModelList] = useState(initialModelList);
+
+  useEffect(() => {
+    console.log(modelListRef.current);
+    setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
+  }, [render]);
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
@@ -28,11 +38,12 @@ function Fit({ formId, resultId, param, setParam }) {
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     const paramResult = {
       ...param,
-      key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
+      key: MODEL_KEY_PREFIX + USER_IDX, // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
     }; // 입력해야 할 파라미터 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Fit), paramResult);
     const df = _.pick(loadTrainTest(blockId), ["X_train", "y_train"]); // 훈련 데이터셋 가져오기
@@ -44,6 +55,7 @@ function Fit({ formId, resultId, param, setParam }) {
         showDataResult(dfd, data, resultId);
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (

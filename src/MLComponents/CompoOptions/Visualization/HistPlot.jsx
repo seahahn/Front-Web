@@ -5,7 +5,7 @@ import { showPlot, getColumns } from "MLComponents/CompoOptions/util";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 import { BlockContext } from "MLComponents/Column";
 
-function HistPlot({ formId, resultId, param, setParam }) {
+function HistPlot({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
@@ -22,6 +22,7 @@ function HistPlot({ formId, resultId, param, setParam }) {
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 API URL에 파라미터 추가
@@ -35,6 +36,7 @@ function HistPlot({ formId, resultId, param, setParam }) {
         showPlot(data, resultId);
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (

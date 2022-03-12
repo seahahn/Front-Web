@@ -7,6 +7,7 @@ import CompoResult from "./CompoResult";
 import { componentBodyStyle, buttonStyle } from "MLComponents/componentStyle";
 import { LayoutContext } from "MLComponents/Container";
 import { BlockContext } from "MLComponents/Column";
+import LoadingSpin from "react-loading-spin";
 
 /*
 data : initialData.layout으로부터 시작되어 내려온 데이터
@@ -45,6 +46,7 @@ const Component = ({ data, compoType, path }) => {
   // 컴포넌트 출력 결과 영역의 숨김/표시 상태
   const [optionOpened, setOptionOpened] = useState(true);
   const [resultOpened, setResultOpened] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // 저장 중 상태
   const [render, setRender] = useState(false);
 
   const [compoParam, setCompoParam] = useState(data.param); // 컴포넌트 기능의 옵션 값 모음
@@ -107,10 +109,14 @@ const Component = ({ data, compoType, path }) => {
     <div ref={preview} style={{ opacity }} className={componentBodyStyle}>
       {/* 메인 영역 */}
       <div ref={drag} className="flex justify-between my-2 cursor-move">
-        <div className="space-x-1">
-          <button type="submit" form={formId} className={buttonStyle}>
+        <div className="flex flex-row space-x-1 items-center">
+          {isLoading && <LoadingSpin size="1.5rem" />}
+          <button type="submit" form={formId} className={classNames(isLoading && "hidden", buttonStyle)} disabled={isLoading}>
             실행
           </button>
+          {/* <div className={classNames(!isLoading && "hidden", "flex justify-center items-center")}>
+            <LoadingSpin />
+          </div> */}
           <span>{component.id}</span>
           <button
             type="button"
@@ -137,7 +143,15 @@ const Component = ({ data, compoType, path }) => {
 
       {/* 옵션 & 출력 영역 */}
       <div className={classNames(optionOpened ? "my-2" : "hidden", "max-w-full")}>
-        <Options formId={formId} resultId={resultId} param={compoParam} setParam={setCompoParam} />
+        <Options
+          formId={formId}
+          resultId={resultId}
+          param={compoParam}
+          setParam={setCompoParam}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          render={render}
+        />
       </div>
       <div className={classNames(resultOpened ? "" : "hidden", "max-w-full")}>
         <CompoResult resultId={resultId} />

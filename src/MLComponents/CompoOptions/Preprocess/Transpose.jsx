@@ -4,12 +4,13 @@ import { AppContext } from "App";
 import { saveDf, showDataResult } from "MLComponents/CompoOptions/util";
 import { BlockContext } from "MLComponents/Column";
 
-function Transpose({ formId, resultId }) {
+function Transpose({ formId, resultId, isLoading, setIsLoading, render }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 API URL에 파라미터 추가
@@ -24,6 +25,7 @@ function Transpose({ formId, resultId }) {
         showDataResult(dfd, data, resultId); // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (
