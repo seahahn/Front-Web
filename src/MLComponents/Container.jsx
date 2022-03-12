@@ -14,7 +14,6 @@ import initialBlockForm from "MLComponents/initial-data-form"; // 새로운 블�
 import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "MLComponents/helpers";
 import { SIDEBAR_ITEM, COLUMN } from "MLComponents/constants";
 import { httpConfig, UPM_PROJ_URL, UPM_TARGET, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
-import { getModelList } from "MLComponents/CompoOptions/util";
 
 const Toolbox = styled.div`
   display: flex;

@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 import { inputStyle } from "MLComponents/componentStyle";
 
-function ProjNameChange({ isOpened, setIsOpened, updateProjName }) {
+function ProjNameChange({ isOpen, setIsOpen, updateProjName }) {
   const [newProjName, setNewProjName] = React.useState("");
+
+  useEffect(() => {
+    isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
+  }, [isOpen]);
 
   const handleConfirm = () => {
     if (newProjName) {
-      setIsOpened(false);
+      setIsOpen(false);
       updateProjName(newProjName);
       setNewProjName("");
     } else {
@@ -16,7 +20,7 @@ function ProjNameChange({ isOpened, setIsOpened, updateProjName }) {
   };
 
   return (
-    <div className={classNames(!isOpened && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
+    <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
       <div className="absolute w-2/5 h-1/5 bg-white border-2 rounded-lg flex flex-col justify-around divide-solid">
         <h3 className="text-xl p-2">프로젝트명 변경</h3>
@@ -36,7 +40,7 @@ function ProjNameChange({ isOpened, setIsOpened, updateProjName }) {
           </button>
           <button
             type="button"
-            onClick={() => setIsOpened(false)}
+            onClick={() => setIsOpen(false)}
             className="border border-red-500 hover:bg-red-300 text-black text-md md:text-xs font-bold w-2/5 py-2 px-2 rounded">
             취소
           </button>

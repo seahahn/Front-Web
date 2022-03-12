@@ -81,15 +81,15 @@ export const ITEMS_NEW_BLOCK = [
     id: FUNCS_CODE.MergeDf,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.MergeDf,
-    title: "DF Merge",
-    content: "DF Merge Function",
+    title: "Merge",
+    content: "Merge Function",
   },
   {
     id: FUNCS_CODE.ConcatDf,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.ConcatDf,
-    title: "DF Concat",
-    content: "DF Concat Function",
+    title: "Concat",
+    content: "Concat Function",
   },
 ];
 
@@ -98,8 +98,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.Head,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Head,
-    title: "DF Head",
-    content: "DF Head Function",
+    title: "Head",
+    content: "Head Function",
     param: {
       line: 5,
     },
@@ -108,30 +108,30 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.Tail,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Tail,
-    title: "DF Tail",
-    content: "DF Tail Function",
+    title: "Tail",
+    content: "Tail Function",
     param: { line: 5 },
   },
   {
     id: FUNCS_CODE.Shape,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Shape,
-    title: "DF Shape",
-    content: "DF Shape Function",
+    title: "Shape",
+    content: "Shape Function",
   },
   {
     id: FUNCS_CODE.Dtype,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Dtype,
-    title: "DF Dtypes",
-    content: "DF Dtypes Function",
+    title: "Dtypes",
+    content: "Dtypes Function",
   },
   {
     id: FUNCS_CODE.ColumnList,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.ColumnList,
-    title: "DF Col List",
-    content: "DF Col List Function",
+    title: "Col List",
+    content: "Col List Function",
   },
   {
     id: FUNCS_CODE.Unique,
@@ -145,16 +145,16 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.IsNa,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.IsNa,
-    title: "DF Is Na",
-    content: "DF Is Na Function",
+    title: "Is Na",
+    content: "Is Na Function",
     param: { sum: false },
   },
   {
     id: FUNCS_CODE.Corr,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Corr,
-    title: "DF Corr",
-    content: "DF Corr Function",
+    title: "Corr",
+    content: "Corr Function",
     param: {
       method: "pearson", // 상관 관계 방식 ["pearson", "kendall", "spearman"]
       req_min: 1, // 결측치 제외한 최소 데이터 수(결측치가 너무 많은 컬럼 제거 목적)
@@ -166,8 +166,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.Describe,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Describe,
-    title: "DF Describe",
-    content: "DF Describe Function",
+    title: "Describe",
+    content: "Describe Function",
     param: {
       percentiles: "", // 확인할 퍼센트 수치들
       num: true, // 수치형 컬럼 표시 여부
@@ -181,8 +181,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.LocDf,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.LocDf,
-    title: "DF Loc",
-    content: "DF Loc Function",
+    title: "Loc",
+    content: "Loc Function",
     param: {
       isIdxRange: false, // 인덱스 범위 지정 여부
       isColRange: false, // 컬럼 범위 지정 여부
@@ -198,8 +198,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.ILocDf,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.ILocDf,
-    title: "DF iLoc",
-    content: "DF iLoc Function",
+    title: "iLoc",
+    content: "iLoc Function",
     param: {
       isIdxRange: false, // 인덱스 범위 지정 여부
       isColRange: false, // 컬럼 범위 지정 여부
@@ -215,8 +215,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.ColConditionDf,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.ColConditionDf,
-    title: "DF Col Condition",
-    content: "DF Col Condition Function",
+    title: "Col Condition",
+    content: "Col Condition Function",
     param: {
       col: "", // 조건의 기준이 될 컬럼
       cond1: "eq", // 조건 1 "eq", "gr", "gr_eq", "le", "le_eq"
@@ -230,15 +230,15 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.Transpose,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Transpose,
-    title: "DF Transpose",
-    content: "DF Transpose Function",
+    title: "Transpose",
+    content: "Transpose Function",
   },
   {
     id: FUNCS_CODE.Groupby,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Groupby,
-    title: "DF Groupby",
-    content: "DF Groupby Function",
+    title: "Groupby",
+    content: "Groupby Function",
     param: {
       by: "",
       func: "sum",
@@ -254,8 +254,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.Drop,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.Drop,
-    title: "DF Drop",
-    content: "DF Drop Function",
+    title: "Drop",
+    content: "Drop Function",
     param: {
       labels: [],
       axis: 1,
@@ -266,8 +266,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.DropNa,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.DropNa,
-    title: "DF DropNa",
-    content: "DF DropNa Function",
+    title: "DropNa",
+    content: "DropNa Function",
     param: {
       axis: 0,
       how: "any",
@@ -279,8 +279,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.RenameCol,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.RenameCol,
-    title: "DF Rename Col",
-    content: "DF Rename Col Function",
+    title: "Rename Col",
+    content: "Rename Col Function",
     param: {
       keys: [], // MultiSelect 변경될 컬럼명
       values: "", // input text 변경할 컬럼명
@@ -292,8 +292,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.SortValue,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.SortValue,
-    title: "DF Sort Value",
-    content: "DF Sort Value Function",
+    title: "Sort Value",
+    content: "Sort Value Function",
     param: {
       by: [], // MultiSelect
       axis: 0, // Select
@@ -307,8 +307,8 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.SetColumn,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.SetColumn,
-    title: "DF Set Column",
-    content: "DF Set Column Function",
+    title: "Set Column",
+    content: "Set Column Function",
     param: {
       isColsOps: false,
       isColRange: false,
@@ -386,7 +386,7 @@ export const ITEMS_PREPROCESS = [
     id: FUNCS_CODE.TrainTestSplit,
     type: SIDEBAR_ITEM + "/" + PREPROCESS,
     func: FUNCS_CODE.TrainTestSplit,
-    title: "Train Test Split",
+    title: "TrainTestSplit",
     content: "Train Test Split Function",
     param: {
       test_size: 0.25, // input number 0~1

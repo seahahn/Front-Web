@@ -18,9 +18,9 @@ import ProjNameChange from "SubComponents/ProjNameChange";
 import LoadProject from "SubComponents/LoadProject";
 
 const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, deleteProject }) => {
-  const [isNewProjectOpened, setIsNewProjectOpened] = useState(false);
-  const [isProjNameChangeOpened, setIsProjNameChangeOpened] = useState(false);
-  const [isLoadProjectOpened, setIsLoadProjectOpened] = useState(false);
+  const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
+  const [isProjNameChangeOpen, setIsProjNameChangeOpen] = useState(false);
+  const [isLoadProjectOpen, setIsLoadProjectOpen] = useState(false);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -46,7 +46,7 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={() => setIsNewProjectOpened(true)}
+                  onClick={() => setIsNewProjectOpen(true)}
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlinePlusCircle className="inline mx-2" /> 새 프로젝트
                 </div>
@@ -55,7 +55,7 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={() => setIsLoadProjectOpened(true)}
+                  onClick={() => setIsLoadProjectOpen(true)}
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlineFolderOpen className="inline mx-2" />
                   프로젝트 열기
@@ -75,7 +75,7 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={() => setIsProjNameChangeOpened(true)}
+                  onClick={() => setIsProjNameChangeOpen(true)}
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center cursor-pointer")}>
                   <HiOutlineIdentification className="inline mx-2" />
                   프로젝트명 변경
@@ -127,9 +127,9 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
           </div>
         </Menu.Items>
       </Transition>
-      <NewProject isOpened={isNewProjectOpened} setIsOpened={setIsNewProjectOpened} newProject={newProject} />
-      <LoadProject isOpened={isLoadProjectOpened} setIsOpened={setIsLoadProjectOpened} initProject={initProject} deleteProject={deleteProject} />
-      <ProjNameChange isOpened={isProjNameChangeOpened} setIsOpened={setIsProjNameChangeOpened} updateProjName={updateProjName} />
+      <NewProject isOpen={isNewProjectOpen} setIsOpen={setIsNewProjectOpen} newProject={newProject} />
+      <LoadProject isOpen={isLoadProjectOpen} setIsOpen={setIsLoadProjectOpen} initProject={initProject} deleteProject={deleteProject} />
+      <ProjNameChange isOpen={isProjNameChangeOpen} setIsOpen={setIsProjNameChangeOpen} updateProjName={updateProjName} />
     </Menu>
   );
 };

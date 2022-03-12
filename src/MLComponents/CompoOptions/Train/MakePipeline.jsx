@@ -11,7 +11,8 @@ import {
   UPM_MODEL_URL,
 } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
-import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
+import { ContainerContext } from "MLComponents/Container";
+import { showDataResult, getColumns, getModelList } from "MLComponents/CompoOptions/util";
 import { ENCODERS_MAPPING, MODELS_MAPPING, SCALERS_MAPPING } from "MLComponents/constants";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
@@ -23,6 +24,7 @@ import Model from "./Models/Model";
 
 function MakePipeline({ formId, resultId, param, setParam }) {
   const { dfd } = useContext(AppContext);
+  const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
@@ -110,6 +112,7 @@ function MakePipeline({ formId, resultId, param, setParam }) {
           const freshModelList = await response.json();
           console.log(freshModelList);
           showDataResult(dfd, data.message, resultId);
+          modelListRef.current = freshModelList; // 모델 목록 최신화
         }
       })
       .catch((error) => console.error(error));
