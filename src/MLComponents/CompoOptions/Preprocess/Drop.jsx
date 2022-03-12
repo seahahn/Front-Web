@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { saveDf, showDataResult, getColumns } from "MLComponents/CompoOptions/util";
@@ -8,7 +8,7 @@ import MultiSelect from "react-select";
 import classNames from "classnames";
 import { BlockContext } from "MLComponents/Column";
 
-function Drop({ formId, resultId, param, setParam }) {
+function Drop({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
@@ -50,6 +50,7 @@ function Drop({ formId, resultId, param, setParam }) {
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 전송을 위한 설정
@@ -82,6 +83,7 @@ function Drop({ formId, resultId, param, setParam }) {
         clearInputs(); // 실행 후 입력 초기화
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (

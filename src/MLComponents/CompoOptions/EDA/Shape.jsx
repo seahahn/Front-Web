@@ -3,12 +3,13 @@ import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig 
 import { AppContext } from "App";
 import { BlockContext } from "MLComponents/Column";
 
-function Shape({ formId, resultId }) {
+function Shape({ formId, resultId, isLoading, setIsLoading, render }) {
   const { storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 전송을 위한 설정
@@ -22,6 +23,7 @@ function Shape({ formId, resultId }) {
         document.getElementById(resultId).innerText = data;
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (

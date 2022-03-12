@@ -6,7 +6,7 @@ import { showDataResult } from "MLComponents/CompoOptions/util";
 import Switch from "MLComponents/CompoOptions/CompoPiece/Switch";
 import { BlockContext } from "MLComponents/Column";
 
-function Describe({ formId, resultId, param, setParam }) {
+function Describe({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { dfd, storage } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
@@ -28,6 +28,7 @@ function Describe({ formId, resultId, param, setParam }) {
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 전송을 위한 설정
@@ -50,6 +51,7 @@ function Describe({ formId, resultId, param, setParam }) {
         showDataResult(dfd, data, resultId);
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (

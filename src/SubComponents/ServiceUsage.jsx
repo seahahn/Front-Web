@@ -23,8 +23,8 @@ const ServiceUsage = ({ isOpen, setIsOpen }) => {
 
   useEffect(() => {
     setModelList(modelListRef.current);
-    console.log(modelListRef.current);
-  }, [isLoading, modelListRef]);
+    // console.log(modelListRef.current);
+  }, [isOpen, isLoading, modelListRef]);
 
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
@@ -132,7 +132,9 @@ const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) 
             defaultValue={model.model_name}
           />
         ) : (
-          <span className="text-base">{model.model_name}</span>
+          <a href={model.model_url} download={model.model_name} className="text-base">
+            {model.model_name}
+          </a>
         )}
         <span className="text-xs">{model.size} Byte</span>
       </div>

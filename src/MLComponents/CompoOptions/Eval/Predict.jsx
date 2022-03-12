@@ -16,7 +16,7 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
             "y_pred_proba": pd.DataFrame(pipe.predict_proba(X_test)).to_json(orient="records") # 분류 모델인 경우 포함
         }
  */
-function Predict({ formId, resultId, param, setParam }) {
+function Predict({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { dfd } = useContext(AppContext);
   const { blockId } = useContext(BlockContext);
 
@@ -31,6 +31,7 @@ function Predict({ formId, resultId, param, setParam }) {
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 전송을 위한 설정
@@ -49,6 +50,7 @@ function Predict({ formId, resultId, param, setParam }) {
         showDataResult(dfd, data.y_pred, resultId); // y_pred 결과만 보여주기
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (

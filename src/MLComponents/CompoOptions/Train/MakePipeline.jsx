@@ -12,7 +12,7 @@ import {
 } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
 import { ContainerContext } from "MLComponents/Container";
-import { showDataResult, getColumns, getModelList } from "MLComponents/CompoOptions/util";
+import { showDataResult, getColumns } from "MLComponents/CompoOptions/util";
 import { ENCODERS_MAPPING, MODELS_MAPPING, SCALERS_MAPPING } from "MLComponents/constants";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
@@ -22,7 +22,7 @@ import Encoder from "./Encoders/Encoder";
 import Scaler from "./Scalers/Scaler";
 import Model from "./Models/Model";
 
-function MakePipeline({ formId, resultId, param, setParam }) {
+function MakePipeline({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { dfd } = useContext(AppContext);
   const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
@@ -76,6 +76,7 @@ function MakePipeline({ formId, resultId, param, setParam }) {
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 입력 필수 값 체크
@@ -110,12 +111,13 @@ function MakePipeline({ formId, resultId, param, setParam }) {
           };
           const response = await fetch(UPM_MODEL_URL, httpConfig(JSON.stringify(modelData), "POST", true));
           const freshModelList = await response.json();
-          console.log(freshModelList);
           showDataResult(dfd, data.message, resultId);
           modelListRef.current = freshModelList; // 모델 목록 최신화
+          console.log(modelListRef.current);
         }
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (

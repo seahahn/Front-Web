@@ -179,12 +179,12 @@ export const getColumns = (blockId) => {
   return [];
 };
 
-export const getModelSteps = async (key, modelName) => {
+export const getModelSteps = async (key, modelName, detail = false) => {
   const params = {
     name: modelName,
     key: key,
   };
-  const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.ModelSteps), params);
+  const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, detail ? URLS_TRAIN.ModelStepsDetail : URLS_TRAIN.ModelSteps), params);
   return await fetch(targetUrl, { mode: "cors" })
     .then((response) => response.json())
     .then((data) => {
