@@ -13,16 +13,19 @@ const ServiceUsage = ({ isOpen, setIsOpen }) => {
   const [usageListOpened, setUsageListOpened] = useState(true);
   const [modelList, setModelList] = useState(modelListRef.current);
 
-  useEffect(() => {
-    getModelList(USER_IDX, modelListRef).then((result) => setModelList(result));
-  }, [modelListRef]);
+  // useEffect(() => {
+  //   console.log("ServiceUsage useEffect");
+  //   isOpen && getModelList(USER_IDX, modelListRef).then((result) => setModelList(result));
+  // }, [modelListRef]);
 
-  useEffect(() => {
-    isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
-  }, [isOpen]);
+  // useEffect(() => {
+  //   isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
+  // }, [isOpen]);
 
   useEffect(() => {
     setModelList(modelListRef.current);
+    isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
+
     // console.log(modelListRef.current);
   }, [isOpen, isLoading, modelListRef]);
 

@@ -62,6 +62,7 @@ export const URLS_PREPROCESS = {
 export const URLS_TRAIN = {
   // 모델 제작 & 훈련
   MakePipeline: "make_pipeline",
+  MakeOptimizer: "make_optimizer",
   Fit: "fit",
   Transform: "transform",
   ModelSteps: "steps",

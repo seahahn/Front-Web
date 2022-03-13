@@ -14,15 +14,17 @@ function LoadProject({ isOpen, setIsOpen, initProject, deleteProject }) {
   const [projList, setProjList] = useState(null);
 
   // 프로젝트 목록 열 때마다 목록 갱신
-  useEffect(() => {
-    getProjList(USER_IDX, projListRef).then((result) => setProjList(result));
-  }, [isLoading, projListRef]);
+  // useEffect(() => {
+  //   console.log("LoadProject useEffect");
+  //   isOpen && getProjList(USER_IDX, projListRef).then((result) => setProjList(result));
+  // }, [isLoading, projListRef]);
 
   useEffect(() => {
+    setProjList(projListRef.current);
     isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
     // isOpen && (document.body.style.overflow = "hidden");
     // console.log(isOpen);
-  }, [isOpen]);
+  }, [isOpen, isLoading, projListRef]);
 
   const [selectedProj, setSelectedProj] = useState(null);
 

@@ -89,6 +89,7 @@ const Component = ({ data, compoType, path }) => {
     "MergeDf",
     "ConcatDf",
     "MakePipeline",
+    "MakeOptimizer",
     "Fit",
     "Transform",
     "ModelSteps",

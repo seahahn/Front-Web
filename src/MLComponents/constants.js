@@ -49,6 +49,7 @@ export const FUNCS_CODE = {
 
   // 모델 훈련
   MakePipeline: "MakePipeline",
+  MakeOptimizer: "MakeOptimizer",
   Fit: "Fit",
   Transform: "Transform",
   ModelSteps: "ModelSteps",
@@ -406,6 +407,20 @@ export const ITEMS_TRAIN = [
     func: FUNCS_CODE.MakePipeline,
     title: "Make Pipeline",
     content: "Make Pipeline Function",
+    param: {
+      name: "", // input text
+      encoder: [], // MultiSelect
+      scaler: "", // Select
+      model: "", // Select
+      steps: {}, // 파이프라인 steps 파라미터 설정
+    },
+  },
+  {
+    id: FUNCS_CODE.MakeOptimizer,
+    type: SIDEBAR_ITEM + "/" + TRAIN,
+    func: FUNCS_CODE.MakeOptimizer,
+    title: "Make Optimizer",
+    content: "Make Optimizer Function",
     param: {
       name: "", // input text
       encoder: [], // MultiSelect
