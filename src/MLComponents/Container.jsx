@@ -14,6 +14,7 @@ import initialBlockForm from "MLComponents/initial-data-form"; // 새로운 블�
 import { handleMoveWithinParent, handleMoveToDifferentParent, handleMoveSidebarComponentIntoParent, handleRemoveItemFromLayout } from "MLComponents/helpers";
 import { SIDEBAR_ITEM, COLUMN } from "MLComponents/constants";
 import { httpConfig, UPM_PROJ_URL, UPM_TARGET, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
+import { getProjList, getModelList } from "MLComponents/CompoOptions/util";
 
 const Toolbox = styled.div`
   display: flex;
@@ -83,6 +84,8 @@ const Container = () => {
       window.localStorage.setItem("aiplay_proj_idx", newProjIdx); // 새로운 프로젝트 고유 번호 지정
       setLayout(initialLayout);
       setProjName(proj_name);
+      getProjList(USER_IDX, projListRef);
+      getModelList(USER_IDX, modelListRef);
       setIsLoading(false);
     },
     [initialLayout]
@@ -126,9 +129,11 @@ const Container = () => {
       window.localStorage.setItem("aiplay_proj_idx", proj_idx);
       setLayout(data.layout);
       setProjName(data.proj_name);
+      getProjList(USER_IDX, projListRef);
+      getModelList(USER_IDX, modelListRef);
     } else {
       console.log("initProject error");
-      // saveProject(proj_idx, proj_name);
+      newProject("untitled");
     }
   };
 

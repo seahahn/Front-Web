@@ -36,6 +36,10 @@ export const saveFeatureTarget = (blockId, data) => {
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
     window.sessionStorage.setItem(blockId + "_X", JSON.parse(data).X); // 웹 스토리지에 특성 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_y", JSON.parse(data).y); // 웹 스토리지에 타겟 데이터프레임(JSON) 저장
+
+    // 특성 데이터프레임의 컬럼명을 웹 스토리지에 저장
+    const dfX = window.sessionStorage.getItem(blockId + "_X");
+    saveColumnList(blockId, dfX);
   }
 };
 
