@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import _ from "lodash";
-import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_EVAL, httpConfig } from "MLComponents/CompoOptions/networkConfigs";
+import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_EVAL, httpConfig, MODEL_KEY_PREFIX, USER_IDX } from "MLComponents/CompoOptions/networkConfigs";
 import { AppContext } from "App";
+import { ContainerContext } from "MLComponents/Container";
 import { BlockContext } from "MLComponents/Column";
-import { showDataResult, loadTrainTest, saveYPred, modelList } from "MLComponents/CompoOptions/util";
+import { showDataResult, loadTrainTest, saveYPred } from "MLComponents/CompoOptions/util";
 import { Select } from "MLComponents/CompoOptions/CompoPiece";
 
 /**
@@ -18,7 +19,16 @@ import { Select } from "MLComponents/CompoOptions/CompoPiece";
  */
 function Predict({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { dfd } = useContext(AppContext);
+  const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
+
+  const initialModelList = modelListRef.current ? modelListRef.current.map((model) => model.model_name) : [];
+  const [modelList, setModelList] = useState(initialModelList);
+
+  useEffect(() => {
+    console.log(modelListRef.current);
+    setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
+  }, [render]);
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
@@ -37,7 +47,7 @@ function Predict({ formId, resultId, param, setParam, isLoading, setIsLoading, r
     // 백앤드 전송을 위한 설정
     const paramResult = {
       ...param,
-      key: "test", // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
+      key: MODEL_KEY_PREFIX + USER_IDX,
     }; // 입력해야 할 파라미터 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_EVAL.Predict), paramResult);
     const XTest = _.pick(loadTrainTest(blockId), ["X_test"]).X_test; // 테스트셋 가져오기

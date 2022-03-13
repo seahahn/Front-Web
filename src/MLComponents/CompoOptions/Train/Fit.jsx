@@ -27,6 +27,14 @@ function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, rende
     setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
   }, [render]);
 
+  useEffect(() => {
+    console.log(modelList[0]);
+    setParam({
+      ...param,
+      name: modelList[0],
+    });
+  }, []);
+
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -43,7 +51,7 @@ function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, rende
 
     const paramResult = {
       ...param,
-      key: MODEL_KEY_PREFIX + USER_IDX, // TODO "사용자_고유번호/프로젝트_번호" 로 변경 예정
+      key: MODEL_KEY_PREFIX + USER_IDX,
     }; // 입력해야 할 파라미터 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Fit), paramResult);
     const df = _.pick(loadTrainTest(blockId), ["X_train", "y_train"]); // 훈련 데이터셋 가져오기
