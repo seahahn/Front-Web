@@ -24,6 +24,14 @@ function Transform({ formId, resultId, param, setParam, isLoading, setIsLoading,
   const [targetList, setTargetList] = useState([]);
 
   useEffect(() => {
+    console.log(modelList[0]);
+    setParam({
+      ...param,
+      name: modelList[0],
+    });
+  }, []);
+
+  useEffect(() => {
     modelList.length !== 0 && getModelSteps(MODEL_KEY_PREFIX + USER_IDX, param.name ? param.name : modelList[0]).then((res) => setTargetList(res));
   }, [param.name]);
 

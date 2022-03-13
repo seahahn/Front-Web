@@ -37,7 +37,7 @@ function ModelSteps({ formId, resultId, isLoading, setIsLoading, render }) {
 
   return (
     <form id={formId} onSubmit={handleSubmit}>
-      <Select className="flex-1 self-center justify-self-stretch" options={modelList} text="모델 목록" onChange={handleChange} />
+      <Select className="flex-1 self-center justify-self-stretch" options={modelList} text="모델 목록" onChange={handleChange} defaultValue={modelList[0]} />
     </form>
   );
 }

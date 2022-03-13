@@ -23,17 +23,17 @@ function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, rende
   const [modelList, setModelList] = useState(initialModelList);
 
   useEffect(() => {
-    console.log(modelListRef.current);
+    // console.log(modelListRef.current);
     setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
   }, [render]);
 
   useEffect(() => {
-    console.log(modelList[0]);
+    // console.log(modelList[0]);
     setParam({
       ...param,
       name: modelList[0],
     });
-  }, []);
+  }, [modelList]);
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {

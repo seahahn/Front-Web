@@ -183,7 +183,7 @@ export const getColumns = (blockId) => {
   return [];
 };
 
-export const getModelSteps = async (key, modelName, detail = false) => {
+export const getModelSteps = async (key, modelName, detail = false, includeModel = false) => {
   const params = {
     name: modelName,
     key: key,

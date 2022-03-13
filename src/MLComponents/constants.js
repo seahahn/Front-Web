@@ -423,6 +423,13 @@ export const ITEMS_TRAIN = [
     content: "Make Optimizer Function",
     param: {
       name: "", // input text
+      optimizer: "randomized_search_cv", // Select
+      save_name: "", // input text
+      n_iter: "", // input number
+      scoring: "", // Select
+      cv: "", // input number
+      random_state: "", // input number
+      return_train_score: false, // Switch
       encoder: [], // MultiSelect
       scaler: "", // Select
       model: "", // Select
@@ -494,11 +501,21 @@ export const ENCODERS_MAPPING = [
   { label: "Ordinal", value: "ordinal_encoder" },
   { label: "Target", value: "target_encoder" },
 ];
+export const ENCODERS_TUNING_MAPPING = [
+  { label: "OneHotTuning", value: "onehot_encoder" },
+  { label: "OrdinalTuning", value: "ordinal_encoder" },
+  { label: "TargetTuning", value: "target_encoder" },
+];
 
 export const SCALERS_MAPPING = {
   None: "None",
   standard_scaler: "Standard",
   minmax_scaler: "MinMax",
+};
+export const SCALERS_TUNING_MAPPING = {
+  None: "None",
+  standard_scaler: "StandardTuning",
+  minmax_scaler: "MinMaxTuning",
 };
 
 export const MODELS_MAPPING = {
@@ -512,6 +529,18 @@ export const MODELS_MAPPING = {
   logistic_regression: "Logistic",
   decision_tree_classifier: "DTCls",
   random_forest_classifier: "RFCls",
+};
+export const MODELS_TUNING_MAPPING = {
+  None: "None",
+  // 회귀
+  linear_regression: "LinearTuning",
+  ridge: "RidgeTuning",
+  decision_tree_regressor: "DTRegTuning",
+  random_forest_regressor: "RFRegTuning",
+  // 분류
+  logistic_regression: "LogisticTuning",
+  decision_tree_classifier: "DTClsTuning",
+  random_forest_classifier: "RFClsTuning",
 };
 
 // MLComponents/CompoOptions/Eval/Score.jsx 에서 사용될 모델 평가 지표 목록
