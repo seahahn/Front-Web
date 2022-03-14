@@ -111,7 +111,11 @@ const Component = ({ data, compoType, path }) => {
       {/* 메인 영역 */}
       <div ref={drag} className="flex justify-between my-2 cursor-move">
         <div className="flex flex-row space-x-1 items-center">
-          {isLoading && <LoadingSpin size="1.5rem" />}
+          {isLoading && (
+            <div className="cursor-pointer" onClick={() => setIsLoading(false)}>
+              <LoadingSpin size="1.5rem" />
+            </div>
+          )}
           <button type="submit" form={formId} className={classNames(isLoading && "hidden", buttonStyle)} disabled={isLoading}>
             실행
           </button>

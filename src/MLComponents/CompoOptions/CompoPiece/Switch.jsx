@@ -1,9 +1,9 @@
 import React from "react";
 
-function Switch({ name, id, text: labelText, onChange, checked }, ref) {
+function Switch({ name, id, text: labelText, onChange, checked, title }, ref) {
   return (
     <div className="form-check form-switch pl-0">
-      <label className="form-check-label inline-block text-gray-800" htmlFor={id}>
+      <label className="form-check-label inline-block text-gray-800" htmlFor={id} title={title}>
         {labelText}
         <input
           name={name}

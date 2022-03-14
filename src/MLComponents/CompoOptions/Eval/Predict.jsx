@@ -50,14 +50,18 @@ function Predict({ formId, resultId, param, setParam, isLoading, setIsLoading, r
       key: MODEL_KEY_PREFIX + USER_IDX,
     }; // 입력해야 할 파라미터 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_EVAL.Predict), paramResult);
-    const XTest = _.pick(loadTrainTest(blockId), ["X_test"]).X_test; // 테스트셋 가져오기
+    // const XTest = _.pick(loadTrainTest(blockId), ["X_test"]).X_test; // 테스트셋 가져오기
+    const Xs = _.pick(loadTrainTest(blockId), ["X_train", "X_valid", "X_test"]); // 테스트셋 가져오기
+    // const Xs = loadTrainTest(blockId); // 특성 데이터셋 가져오기
+    console.log(Xs);
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
-    await fetch(targetUrl, httpConfig(JSON.stringify(XTest)))
+    await fetch(targetUrl, httpConfig(JSON.stringify(Xs)))
       .then((response) => response.json())
       .then((data) => {
         saveYPred(blockId, data);
-        showDataResult(dfd, data.y_pred, resultId); // y_pred 결과만 보여주기
+        // showDataResult(dfd, data.y_pred, resultId); // y_pred 결과만 보여주기
+        showDataResult(dfd, "Prediction completed.", resultId); // y_pred 결과만 보여주기
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

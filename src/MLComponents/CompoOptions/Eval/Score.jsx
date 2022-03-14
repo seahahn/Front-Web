@@ -44,7 +44,15 @@ function Score({ formId, resultId, param, setParam, isLoading, setIsLoading, ren
     await fetch(targetUrl, httpConfig(JSON.stringify(ys)))
       .then((response) => response.json())
       .then((data) => {
-        showDataResult(dfd, data, resultId);
+        console.log(
+          Object.entries(data)
+            .map((x) => x.join(" : "))
+            .join("<br/>")
+        );
+        document.getElementById(resultId).innerHTML = Object.entries(data)
+          .map((x) => [x[0].split("_")[1], x[1]].join(" : "))
+          .join("<br/>");
+        // showDataResult(dfd, JSON.stringify(data, null, 1), resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

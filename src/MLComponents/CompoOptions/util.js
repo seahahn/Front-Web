@@ -72,6 +72,8 @@ export const loadTrainTest = (blockId) => {
   const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
   const XValid = window.sessionStorage.getItem(blockId + "_XValid"); // 웹 스토리지에 저장된 특성 검증 데이터프레임(JSON) 불러오기
   const yValid = window.sessionStorage.getItem(blockId + "_yValid"); // 웹 스토리지에 저장된 타겟 검증 데이터프레임(JSON) 불러오기
+  console.log(XValid);
+  // console.log(yValid)
   return {
     X_train: XTrain,
     X_test: XTest,
@@ -83,21 +85,44 @@ export const loadTrainTest = (blockId) => {
 };
 
 export const saveYPred = (blockId, data) => {
-  const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
-  window.sessionStorage.setItem(blockId + "_yTrue", yTest); // 웹 스토리지에 실제 결과 데이터프레임(JSON) 저장
-  window.sessionStorage.setItem(blockId + "_yPred", data.y_pred); // 웹 스토리지에 예측 결과 데이터프레임(JSON) 저장
-  window.sessionStorage.setItem(blockId + "_yPredProba", data.y_pred_proba); // 웹 스토리지에 예측 결과 확률 데이터프레임(JSON) 저장
+  console.log(data); // X_train, (X_valid), X_test
+  console.log(Object.keys(data)); // X_train, (X_valid), X_test
+  Object.keys(data).forEach((key) => {
+    const realKey = key.split("_")[1];
+    console.log(key, realKey);
+    // const y = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
+    // window.sessionStorage.setItem(blockId + "_yTrue_"+realKey, y); // 웹 스토리지에 실제 결과 데이터프레임(JSON) 저장
+    window.sessionStorage.setItem(blockId + "_yPred_" + realKey, data[key].y_pred); // 웹 스토리지에 예측 결과 데이터프레임(JSON) 저장
+    window.sessionStorage.setItem(blockId + "_yPredProba_" + realKey, data[key].y_pred_proba); // 웹 스토리지에 예측 결과 확률 데이터프레임(JSON) 저장
+  });
+
+  // const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
+  // window.sessionStorage.setItem(blockId + "_yTrue", yTest); // 웹 스토리지에 실제 결과 데이터프레임(JSON) 저장
+  // window.sessionStorage.setItem(blockId + "_yPred", data.y_pred); // 웹 스토리지에 예측 결과 데이터프레임(JSON) 저장
+  // window.sessionStorage.setItem(blockId + "_yPredProba", data.y_pred_proba); // 웹 스토리지에 예측 결과 확률 데이터프레임(JSON) 저장
 };
 
 export const loadYPred = (blockId) => {
-  const yTrue = window.sessionStorage.getItem(blockId + "_yTrue"); // 웹 스토리지에 저장된 예측 결과 데이터프레임(JSON) 불러오기
-  const yPred = window.sessionStorage.getItem(blockId + "_yPred"); // 웹 스토리지에 저장된 예측 결과 데이터프레임(JSON) 불러오기
-  const yPredProba = window.sessionStorage.getItem(blockId + "_yPredProba"); // 웹 스토리지에 저장된 예측 결과 확률 데이터프레임(JSON) 불러오기
-  return {
-    y_true: yTrue,
-    y_pred: yPred,
-    y_pred_proba: yPredProba,
-  };
+  // const yTrue = window.sessionStorage.getItem(blockId + "_yTrue"); // 웹 스토리지에 저장된 예측 결과 데이터프레임(JSON) 불러오기
+  const yPreds = {};
+  const yTrain = window.sessionStorage.getItem(blockId + "_yTrain"); // 웹 스토리지에 저장된 타겟 훈련 데이터프레임(JSON) 불러오기
+  const yValid = window.sessionStorage.getItem(blockId + "_yValid"); // 웹 스토리지에 저장된 타겟 검증 데이터프레임(JSON) 불러오기
+  const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
+  const ys = [yTrain, yValid, yTest];
+  const keys = ["X_train", "X_valid", "X_test"];
+
+  keys.forEach((key, index) => {
+    const realKey = key.split("_")[1];
+    const yPred = window.sessionStorage.getItem(blockId + "_yPred_" + realKey); // 웹 스토리지에 저장된 예측 결과 데이터프레임(JSON) 불러오기
+    const yPredProba = window.sessionStorage.getItem(blockId + "_yPredProba_" + realKey); // 웹 스토리지에 저장된 예측 결과 확률 데이터프레임(JSON) 불러오기
+    yPreds[key] = {
+      y_true: ys[index],
+      y_pred: yPred,
+      y_pred_proba: yPredProba,
+    };
+  });
+  console.log(yPreds);
+  return yPreds;
 };
 
 // train_test_split 수행 후 shape 보여주기 위한 함수
@@ -183,17 +208,18 @@ export const getColumns = (blockId) => {
   return [];
 };
 
-export const getModelSteps = async (key, modelName, detail = false) => {
+export const getModelSteps = async (key, modelName, detail = false, includeModel = false) => {
   const params = {
     name: modelName,
     key: key,
   };
   const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, detail ? URLS_TRAIN.ModelStepsDetail : URLS_TRAIN.ModelSteps), params);
-  return await fetch(targetUrl, { mode: "cors" })
+  return await fetch(targetUrl, httpConfig(null, "GET"))
     .then((response) => response.json())
     .then((data) => {
       console.log("getModelSteps");
-      return data;
+      console.log(data);
+      return !detail && !includeModel ? data.filter((step) => step.includes("encoder") || step.includes("scaler")) : data;
     })
     .catch((error) => console.error(error));
 };
