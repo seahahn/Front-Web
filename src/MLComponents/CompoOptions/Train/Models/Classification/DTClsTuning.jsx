@@ -20,14 +20,14 @@ function DTClsTuning({ step, handleSteps, optimizer }) {
     criterion: [], // {“gini”, “entropy”}, default=”gini”
     splitter: [], // {“best”, “random”}, default=”best”
     max_features: [], // int, float or {“auto”, “sqrt”, “log2”}, default=None
-    max_depth: ["randint", null, null, null], // int, default=None
-    min_samples_split: ["randint", null, null, null], // int or float, default=2
-    min_samples_leaf: ["randint", null, null, null], // int or float, default=1
-    min_weight_fraction_leaf: ["randint", null, null, null], // float, default=0.0
-    max_leaf_nodes: ["randint", null, null, null], // int, default=None
-    min_impurity_decrease: ["randint", null, null, null], // float, default=0.0
-    class_weight: ["randint", null, null, null], // dict, list of dict or “balanced”, default=None
-    ccp_alpha: ["randint", null, null, null], // non-negative float, default=0.0
+    max_depth: ["_randint", null, null, null], // int, default=None
+    min_samples_split: ["_randint", null, null, null], // int or float, default=2
+    min_samples_leaf: ["_randint", null, null, null], // int or float, default=1
+    min_weight_fraction_leaf: ["_randint", null, null, null], // float, default=0.0
+    max_leaf_nodes: ["_randint", null, null, null], // int, default=None
+    min_impurity_decrease: ["_randint", null, null, null], // float, default=0.0
+    class_weight: ["_randint", null, null, null], // dict, list of dict or “balanced”, default=None
+    ccp_alpha: ["_randint", null, null, null], // non-negative float, default=0.0
     // random_state: null, // int, RandomState instance, default=None
   };
 

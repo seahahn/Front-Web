@@ -17,9 +17,9 @@ function RidgeTuning({ step, handleSteps, optimizer }) {
     // fit_intercept: true, // bool, default=True
     // copy_X: true, // bool, default=True
     // positive: false, // bool, default=False
-    max_iter: ["randint", null, null, null], // int, default=None
-    tol: ["randint", null, null, null], // float, default=1e-3
-    alpha: ["randint", null, null, null], // {float, ndarray of shape (n_targets,)}, default=1.0
+    max_iter: ["_randint", null, null, null], // int, default=None
+    tol: ["_randint", null, null, null], // float, default=1e-3
+    alpha: ["_randint", null, null, null], // {float, ndarray of shape (n_targets,)}, default=1.0
     // random_state: null, // int, RandomState instance, default=None
   };
 
@@ -100,7 +100,7 @@ function RidgeTuning({ step, handleSteps, optimizer }) {
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name="fit_intercept"
-          checked={options.fit_intercept}
+          checked={options.fit_intercept ? true : false}
         />
         {/* <Switch text="copy_X : " onChange={handleChange} name="copy_X" checked={options.copy_X} /> */}
         <Switch
@@ -108,7 +108,7 @@ function RidgeTuning({ step, handleSteps, optimizer }) {
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name="positive"
-          checked={options.positive}
+          checked={options.positive ? true : false}
         />
       </div>
       <div className="grid grid-cols-2 gap-2">

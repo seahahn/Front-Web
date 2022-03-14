@@ -58,7 +58,7 @@ function StandardTuning({ step, handleSteps }) {
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"with_mean"}
-          checked={options.with_mean}
+          checked={options.with_mean ? true : false}
         />
         <Switch
           ref={withStdRef}
@@ -66,7 +66,7 @@ function StandardTuning({ step, handleSteps }) {
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"with_std"}
-          checked={options.with_std}
+          checked={options.with_std ? true : false}
         />
       </div>
     </div>

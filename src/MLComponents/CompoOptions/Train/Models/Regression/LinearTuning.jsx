@@ -58,7 +58,7 @@ function LinearTuning({ step, handleSteps }) {
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"fit_intercept"}
-          checked={options.fit_intercept}
+          checked={options.fit_intercept ? true : false}
         />
         {/* <Switch text="copyX : " onChange={handleChange} name={"copy_X"} checked={options.copy_X} /> */}
         <Switch
@@ -66,7 +66,7 @@ function LinearTuning({ step, handleSteps }) {
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"positive"}
-          checked={options.positive}
+          checked={options.positive ? true : false}
         />
       </div>
       {/* <label>

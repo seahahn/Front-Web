@@ -17,15 +17,15 @@ function RFRegTuning({ step, handleSteps, optimizer }) {
   const initialOpts = {
     criterion: [], // {“squared_error”, “absolute_error”, “poisson”}, default=”squared_error”
     max_features: [], // int, float or {“auto”, “sqrt”, “log2”}, default=None
-    n_estimators: ["randint", null, null, null], // int, default=100
-    max_depth: ["randint", null, null, null], // int, default=None
-    max_leaf_nodes: ["randint", null, null, null], // int, default=None
-    min_samples_split: ["randint", null, null, null], // int or float, default=2
-    min_samples_leaf: ["randint", null, null, null], // int or float, default=1
-    max_samples: ["randint", null, null, null], // int or float, default=None
-    min_weight_fraction_leaf: ["randint", null, null, null], // float, default=0.0
-    min_impurity_decrease: ["randint", null, null, null], // float, default=0.0
-    ccp_alpha: ["randint", null, null, null], // non-negative float, default=0.0
+    n_estimators: ["_randint", null, null, null], // int, default=100
+    max_depth: ["_randint", null, null, null], // int, default=None
+    max_leaf_nodes: ["_randint", null, null, null], // int, default=None
+    min_samples_split: ["_randint", null, null, null], // int or float, default=2
+    min_samples_leaf: ["_randint", null, null, null], // int or float, default=1
+    max_samples: ["_randint", null, null, null], // int or float, default=None
+    min_weight_fraction_leaf: ["_randint", null, null, null], // float, default=0.0
+    min_impurity_decrease: ["_randint", null, null, null], // float, default=0.0
+    ccp_alpha: ["_randint", null, null, null], // non-negative float, default=0.0
     // n_jobs: 1, // int, default=None
     // bootstrap: true, // bool, default=True
     // oob_score: false, // bool, default=False
@@ -258,21 +258,21 @@ function RFRegTuning({ step, handleSteps, optimizer }) {
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"bootstrap"}
-          checked={options.bootstrap}
+          checked={options.bootstrap ? true : false}
         />
         <Switch
           text="oob_score : "
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"oob_score"}
-          checked={options.oob_score}
+          checked={options.oob_score ? true : false}
         />
         <Switch
           text="warm_start : "
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"warm_start"}
-          checked={options.warm_start}
+          checked={options.warm_start ? true : false}
         />
       </div>
     </div>

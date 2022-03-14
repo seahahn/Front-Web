@@ -14,7 +14,7 @@ import {
 import { AppContext } from "App";
 import { ContainerContext } from "MLComponents/Container";
 import { showDataResult, getColumns, getModelSteps } from "MLComponents/CompoOptions/util";
-import { ENCODERS_TUNING_MAPPING, MODELS_TUNING_MAPPING, SCALERS_TUNING_MAPPING, METRICS_CLS, METRICS_REG } from "MLComponents/constants";
+import { ENCODERS_TUNING_MAPPING, MODELS_TUNING_MAPPING, SCALERS_TUNING_MAPPING, REG_MODELS, METRICS_CLS, METRICS_REG } from "MLComponents/constants";
 import { inputStyle } from "MLComponents/componentStyle";
 import { Select, Switch } from "MLComponents/CompoOptions/CompoPiece";
 import MultiSelect from "react-select";
@@ -58,23 +58,24 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
   //   });
   // }, [modelList]);
 
-  console.log(param);
+  // console.log(param);
   useEffect(() => {
     console.log(modelList[0]);
 
-    getModelSteps(MODEL_KEY_PREFIX + USER_IDX, param.name ? param.name : modelList[0]).then((res) => {
+    getModelSteps(MODEL_KEY_PREFIX + USER_IDX, param.name ? param.name : modelList[0], false, true).then((res) => {
       console.log(res);
       setParam({
         ...param,
         name: param.name ? param.name : modelList[0],
         encoder: res.filter((step) => step.includes("encoder")).map((enc) => ENCODERS_TUNING_MAPPING.find((map) => map.value === enc)),
-        scaler: res.filter((step) => step.includes("scaler")),
-        model: res.filter((step) => !step.includes("encoder") && !step.includes("scaler")),
+        scaler: res.filter((step) => step.includes("scaler")).toString(),
+        model: res.filter((step) => !step.includes("encoder") && !step.includes("scaler")).toString(),
       });
     });
-  }, [modelList]);
+  }, [modelList, param.name]);
 
   useEffect(() => {
+    console.log("steps changed");
     setParam({
       ...param,
       steps: steps,
@@ -109,45 +110,63 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
     }
 
     // 스케일러 혹은 모델 미선택 시 steps에서 제거
-    if (value === "None") {
-      setSteps(_.omit(steps, name));
-    }
+    // if (value === "None") {
+    //   setSteps(_.omit(steps, name));
+    // }
   };
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
     setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
+    document.getElementById(resultId).innerHTML = null;
 
     // 입력 필수 값 체크
-    if (param.name === "") {
+    if (param.newName && param.save_name === "") {
       // 모델명 미입력시 포커스 주기
       nameRef.current.focus();
+      setIsLoading(false); // 로딩 종료
       return;
     }
-    if (param.encoder.length === 0 && param.scaler === "" && param.model === "") {
-      // 인코더, 스케일러, 모델 모두 선택 안 했을 시 경고 메시지 띄우기
-      document.getElementById(resultId).innerHTML = '<span style="color: red;">인코더, 스케일러, 모델 중 최소 한 가지는 선택해주세요!</span>';
+    if (param.model === "") {
+      // 모델이 없는 경우 경고 메시지 띄우기
+      document.getElementById(resultId).innerHTML = '<span style="color: red;">모델이 없으면 최적화가 불가능합니다!</span>';
+      setIsLoading(false); // 로딩 종료
       return;
     }
-    const modelName = param.name.replace(" ", "_");
-    const paramResult = {
-      ...param,
-      name: modelName,
-      encoder: [...param.encoder.map((enc) => enc.value)],
-      key: MODEL_KEY_PREFIX + USER_IDX,
-    }; // 입력해야 할 파라미터 설정
+
+    const newModelName = param.newName ? param.save_name.replace(" ", "_") : "";
+    const paramResult = _.omit(
+      {
+        ...param,
+        save_name: newModelName,
+        key: MODEL_KEY_PREFIX + USER_IDX,
+      },
+      ["encoder", "model", "newName", "scaler", "steps"]
+    ); // 입력해야 할 파라미터 설정
+
+    const item = _.pick(
+      {
+        ...param.steps.encoders,
+        [param.scaler]: param.steps.scaler,
+        [param.model]: param.steps.model,
+      },
+      [[...param.encoder.map((enc) => enc.value)].toString(), param.scaler, param.model]
+    ); // 전달할 데이터 설정
+    console.log(item);
+    console.log(paramResult);
+    // return;
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.MakeOptimizer), paramResult);
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
-    await fetch(targetUrl, httpConfig(JSON.stringify(steps)))
+    await fetch(targetUrl, httpConfig(JSON.stringify(item)))
       .then((response) => response.json())
       .then(async (data) => {
         console.log(data);
         if (data.result) {
           const modelData = {
             user_idx: USER_IDX,
-            model_name: modelName,
+            model_name: newModelName ? newModelName : param.name,
           };
           const response = await fetch(UPM_MODEL_URL, httpConfig(JSON.stringify(modelData), "POST", true));
           const freshModelList = await response.json();
@@ -202,11 +221,12 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
             <input
               className={classNames(inputStyle, "w-1/2")}
               type="number"
-              placeholder={"기본값 10"}
+              placeholder={param.optimizer === "grid_search_cv" ? "Grid에서 적용 X" : "기본값 10"}
               min={1}
               onChange={handleChange}
               name={"n_iter"}
               defaultValue={param.n_iter}
+              disabled={param.optimizer === "grid_search_cv" ? true : false}
             />
           </label>
           <label className="self-center">
@@ -237,7 +257,7 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
           <Select
             name={"scoring"}
             className="flex-1 self-center justify-self-stretch"
-            options={param.modelCategory === "reg" ? METRICS_REG : METRICS_CLS}
+            options={REG_MODELS.includes(param.model) ? METRICS_REG : METRICS_CLS}
             text="scoring"
             onChange={handleChange}
             defaultValue={param.scoring}
@@ -278,10 +298,10 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
           onChange={handleChange}
           defaultValue={param.scaler}
         /> */}
-        <ScalerTuning scaler={param.scaler} step={param.steps.scaler} handleSteps={handleSteps} optimizer={param.optimizer} />
+        {param.scaler && <ScalerTuning scaler={param.scaler} step={param.steps.scaler} handleSteps={handleSteps} optimizer={param.optimizer} />}
         <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
         {/* <Select className="flex-1 justify-self-stretch" options={models} name={"model"} text="모델 선택" onChange={handleChange} defaultValue={param.model} /> */}
-        <ModelTuning model={param.model} step={param.steps.model} handleSteps={handleSteps} optimizer={param.optimizer} />
+        {param.model && <ModelTuning model={param.model} step={param.steps.model} handleSteps={handleSteps} optimizer={param.optimizer} />}
       </div>
     </form>
   );

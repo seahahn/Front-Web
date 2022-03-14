@@ -18,13 +18,13 @@ function DTRegTuning({ step, handleSteps, optimizer }) {
     criterion: [], // {“squared_error”, “friedman_mse”, “absolute_error”, “poisson”}, default=”squared_error”
     splitter: [], // {“best”, “random”}, default=”best”
     max_features: [], // int, float or {“auto”, “sqrt”, “log2”}, default=None
-    max_depth: ["randint", null, null, null], // int, default=None
-    max_leaf_nodes: ["randint", null, null, null], // int, default=None
-    min_samples_split: ["randint", null, null, null], // int or float, default=2
-    min_samples_leaf: ["randint", null, null, null], // int or float, default=1
-    min_weight_fraction_leaf: ["randint", null, null, null], // float, default=0.0
-    min_impurity_decrease: ["randint", null, null, null], // float, default=0.0
-    ccp_alpha: ["randint", null, null, null], // non-negative float, default=0.0
+    max_depth: ["_randint", null, null, null], // int, default=None
+    max_leaf_nodes: ["_randint", null, null, null], // int, default=None
+    min_samples_split: ["_randint", null, null, null], // int or float, default=2
+    min_samples_leaf: ["_randint", null, null, null], // int or float, default=1
+    min_weight_fraction_leaf: ["_randint", null, null, null], // float, default=0.0
+    min_impurity_decrease: ["_randint", null, null, null], // float, default=0.0
+    ccp_alpha: ["_randint", null, null, null], // non-negative float, default=0.0
     // random_state: null, // int, RandomState instance, default=None
   };
 

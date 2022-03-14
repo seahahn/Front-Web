@@ -23,11 +23,11 @@ function LogisticTuning({ step, handleSteps, optimizer }) {
     // fit_intercept: true, // bool, default=True
     // warm_start: false, // bool, default=False
     // class_weight: null, // dict(={class_label: weight}) or ‘balanced’, default=None
-    tol: ["randint", null, null, null], // float, default=1e-4
-    C: ["randint", null, null, null], // float, default=1.0
-    intercept_scaling: ["randint", null, null, null], // float, default=1
-    max_iter: ["randint", null, null, null], // int, default=100
-    l1_ratio: ["randint", null, null, null], // float, default=None
+    tol: ["_randint", null, null, null], // float, default=1e-4
+    C: ["_randint", null, null, null], // float, default=1.0
+    intercept_scaling: ["_randint", null, null, null], // float, default=1
+    max_iter: ["_randint", null, null, null], // int, default=100
+    l1_ratio: ["_randint", null, null, null], // float, default=None
     // n_jobs: 1, // int, default=None
     // random_state: null, // int, RandomState instance, default=None
     // verbose: 0, // int, default=0
@@ -60,7 +60,7 @@ function LogisticTuning({ step, handleSteps, optimizer }) {
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
-    console.log("option changed");
+    // console.log("option changed");
     // const classW = options.class_weight === "unbalanced" ? null : options.class_weight;
     handleSteps({ model: { ...options } });
   }, [handleSteps, options]);
@@ -182,20 +182,26 @@ function LogisticTuning({ step, handleSteps, optimizer }) {
         /> */}
       </div>
       <div className="flex flex-row space-x-2">
-        <Switch text="dual : " title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"} onChange={handleChange} name={"dual"} checked={options.dual} />
+        <Switch
+          text="dual : "
+          title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
+          onChange={handleChange}
+          name={"dual"}
+          checked={options.dual ? true : false}
+        />
         <Switch
           text="fit_intercept : "
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"fit_intercept"}
-          checked={options.fit_intercept}
+          checked={options.fit_intercept ? true : false}
         />
         <Switch
           text="warm_start : "
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"warm_start"}
-          checked={options.warm_start}
+          checked={options.warm_start ? true : false}
         />
       </div>
       {/* <div className="flex flex-row space-x-2">

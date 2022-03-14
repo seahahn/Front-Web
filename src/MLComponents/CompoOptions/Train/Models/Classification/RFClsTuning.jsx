@@ -19,15 +19,15 @@ function RFClsTuning({ step, handleSteps, optimizer }) {
     criterion: [], // {“gini”, “entropy”}, default=”gini”
     max_features: [], // {“auto”, “sqrt”, “log2”}, int or float, default=”auto”
     // class_weight: null, // {“balanced”, “balanced_subsample”}, dict or list of dicts, default=None
-    n_estimators: ["randint", null, null, null], // int, default=100
-    max_depth: ["randint", null, null, null], // int, default=None
-    max_leaf_nodes: ["randint", null, null, null], // int, default=None
-    min_samples_split: ["randint", null, null, null], // int or float, default=2
-    min_samples_leaf: ["randint", null, null, null], // int or float, default=1
-    max_samples: ["randint", null, null, null], // int or float, default=None
-    min_weight_fraction_leaf: ["randint", null, null, null], // float, default=0.0
-    min_impurity_decrease: ["randint", null, null, null], // float, default=0.0
-    ccp_alpha: ["randint", null, null, null], // non-negative float, default=0.0
+    n_estimators: ["_randint", null, null, null], // int, default=100
+    max_depth: ["_randint", null, null, null], // int, default=None
+    max_leaf_nodes: ["_randint", null, null, null], // int, default=None
+    min_samples_split: ["_randint", null, null, null], // int or float, default=2
+    min_samples_leaf: ["_randint", null, null, null], // int or float, default=1
+    max_samples: ["_randint", null, null, null], // int or float, default=None
+    min_weight_fraction_leaf: ["_randint", null, null, null], // float, default=0.0
+    min_impurity_decrease: ["_randint", null, null, null], // float, default=0.0
+    ccp_alpha: ["_randint", null, null, null], // non-negative float, default=0.0
     // n_jobs: 1, // int, default=None
     // bootstrap: true, // bool, default=True
     // oob_score: false, // bool, default=False
@@ -293,9 +293,9 @@ function RFClsTuning({ step, handleSteps, optimizer }) {
         /> */}
       </div>
       <div className="flex flex-row space-x-2">
-        <Switch text="bootstrap : " onChange={handleChange} name={"bootstrap"} checked={options.bootstrap} />
-        <Switch text="oob_score : " onChange={handleChange} name={"oob_score"} checked={options.oob_score} />
-        <Switch text="warm_start : " onChange={handleChange} name={"warm_start"} checked={options.warm_start} />
+        <Switch text="bootstrap : " onChange={handleChange} name={"bootstrap"} checked={options.bootstrap ? true : false} />
+        <Switch text="oob_score : " onChange={handleChange} name={"oob_score"} checked={options.oob_score ? true : false} />
+        <Switch text="warm_start : " onChange={handleChange} name={"warm_start"} checked={options.warm_start ? true : false} />
       </div>
     </div>
   );

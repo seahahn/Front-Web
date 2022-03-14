@@ -434,6 +434,7 @@ export const ITEMS_TRAIN = [
       scaler: "", // Select
       model: "", // Select
       steps: {}, // 파이프라인 steps 파라미터 설정
+      newName: false, // input text
     },
   },
   {
@@ -542,6 +543,8 @@ export const MODELS_TUNING_MAPPING = {
   decision_tree_classifier: "DTClsTuning",
   random_forest_classifier: "RFClsTuning",
 };
+
+export const REG_MODELS = ["linear_regression", "ridge", "decision_tree_regressor", "random_forest_regressor"];
 
 // MLComponents/CompoOptions/Eval/Score.jsx 에서 사용될 모델 평가 지표 목록
 export const METRICS_CLS = [

@@ -99,7 +99,7 @@ function Target({ handleOptions, colObjArray, handleSteps, steps, step, optimize
           title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
           onChange={handleChange}
           name={"drop_invariant"}
-          checked={options.drop_invariant}
+          checked={options.drop_invariant ? true : false}
         />
         {/* <Switch ref={returnDfRef} text="returnDf : " onChange={handleChange} name={"return_df"} checked={options.return_df} /> */}
       </div>

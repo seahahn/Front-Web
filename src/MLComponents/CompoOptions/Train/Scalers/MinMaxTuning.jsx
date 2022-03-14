@@ -58,7 +58,13 @@ function MinMaxTuning({ step, handleSteps }) {
       </div> */}
       <div className="flex flex-row space-x-2">
         {/* <Switch text="copy : " onChange={handleChange} name={"copy"} checked={options.copy} /> */}
-        <Switch text="clip : " title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"} onChange={handleChange} name={"clip"} checked={options.clip} />
+        <Switch
+          text="clip : "
+          title={"선택 시 true, false 두 경우 모두에 대하여 학습 진행"}
+          onChange={handleChange}
+          name={"clip"}
+          checked={options.clip ? true : false}
+        />
       </div>
     </div>
   );
