@@ -272,3 +272,6 @@ export const getModelList = async (userIdx, ref) => {
   // console.log(ref.current);
   return modelList;
 };
+
+export const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+export const pwRegexStr = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$";

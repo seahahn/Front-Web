@@ -288,17 +288,11 @@ const Container = () => {
     [layout]
   );
 
+  const navbarProps = { projName, isLoading, initProject, updateProject, newProject, updateProjName, deleteProject };
+
   return (
     <ContainerContext.Provider value={{ modelListRef, projListRef, handleLoading, isLoading }}>
-      <Navbar
-        projName={projName}
-        isLoading={isLoading}
-        initProject={initProject}
-        updateProject={updateProject}
-        newProject={newProject}
-        updateProjName={updateProjName}
-        deleteProject={deleteProject}
-      />
+      <Navbar props={navbarProps} isMLML={true} />
       <div className="flex flex-row h-full mt-16">
         <div className="flex flex-col bg-slate-700">
           {/* 요소 확대/축소 및 위치 이동 기능을 넣기 위한 Wrapper */}

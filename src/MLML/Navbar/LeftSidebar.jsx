@@ -1,5 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -88,6 +89,8 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
               {({ active }) => (
                 <a
                   href="https://seahahn.notion.site/AI-Play-FAQ-c776655cf3ec4ce4873910f2b8baea82"
+                  target="_blank"
+                  rel="noreferrer"
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
                   <HiOutlineExclamationCircle className="inline mx-2" />
                   FAQ
@@ -98,6 +101,8 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
               {({ active }) => (
                 <a
                   href="https://mail.google.com/"
+                  target="_blank"
+                  rel="noreferrer"
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
                   <HiOutlineQuestionMarkCircle className="inline mx-2" />
                   Q&A
@@ -108,6 +113,8 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
               {({ active }) => (
                 <a
                   href="https://seahahn.notion.site/AI-Play-About-66e76675940b4056b5684e32ec23c373"
+                  target="_blank"
+                  rel="noreferrer"
                   className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
                   <HiOutlineInformationCircle className="inline mx-2" />
                   About AI Play
@@ -116,12 +123,10 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="http://localhost:3000/"
-                  className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
+                <Link to="/" className={classNames(active ? "bg-gray-100 text-gray-900" : "text-gray-700", "block px-4 py-2 text-base flex items-center")}>
                   <HiOutlineHome className="inline mx-2" />
                   AI Play로 이동
-                </a>
+                </Link>
               )}
             </Menu.Item>
           </div>

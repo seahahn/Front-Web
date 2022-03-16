@@ -1,95 +1,104 @@
-/* This example requires Tailwind CSS v2.0+ */
-import React, { useMemo, useState } from "react";
-import classNames from "classnames";
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { HiOutlineChatAlt2 } from "react-icons/hi";
-import LeftSidebar from "./LeftSidebar";
+import logoNav from "assets/logo_nav.png";
+import React, { useState } from "react";
+import { Disclosure } from "@headlessui/react";
+import { Link } from "react-router-dom";
+import LeftMLNavPart from "./LeftMLNavPart";
+import LeftSvcIntroPart from "./LeftSvcIntroPart";
+import RightMenu from "./RightMenu";
 import ServiceUsage from "MLML/SubComponents/ServiceUsage";
+import SignUp from "ServiceIntro/SignUp";
+import SignIn from "ServiceIntro/SignIn";
+import FindPw from "ServiceIntro/FindPw";
+import UserProfile from "ServiceIntro/UserProfile";
+import errorPic from "assets/error_pic.png";
 
-function Navbar({ projName, isLoading, initProject, updateProject, newProject, updateProjName, deleteProject }) {
-  const [isServiceUsageOpened, setIsServiceUsageOpened] = useState(false);
+function Navbar({ props, isMLML }) {
+  const userIdx = localStorage.getItem("AIPLAY_USER_IDX");
 
-  const lastSavingTime = useMemo(() => {
-    return isLoading ? "저장 중..." : `마지막 저장 시점 : ${new Date().toLocaleString()}`;
-  }, [isLoading]);
+  const [profilePic, setProfilePic] = useState(localStorage.getItem("AIPLAY_USER_PIC"));
+
+  const [loggedIn, setLoggedIn] = useState(userIdx);
+
+  const [isServiceUsageOpen, setIsServiceUsageOpen] = useState(false);
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [isFindPwOpen, setIsFindPwOpen] = useState(false);
+  const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
+
+  const openerStates = {
+    setIsServiceUsageOpen,
+    setIsSignInOpen,
+    setIsSignUpOpen,
+    setIsFindPwOpen,
+    setIsUserProfileOpen,
+    setLoggedIn,
+  };
+
+  const logout = () => {
+    localStorage.removeItem("AIPLAY_USER_IDX");
+    localStorage.removeItem("AIPLAY_USER_EMAIL");
+    localStorage.removeItem("AIPLAY_USER_NICKNAME");
+    localStorage.removeItem("AIPLAY_USER_PIC");
+    localStorage.removeItem("aiplay_proj_idx");
+    sessionStorage.clear();
+    setLoggedIn(false);
+  };
+
+  const handleImgError = (e) => {
+    console.log(e.target);
+    e.target.src = errorPic;
+    e.target.title = "이미지 로딩 오류";
+  };
 
   return (
     <Disclosure as="nav" className="bg-gray-800 fixed top-0 left-0 right-0 z-50">
-      <div className="px-2 sm:px-6 lg:px-8">
+      <div className="md:block hidden px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
+          {!isMLML && (
+            <Link to="/">
+              <img src={logoNav} alt="logo" className="h-12 rounded-lg" />
+            </Link>
+          )}
           {/* 좌측 메뉴 */}
-          <div className="flex-1 flex items-center leading-normal space-x-4 sm:items-stretch sm:justify-start">
-            <LeftSidebar
-              initProject={initProject}
-              updateProject={updateProject}
-              newProject={newProject}
-              updateProjName={updateProjName}
-              deleteProject={deleteProject}
-            />
-            <div className="flex items-center leading-normal space-x-4">
-              <div className="text-gray-300 text-lg font-medium">{projName ? projName : "untitled"}</div>
-              <div className="text-gray-300 text-sm font-medium">{lastSavingTime}</div>
-            </div>
-          </div>
+          {isMLML ? <LeftMLNavPart props={props} /> : <LeftSvcIntroPart />}
 
           {/* 우측 메뉴 */}
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {/* 공개 채팅 버튼 */}
-            <button
-              type="button"
-              className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-              <span className="sr-only">View notifications</span>
-              <HiOutlineChatAlt2 className="h-8 w-8" />
-            </button>
-
-            {/* 프로필 버튼 & 드롭다운 */}
-            <Menu as="div" className="ml-3 relative">
-              <div>
-                <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </Menu.Button>
-              </div>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95">
-                <Menu.Items className="z-50 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>프로필 설정</div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        onClick={() => setIsServiceUsageOpened(true)}
-                        className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>
-                        서비스 사용 현황
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>로그아웃</div>
-                    )}
-                  </Menu.Item>
-                </Menu.Items>
-              </Transition>
-            </Menu>
-          </div>
+          <RightMenu
+            openerStates={openerStates}
+            isMLML={isMLML}
+            loggedIn={loggedIn}
+            logout={logout}
+            profilePic={profilePic}
+            setProfilePic={setProfilePic}
+            handleImgError={handleImgError}
+          />
         </div>
       </div>
-      <ServiceUsage isOpen={isServiceUsageOpened} setIsOpen={setIsServiceUsageOpened} />
+      {/* 모바일 메뉴 버튼 */}
+      <div className="w-full flex justify-center">
+        <button className="md:hidden xs:block">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      {isMLML ? (
+        <ServiceUsage isOpen={isServiceUsageOpen} setIsOpen={setIsServiceUsageOpen} />
+      ) : (
+        <>
+          <SignIn isOpen={isSignInOpen} openerStates={openerStates} setProfilePic={setProfilePic} />
+          <SignUp isOpen={isSignUpOpen} setIsOpen={setIsSignUpOpen} setIsSignInOpen={setIsSignInOpen} />
+          <FindPw isOpen={isFindPwOpen} setIsOpen={setIsFindPwOpen} setIsSignInOpen={setIsSignInOpen} />
+        </>
+      )}
+      <UserProfile
+        isOpen={isUserProfileOpen}
+        setIsOpen={setIsUserProfileOpen}
+        logout={logout}
+        profilePic={profilePic}
+        setProfilePic={setProfilePic}
+        handleImgError={handleImgError}
+      />
     </Disclosure>
   );
 }

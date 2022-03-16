@@ -12,13 +12,15 @@ export const MLTRAIN_SUFFIX_MODEL = "model/"; // 모델 학습 기능 경로
 // UPM = User-Proj-Managing
 
 export const MODEL_KEY_PREFIX = "model/";
-export const USER_IDX = 1;
+export const USER_IDX = localStorage.getItem("AIPLAY_USER_IDX");
 // export const PROJ_IDX = 777;
 export const PROJ_IDX = Number(window.localStorage.getItem("aiplay_proj_idx"));
 console.log(PROJ_IDX);
 export const UPM_PROJ_URL = "http://localhost:3001/project"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
 export const UPM_MODEL_URL = "http://localhost:3001/model"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
 export const UPM_TARGET = `/${USER_IDX}/${PROJ_IDX}`; // 사용자 및 프로젝트 고유 번호(프로젝트 불러오기, 수정, 삭제에 사용)
+
+export const USER_AUTH_URL = "http://localhost:8002/userauth/"; // User-Auth 서버 주소
 
 // EDA, 전처리 기능 각각의 최종 URL 경로
 export const URLS_PREPROCESS = {
@@ -75,15 +77,32 @@ export const URLS_EVAL = {
   Score: "score",
 };
 
+export const URLS_USER_AUTH = {
+  index: "index",
+  nickname_check: "nickname_check",
+  email_check: "email_check",
+  email_confirm: "email_confirm",
+  signup: "signup",
+  login: "login",
+  search_pw: "search_pw",
+  nickname_change: "nickname_change",
+  pw_change: "pw_change",
+  profile_pic_change: "profile_pic_change",
+  inactive: "inactive",
+};
+
 // fetch API로 HTTP 통신하기 위한 설정
 export const httpConfig = (data = null, method = "POST", contentJson = false) => ({
   method: method,
   mode: CORS, // 'cors'
   body: data,
   headers: {
+    Authorization: `Bearer ${localStorage.getItem("aiplay_csrf_token")}`,
+    "X-CSRFToken": localStorage.getItem("aiplay_csrf_token"),
     "Content-Type": contentJson ? "application/json" : "text/plain;charset=UTF-8",
     "User-Id": USER_IDX,
   },
+  credentials: "include",
 });
 
 // 요청 대상 URL에 쿼리 파라미터를 추가하는 함수
