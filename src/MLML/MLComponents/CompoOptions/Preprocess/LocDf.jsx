@@ -52,6 +52,7 @@ function LocDf({ formId, resultId, param, setParam, isLoading, setIsLoading, ren
     // 백앤드 전송을 위한 설정
     if (!param.isIdxRange && param.idx === "") {
       idxRef.current.focus();
+      setIsLoading(false); // 로딩 종료
       return;
     }
     const paramResult = {

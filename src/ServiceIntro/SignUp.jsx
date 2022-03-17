@@ -24,8 +24,6 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   });
   const [nicknameChecked, setNicknameChecked] = useState(false);
   const [pwVisible, setPwVisible] = useState(false);
-  console.log(input);
-  console.log(emailState);
 
   const emailRef = useRef();
   const pwRef = useRef();
@@ -85,7 +83,6 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.email_check));
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
-    // getCookie("csrftoken");
     await fetch(targetUrl, httpConfig(JSON.stringify({ email: input.email }), "POST", true))
       .then((response) => response.json())
       .then((data) => {
@@ -98,11 +95,6 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
             emailSendingError: false,
           });
         } else {
-          // setEmailState({
-          //   ...emailState,
-          //   emailSendingError: true,
-          // });
-          // alert("인증 번호 발송에 실패했습니다. 잠시 뒤에 시도해주세요.");
           alert("중복된 이메일입니다.");
         }
       })
@@ -138,6 +130,10 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   };
 
   const checkNickname = async () => {
+    if (input.nickname === "") {
+      alert("닉네임을 입력해주세요!");
+      return;
+    }
     // input.nickname이 중복되지 않는지 확인하기
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.nickname_check), { nickname: input.nickname });
     await fetch(targetUrl, httpConfig(null, "GET"))

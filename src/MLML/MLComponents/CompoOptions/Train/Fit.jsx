@@ -1,19 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import _ from "lodash";
-import {
-  targetURL,
-  MLTRAIN_URL,
-  MLTRAIN_SUFFIX_MODEL,
-  URLS_TRAIN,
-  httpConfig,
-  MODEL_KEY_PREFIX,
-  USER_IDX,
-} from "MLML/MLComponents/CompoOptions/networkConfigs";
+import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig, MODEL_KEY_PREFIX } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { MLMLContext } from "pages/MLML";
 import { ContainerContext } from "MLML/MLComponents/Container";
 import { BlockContext } from "MLML/MLComponents/Column";
 import { showDataResult, loadTrainTest } from "MLML/MLComponents/CompoOptions/util";
 import { Select } from "MLML/MLComponents/CompoOptions/CompoPiece";
+import { AppContext } from "App";
 
 /**
  * 모델 훈련 기능을 위한 컴포넌트.
@@ -23,6 +16,7 @@ import { Select } from "MLML/MLComponents/CompoOptions/CompoPiece";
  * @returns "training completed"
  */
 function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
+  const { userIdx } = useContext(AppContext);
   const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
@@ -59,7 +53,7 @@ function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, rende
 
     const paramResult = {
       ...param,
-      key: MODEL_KEY_PREFIX + USER_IDX,
+      key: MODEL_KEY_PREFIX + userIdx,
     }; // 입력해야 할 파라미터 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Fit), paramResult);
     const df = _.pick(loadTrainTest(blockId), ["X_train", "y_train"]); // 훈련 데이터셋 가져오기

@@ -53,6 +53,7 @@ function ILocDf({ formId, resultId, param, setParam, isLoading, setIsLoading, re
     // 입력 필수 값 체크
     if (!param.isIdxRange && param.idx === "") {
       idxRef.current.focus();
+      setIsLoading(false); // 로딩 종료
       return;
     }
     const paramResult = {

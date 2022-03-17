@@ -7,7 +7,6 @@ import {
   URLS_TRAIN,
   httpConfig,
   MODEL_KEY_PREFIX,
-  USER_IDX,
   UPM_MODEL_URL,
 } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { MLMLContext } from "pages/MLML";
@@ -21,8 +20,10 @@ import { BlockContext } from "MLML/MLComponents/Column";
 import Encoder from "./Encoders/Encoder";
 import Scaler from "./Scalers/Scaler";
 import Model from "./Models/Model";
+import { AppContext } from "App";
 
 function MakePipeline({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
+  const { userIdx } = useContext(AppContext);
   const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
@@ -95,7 +96,7 @@ function MakePipeline({ formId, resultId, param, setParam, isLoading, setIsLoadi
       ...param,
       name: modelName,
       encoder: [...param.encoder.map((enc) => enc.value)],
-      key: MODEL_KEY_PREFIX + USER_IDX,
+      key: MODEL_KEY_PREFIX + userIdx,
     }; // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.MakePipeline), paramResult);
@@ -106,7 +107,7 @@ function MakePipeline({ formId, resultId, param, setParam, isLoading, setIsLoadi
         console.log(data);
         if (data.result) {
           const modelData = {
-            user_idx: USER_IDX,
+            user_idx: userIdx,
             model_name: modelName,
           };
           const response = await fetch(UPM_MODEL_URL, httpConfig(JSON.stringify(modelData), "POST", true));

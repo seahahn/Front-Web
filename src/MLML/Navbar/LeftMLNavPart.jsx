@@ -2,8 +2,6 @@ import React from "react";
 import LeftSidebar from "./LeftSidebar";
 
 function LeftMLNavPart({ props }) {
-  console.log(props);
-  console.log(props.projName);
   const lastSavingTime = React.useMemo(() => {
     return props.isLoading ? "저장 중..." : `마지막 저장 시점 : ${new Date().toLocaleString()}`;
   }, [props.isLoading]);

@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { MLMLContext } from "pages/MLML";
 import { ContainerContext } from "MLML/MLComponents/Container";
-import { MODEL_KEY_PREFIX, USER_IDX } from "MLML/MLComponents/CompoOptions/networkConfigs";
+import { MODEL_KEY_PREFIX } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { showDataResult, getModelSteps } from "MLML/MLComponents/CompoOptions/util";
 import { Select } from "MLML/MLComponents/CompoOptions/CompoPiece";
+import { AppContext } from "App";
 
 /**
  * 모델 정보(steps) 확인을 위한 컴포넌트.
@@ -12,6 +13,7 @@ import { Select } from "MLML/MLComponents/CompoOptions/CompoPiece";
  * @returns pipeline의 steps
  */
 function ModelSteps({ formId, resultId, isLoading, setIsLoading, render }) {
+  const { userIdx } = useContext(AppContext);
   const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const initialModelList = modelListRef.current ? modelListRef.current.map((model) => model.model_name) : [];
@@ -21,6 +23,7 @@ function ModelSteps({ formId, resultId, isLoading, setIsLoading, render }) {
 
   useEffect(() => {
     setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
+    setModelName(modelListRef.current ? modelListRef.current[0].model_name : "");
   }, [render]);
 
   const handleChange = (event) => {
@@ -31,7 +34,7 @@ function ModelSteps({ formId, resultId, isLoading, setIsLoading, render }) {
   const handleSubmit = async (event) => {
     setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
-    getModelSteps(MODEL_KEY_PREFIX + USER_IDX, modelName, true).then((res) => showDataResult(dfd, res, resultId));
+    getModelSteps(MODEL_KEY_PREFIX + userIdx, modelName, true).then((res) => showDataResult(dfd, res, resultId));
     setIsLoading(false); // 로딩 종료
   };
 

@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { AppContext } from "App";
 import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
@@ -10,7 +11,7 @@ import Inactive from "./Inactive";
 import ProfilePic from "./ProfilePic";
 
 function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, handleImgError }) {
-  const userIdx = localStorage.getItem("AIPLAY_USER_IDX");
+  const { userIdx } = useContext(AppContext);
   const userEmail = localStorage.getItem("AIPLAY_USER_EMAIL");
   const nickname = localStorage.getItem("AIPLAY_USER_NICKNAME");
 

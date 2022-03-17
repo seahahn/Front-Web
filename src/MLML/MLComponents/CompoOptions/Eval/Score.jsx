@@ -49,10 +49,13 @@ function Score({ formId, resultId, param, setParam, isLoading, setIsLoading, ren
             .map((x) => x.join(" : "))
             .join("<br/>")
         );
-        document.getElementById(resultId).innerHTML = Object.entries(data)
-          .map((x) => [x[0].split("_")[1], x[1]].join(" : "))
-          .join("<br/>");
-        // showDataResult(dfd, JSON.stringify(data, null, 1), resultId);
+        if (data.hasOwnProperty("X_train")) {
+          document.getElementById(resultId).innerHTML = Object.entries(data)
+            .map((x) => [x[0].split("_")[1], x[1]].join(" : "))
+            .join("<br/>");
+        } else {
+          showDataResult(dfd, data, resultId);
+        }
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료
