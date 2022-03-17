@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { AppContext } from "App";
 import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
@@ -7,6 +8,8 @@ import { inputStyle } from "MLML/MLComponents/componentStyle";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "MLML/MLComponents/CompoOptions/networkConfigs";
 
 function SignIn({ isOpen, openerStates, setProfilePic }) {
+  const { setUserIdx } = useContext(AppContext);
+
   const setIsOpen = openerStates.setIsSignInOpen;
   const setIsSignUpOpen = openerStates.setIsSignUpOpen;
   const setIsFindPwOpen = openerStates.setIsFindPwOpen;
@@ -18,7 +21,6 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
   });
 
   const [pwVisible, setPwVisible] = useState(false);
-  console.log(input);
 
   const emailRef = useRef();
   const pwRef = useRef();
@@ -63,12 +65,12 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
       .then((data) => {
         if (data.result) {
           // alert("로그인 성공");
-          // USER_IDX localStorage에 저장하기
           const userData = data.user_data;
           localStorage.setItem("AIPLAY_USER_IDX", userData.idx);
           localStorage.setItem("AIPLAY_USER_EMAIL", userData.email);
           localStorage.setItem("AIPLAY_USER_NICKNAME", userData.nickname);
           localStorage.setItem("AIPLAY_USER_PIC", userData.profile_pic);
+          setUserIdx(userData.idx);
           setProfilePic(userData.profile_pic);
           setLoggedIn(true);
           setIsOpen(false);

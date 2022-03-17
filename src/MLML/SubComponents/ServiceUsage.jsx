@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import classNames from "classnames";
 import { ContainerContext } from "MLML/MLComponents/Container";
 import { HiX, HiOutlineChevronDown, HiOutlineChevronLeft } from "react-icons/hi";
-import { httpConfig, UPM_MODEL_URL, USER_IDX } from "MLML/MLComponents/CompoOptions/networkConfigs";
-import { getModelList } from "MLML/MLComponents/CompoOptions/util";
+import { httpConfig, UPM_MODEL_URL } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { inputStyle } from "MLML/MLComponents/componentStyle";
+import { AppContext } from "App";
 
 const ServiceUsage = ({ isOpen, setIsOpen }) => {
   const { projListRef, modelListRef, handleLoading, isLoading } = useContext(ContainerContext);
@@ -13,20 +13,9 @@ const ServiceUsage = ({ isOpen, setIsOpen }) => {
   const [usageListOpened, setUsageListOpened] = useState(true);
   const [modelList, setModelList] = useState(modelListRef.current);
 
-  // useEffect(() => {
-  //   console.log("ServiceUsage useEffect");
-  //   isOpen && getModelList(USER_IDX, modelListRef).then((result) => setModelList(result));
-  // }, [modelListRef]);
-
-  // useEffect(() => {
-  //   isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
-  // }, [isOpen]);
-
   useEffect(() => {
     setModelList(modelListRef.current);
     isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
-
-    // console.log(modelListRef.current);
   }, [isOpen, isLoading, modelListRef]);
 
   return (
@@ -91,6 +80,8 @@ export default ServiceUsage;
  * @param setModelList : 모델 목록을 전달하는 함수
  */
 const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) => {
+  const { userIdx } = useContext(AppContext);
+
   const [isUpdating, setIsUpdating] = useState(false);
   const [newModelName, setNewModelName] = useState("");
 
@@ -104,7 +95,7 @@ const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) 
       old_model_name: model.model_name,
       model_name: newModelName,
     };
-    const response = await fetch(`${UPM_MODEL_URL}/name/${USER_IDX}/${model.idx}`, httpConfig(JSON.stringify(modelData), "PUT", true));
+    const response = await fetch(`${UPM_MODEL_URL}/name/${userIdx}/${model.idx}`, httpConfig(JSON.stringify(modelData), "PUT", true));
     const result = await response.json();
     console.log(result);
     modelListRef.current = result;
@@ -115,7 +106,7 @@ const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) 
   const deleteModel = async () => {
     if (window.confirm("정말로 삭제하시겠어요?")) {
       handleLoading(true);
-      const response = await fetch(`${UPM_MODEL_URL}/${USER_IDX}/${model.idx}`, httpConfig(null, "DELETE"));
+      const response = await fetch(`${UPM_MODEL_URL}/${userIdx}/${model.idx}`, httpConfig(null, "DELETE"));
       const result = await response.json();
       console.log(result);
       modelListRef.current = result;

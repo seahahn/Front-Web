@@ -9,7 +9,6 @@ function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
   const [input, setInput] = useState({
     email: "",
   });
-  console.log(input);
 
   const emailRef = useRef();
 

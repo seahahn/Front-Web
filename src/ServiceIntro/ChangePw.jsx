@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { AppContext } from "App";
 import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
@@ -8,7 +9,8 @@ import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "MLML/MLCom
 import { pwRegexStr } from "MLML/MLComponents/CompoOptions/util";
 
 function ChangePw({ isOpen, setIsOpen }) {
-  const userIdx = localStorage.getItem("AIPLAY_USER_IDX");
+  const { userIdx } = useContext(AppContext);
+
   const [input, setInput] = useState({
     pw: "",
     new_pw: "",

@@ -13,7 +13,7 @@ function ServiceIntro() {
       .then((data) => {
         if (data.result) {
           console.log(data);
-          window.localStorage.setItem("aiplay_csrf_token", data.csrf_token);
+          localStorage.setItem("aiplay_csrf_token", data.csrf_token);
           setCookie("csrftoken", data.csrf_token);
         }
       });

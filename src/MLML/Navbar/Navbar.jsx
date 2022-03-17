@@ -1,5 +1,6 @@
 import logoNav from "assets/logo_nav.png";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AppContext } from "App";
 import { Disclosure } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import LeftMLNavPart from "./LeftMLNavPart";
@@ -13,7 +14,7 @@ import UserProfile from "ServiceIntro/UserProfile";
 import errorPic from "assets/error_pic.png";
 
 function Navbar({ props, isMLML }) {
-  const userIdx = localStorage.getItem("AIPLAY_USER_IDX");
+  const { userIdx } = useContext(AppContext);
 
   const [profilePic, setProfilePic] = useState(localStorage.getItem("AIPLAY_USER_PIC"));
 

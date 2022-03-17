@@ -1,16 +1,18 @@
-import React, { useRef, Fragment } from "react";
+import React, { useRef, Fragment, useContext } from "react";
+import { AppContext } from "App";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineCamera } from "react-icons/ai";
 import classNames from "classnames";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "MLML/MLComponents/CompoOptions/networkConfigs";
 
 function ProfilePic({ profilePic, setProfilePic }) {
+  const { userIdx } = useContext(AppContext);
+
   const picInputRef = useRef();
 
   const uploadImage = async (e) => {
     console.log(e);
     console.log("image upload");
-    const userIdx = localStorage.getItem("AIPLAY_USER_IDX");
     const formData = new FormData();
     formData.append("profile_pic", e.target.files[0]);
     formData.append("user_idx", userIdx);
@@ -42,7 +44,6 @@ function ProfilePic({ profilePic, setProfilePic }) {
 
   const removeImage = async () => {
     if (window.confirm("정말 삭제하시겠어요?")) {
-      const userIdx = localStorage.getItem("AIPLAY_USER_IDX");
       const formData = new FormData();
       formData.append("user_idx", userIdx);
 

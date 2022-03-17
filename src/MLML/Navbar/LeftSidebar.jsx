@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { Fragment } from "react";
@@ -14,14 +14,17 @@ import {
   HiOutlineQuestionMarkCircle,
   HiOutlineHome,
 } from "react-icons/hi";
+import { ContainerContext } from "MLML/MLComponents/Container";
 import NewProject from "MLML/SubComponents/NewProject";
 import ProjNameChange from "MLML/SubComponents/ProjNameChange";
 import LoadProject from "MLML/SubComponents/LoadProject";
 
 const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, deleteProject }) => {
+  const { isLoadProjectOpen, setIsLoadProjectOpen } = useContext(ContainerContext);
+
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
   const [isProjNameChangeOpen, setIsProjNameChangeOpen] = useState(false);
-  const [isLoadProjectOpen, setIsLoadProjectOpen] = useState(false);
+  // const [isLoadProjectOpen, setIsLoadProjectOpen] = useState(false);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -133,7 +136,13 @@ const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, d
         </Menu.Items>
       </Transition>
       <NewProject isOpen={isNewProjectOpen} setIsOpen={setIsNewProjectOpen} newProject={newProject} />
-      <LoadProject isOpen={isLoadProjectOpen} setIsOpen={setIsLoadProjectOpen} initProject={initProject} deleteProject={deleteProject} />
+      <LoadProject
+        isOpen={isLoadProjectOpen}
+        setIsOpen={setIsLoadProjectOpen}
+        setIsNewProjectOpen={setIsNewProjectOpen}
+        initProject={initProject}
+        deleteProject={deleteProject}
+      />
       <ProjNameChange isOpen={isProjNameChangeOpen} setIsOpen={setIsProjNameChangeOpen} updateProjName={updateProjName} />
     </Menu>
   );

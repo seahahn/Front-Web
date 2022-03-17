@@ -1,19 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import _ from "lodash";
-import {
-  targetURL,
-  MLTRAIN_URL,
-  MLTRAIN_SUFFIX_MODEL,
-  URLS_TRAIN,
-  httpConfig,
-  MODEL_KEY_PREFIX,
-  USER_IDX,
-} from "MLML/MLComponents/CompoOptions/networkConfigs";
+import { targetURL, MLTRAIN_URL, MLTRAIN_SUFFIX_MODEL, URLS_TRAIN, httpConfig, MODEL_KEY_PREFIX } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { MLMLContext } from "pages/MLML";
 import { ContainerContext } from "MLML/MLComponents/Container";
 import { BlockContext } from "MLML/MLComponents/Column";
 import { showDataResult, loadTrainTest, getModelSteps } from "MLML/MLComponents/CompoOptions/util";
 import { Select } from "MLML/MLComponents/CompoOptions/CompoPiece";
+import { AppContext } from "App";
 
 /**
  * 모델 훈련 후 중간 과정인 인코더 또는 스케일러의 결과 확인을 위한 컴포넌트.
@@ -22,6 +15,7 @@ import { Select } from "MLML/MLComponents/CompoOptions/CompoPiece";
  * @returns 정상 작동 시 가공된 데이터프레임, 파이프라인 fit을 하지 않은 경우 "훈련되지 않은 모델입니다."
  */
 function Transform({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
+  const { userIdx } = useContext(AppContext);
   const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
@@ -37,12 +31,12 @@ function Transform({ formId, resultId, param, setParam, isLoading, setIsLoading,
       ...param,
       name: modelList[0],
     });
-  }, []);
+  }, [render]);
 
   useEffect(() => {
     console.log(modelList.length);
     modelList.length !== 0 &&
-      getModelSteps(MODEL_KEY_PREFIX + USER_IDX, param.name ? param.name : modelList[0]).then((res) => {
+      getModelSteps(MODEL_KEY_PREFIX + userIdx, param.name ? param.name : modelList[0]).then((res) => {
         console.log(res);
         setTargetList(res);
       });
@@ -73,7 +67,7 @@ function Transform({ formId, resultId, param, setParam, isLoading, setIsLoading,
 
     const paramResult = {
       ...param,
-      key: MODEL_KEY_PREFIX + USER_IDX,
+      key: MODEL_KEY_PREFIX + userIdx,
     }; // 입력해야 할 파라미터 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Transform), paramResult);
     const df = _.pick(loadTrainTest(blockId), ["X_train"]).X_train; // 훈련 데이터셋 가져오기

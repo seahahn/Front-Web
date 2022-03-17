@@ -1,19 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import classNames from "classnames";
 import { inputStyle } from "MLML/MLComponents/componentStyle";
+import { ContainerContext } from "MLML/MLComponents/Container";
 
 function ProjNameChange({ isOpen, setIsOpen, updateProjName }) {
-  const [newProjName, setNewProjName] = React.useState("");
+  const { projName } = useContext(ContainerContext);
+
+  const [newProjName, setNewProjName] = useState(projName);
 
   useEffect(() => {
     isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
   }, [isOpen]);
 
+  useEffect(() => {
+    setNewProjName(projName);
+  }, [projName]);
+
   const handleConfirm = () => {
     if (newProjName) {
+      const projIdx = Number(localStorage.getItem("aiplay_proj_idx"));
       setIsOpen(false);
-      updateProjName(newProjName);
-      setNewProjName("");
+      updateProjName(projIdx, newProjName);
     } else {
       alert("프로젝트명을 입력해주세요.");
     }
@@ -28,7 +35,7 @@ function ProjNameChange({ isOpen, setIsOpen, updateProjName }) {
           type="text"
           className={inputStyle + " mx-2"}
           placeholder="프로젝트명을 입력해주세요"
-          value={newProjName}
+          defaultValue={projName}
           onChange={(e) => setNewProjName(e.target.value)}
         />
         <div className="flex flex-row justify-around">

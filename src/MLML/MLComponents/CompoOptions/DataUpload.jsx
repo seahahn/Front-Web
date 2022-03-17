@@ -1,14 +1,17 @@
 import React, { useState, useContext } from "react";
-import { UPLOAD_ACCEPT, MLFUNCS_URL, URLS_PREPROCESS, USER_IDX } from "MLML/MLComponents/CompoOptions/networkConfigs";
+import { AppContext } from "App";
+import { UPLOAD_ACCEPT, MLFUNCS_URL, URLS_PREPROCESS } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { funcResultConfig, funcResultLayout } from "MLML/MLComponents/CompoOptions/funcResultConfigs";
 import { MLMLContext } from "pages/MLML";
 import { BlockContext } from "MLML/MLComponents/Column";
 import { saveDf, jsonToFile } from "MLML/MLComponents/CompoOptions/util";
 
 function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
-  const [file, setFile] = useState();
-  const { dfd, storage } = useContext(MLMLContext);
+  const { userIdx } = useContext(AppContext);
+  const { dfd } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
+
+  const [file, setFile] = useState();
 
   // 파일 선택 시 선택한 파일 데이터를 file State에 저장
   const handleChange = (event) => {
@@ -29,7 +32,7 @@ function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
       mode: "cors", // 'cors'
       body: formData,
       headers: {
-        "User-Id": USER_IDX,
+        "User-Id": userIdx,
       },
     }; // HTTP 통신 설정
 

@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useEffect, useRef, createContext } from "react";
+import React, { useState, useCallback, useEffect, useRef, createContext, useContext } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import shortid from "shortid";
 import classNames from "classnames";
 import styled from "styled-components";
 import LoadingSpin from "react-loading-spin";
+import { AppContext } from "App";
 import Navbar from "MLML/Navbar/Navbar";
 import TrashDropZone from "MLML/MLComponents/TrashDropZone";
 import SideBar from "MLML/MLComponents/SideBar";
@@ -18,7 +19,7 @@ import {
   handleRemoveItemFromLayout,
 } from "MLML/MLComponents/helpers";
 import { SIDEBAR_ITEM, COLUMN } from "MLML/MLComponents/constants";
-import { httpConfig, UPM_PROJ_URL, UPM_TARGET, USER_IDX } from "MLML/MLComponents/CompoOptions/networkConfigs";
+import { httpConfig, UPM_PROJ_URL } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { getProjList, getModelList } from "MLML/MLComponents/CompoOptions/util";
 
 const Toolbox = styled.div`
@@ -47,13 +48,15 @@ const Container = () => {
   const emptyLayout = emptyData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
   const initialLayout = initialData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
 
-  const projIdx = Number(window.localStorage.getItem("aiplay_proj_idx"));
-  console.log(projIdx);
+  const { userIdx } = useContext(AppContext);
 
   const [projName, setProjName] = useState("");
   const [layout, setLayout] = useState(emptyLayout);
   const [movingEnabled, setMovingEnabled] = useState(false); // 마우스 휠, 드래그 등을 이용한 작업 영역 위치 조정 가능 여부 상태
   const [isLoading, setIsLoading] = useState(false); // 저장 중 상태
+
+  const [isLoadProjectOpen, setIsLoadProjectOpen] = useState(false); // 프로젝트 불러오기 창 열림 여부
+  const [isInitialOpen, setIsInitialOpen] = useState(false); // 프로젝트 불러오기 창 열림 여부
 
   const handleLoading = (input) => {
     setIsLoading(input);
@@ -77,7 +80,7 @@ const Container = () => {
     async (proj_name) => {
       setIsLoading(true);
       const projectData = {
-        user_idx: USER_IDX,
+        user_idx: userIdx,
         proj_name: proj_name,
         layout: initialLayout,
       };
@@ -85,70 +88,81 @@ const Container = () => {
       const newProjIdx = await response.json();
       console.log(newProjIdx);
 
-      window.sessionStorage.clear(); // 기존 프로젝트 데이터 삭제
-      window.localStorage.setItem("aiplay_proj_idx", newProjIdx); // 새로운 프로젝트 고유 번호 지정
+      sessionStorage.clear(); // 기존 프로젝트 데이터 삭제
+      localStorage.setItem("aiplay_proj_idx", newProjIdx); // 새로운 프로젝트 고유 번호 지정
       setLayout(initialLayout);
       setProjName(proj_name);
-      getProjList(USER_IDX, projListRef);
-      getModelList(USER_IDX, modelListRef);
+      getProjList(userIdx, projListRef);
+      getModelList(userIdx, modelListRef);
       setIsLoading(false);
     },
-    [initialLayout]
+    [initialLayout, userIdx]
   );
 
   // 프로젝트 목록에서 수행 가능한 프로젝트 삭제 기능
-  const deleteProject = useCallback(async (proj_idx) => {
-    if (window.confirm("정말로 삭제하시겠어요?")) {
-      setIsLoading(true);
-      const response = await fetch(UPM_PROJ_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "DELETE"));
-      const result = await response.json();
-      console.log(result);
-      setIsLoading(false);
-      return true;
-    }
-    return false;
-  }, []);
+  const deleteProject = useCallback(
+    async (proj_idx) => {
+      if (window.confirm("정말로 삭제하시겠어요?")) {
+        setIsLoading(true);
+        const response = await fetch(UPM_PROJ_URL + `/${userIdx}/${proj_idx}`, httpConfig(null, "DELETE"));
+        const result = await response.json();
+        console.log(result);
+        setIsLoading(false);
+        return true;
+      }
+      return false;
+    },
+    [userIdx]
+  );
 
   // 프로젝트명 변경
-  const updateProjName = useCallback(async (proj_name) => {
-    setIsLoading(true);
-    const projectData = {
-      proj_name: proj_name,
-    };
-    const response = await fetch(UPM_PROJ_URL + "/name" + UPM_TARGET, httpConfig(JSON.stringify(projectData), "PUT", true));
-    const result = await response.json();
-    console.log(result);
-    result === true && setProjName(proj_name);
-    setIsLoading(false);
-  }, []);
+  const updateProjName = useCallback(
+    async (proj_idx, proj_name) => {
+      setIsLoading(true);
+      const projectData = {
+        proj_name: proj_name,
+      };
+      const response = await fetch(UPM_PROJ_URL + "/name" + `/${userIdx}/${proj_idx}`, httpConfig(JSON.stringify(projectData), "PUT", true));
+      const result = await response.json();
+      console.log(result);
+      result === true && setProjName(proj_name);
+      getProjList(userIdx, projListRef);
+      setIsLoading(false);
+    },
+    [userIdx]
+  );
 
   // 프로젝트 실행 시 프로젝트 구조 불러와서 적용하기
-  const initProject = async (proj_idx) => {
-    console.log(proj_idx);
-    // 사용자 번호와 프로젝트 번호를 통해 프로젝트 구조 불러오기
-    const response = await fetch(UPM_PROJ_URL + `/${USER_IDX}/${proj_idx}`, httpConfig(null, "GET"));
-    // 기존 프로젝트라면 불러오고, 새로운 프로젝트라면 새로운 프로젝트 데이터 생성
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      window.localStorage.setItem("aiplay_proj_idx", proj_idx);
-      setLayout(data.layout);
-      setProjName(data.proj_name);
-      getProjList(USER_IDX, projListRef);
-      getModelList(USER_IDX, modelListRef);
-    } else {
-      console.log("initProject error");
-      newProject("untitled");
-    }
-  };
+  const initProject = useCallback(
+    async (proj_idx) => {
+      console.log(proj_idx);
+      // 사용자 번호와 프로젝트 번호를 통해 프로젝트 구조 불러오기
+      const response = await fetch(UPM_PROJ_URL + `/${userIdx}/${proj_idx}`, httpConfig(null, "GET"));
+      // 기존 프로젝트라면 불러오고, 새로운 프로젝트라면 새로운 프로젝트 데이터 생성
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        localStorage.setItem("aiplay_proj_idx", proj_idx);
+        setLayout(data.layout);
+        setProjName(data.proj_name);
+        getProjList(userIdx, projListRef);
+        getModelList(userIdx, modelListRef);
+      } else {
+        console.log("initProject error");
+        newProject("untitled");
+      }
+    },
+    [newProject, userIdx]
+  );
 
   const updateProject = useCallback(async () => {
     // 기존 프로젝트 수정 시 사용할 함수
     setIsLoading(true); // 저장 시작
+    const projIdx = localStorage.getItem("aiplay_proj_idx");
     const projectData = {
       layout: layoutRef.current,
     };
-    await fetch(UPM_PROJ_URL + UPM_TARGET, httpConfig(JSON.stringify(projectData), "PUT", true))
+    await fetch(UPM_PROJ_URL + `/${userIdx}/${projIdx}`, httpConfig(JSON.stringify(projectData), "PUT", true))
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -159,14 +173,15 @@ const Container = () => {
         console.error(error);
         setIsLoading(false); // 저장 완료
       });
-  }, []);
+  }, [userIdx]);
 
   // 프로젝트 실행 시 초기 세팅
   useEffect(() => {
     console.log("initProject");
-    initProject(projIdx);
-    // getModelList(USER_IDX, modelListRef);
-  }, [projIdx]);
+    localStorage.setItem("aiplay_proj_idx", null);
+    setIsInitialOpen(true);
+    setIsLoadProjectOpen(true);
+  }, [initProject, userIdx]);
 
   useEffect(() => {
     // layout 데이터 변경 시 저장
@@ -291,7 +306,8 @@ const Container = () => {
   const navbarProps = { projName, isLoading, initProject, updateProject, newProject, updateProjName, deleteProject };
 
   return (
-    <ContainerContext.Provider value={{ modelListRef, projListRef, handleLoading, isLoading }}>
+    <ContainerContext.Provider
+      value={{ projName, modelListRef, projListRef, handleLoading, isLoading, isLoadProjectOpen, setIsLoadProjectOpen, isInitialOpen, setIsInitialOpen }}>
       <Navbar props={navbarProps} isMLML={true} />
       <div className="flex flex-row h-full mt-16">
         <div className="flex flex-col bg-slate-700">

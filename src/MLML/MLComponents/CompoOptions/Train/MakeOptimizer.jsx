@@ -8,7 +8,6 @@ import {
   URLS_TRAIN,
   httpConfig,
   MODEL_KEY_PREFIX,
-  USER_IDX,
   UPM_MODEL_URL,
 } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { MLMLContext } from "pages/MLML";
@@ -22,8 +21,10 @@ import { BlockContext } from "MLML/MLComponents/Column";
 import EncoderTuning from "./Encoders/EncoderTuning";
 import ScalerTuning from "./Scalers/ScalerTuning";
 import ModelTuning from "./Models/ModelTuning";
+import { AppContext } from "App";
 
 function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
+  const { userIdx } = useContext(AppContext);
   const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
@@ -62,7 +63,7 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
   useEffect(() => {
     console.log(modelList[0]);
 
-    getModelSteps(MODEL_KEY_PREFIX + USER_IDX, param.name ? param.name : modelList[0], false, true).then((res) => {
+    getModelSteps(MODEL_KEY_PREFIX + userIdx, param.name ? param.name : modelList[0], false, true).then((res) => {
       console.log(res);
       setParam({
         ...param,
@@ -81,18 +82,6 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
       steps: steps,
     });
   }, [steps]);
-
-  // 컬럼 선택(MultiSelect)
-  const settingEncoders = (e) => {
-    setParam({
-      ...param,
-      encoder: e,
-    });
-
-    // 선택한 인코더에 맞춰 steps의 encoders 수정하기
-    const encArray = [...e.map((enc) => enc.value)];
-    setSteps({ ...steps, encoders: _.pick(steps.encoders, encArray) });
-  };
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
@@ -140,7 +129,7 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
       {
         ...param,
         save_name: newModelName,
-        key: MODEL_KEY_PREFIX + USER_IDX,
+        key: MODEL_KEY_PREFIX + userIdx,
       },
       ["encoder", "model", "newName", "scaler", "steps"]
     ); // 입력해야 할 파라미터 설정
@@ -165,7 +154,7 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
         console.log(data);
         if (data.result) {
           const modelData = {
-            user_idx: USER_IDX,
+            user_idx: userIdx,
             model_name: newModelName ? newModelName : param.name,
           };
           const response = await fetch(UPM_MODEL_URL, httpConfig(JSON.stringify(modelData), "POST", true));

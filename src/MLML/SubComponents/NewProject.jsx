@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import classNames from "classnames";
 import { inputStyle } from "MLML/MLComponents/componentStyle";
+import { ContainerContext } from "MLML/MLComponents/Container";
 
 function NewProject({ isOpen, setIsOpen, newProject }) {
+  const { projListRef, isLoading, handleLoading, isInitialOpen, setIsInitialOpen } = useContext(ContainerContext);
+
   const [newProjName, setNewProjName] = React.useState("");
 
   useEffect(() => {
@@ -12,6 +15,7 @@ function NewProject({ isOpen, setIsOpen, newProject }) {
   const handleConfirm = () => {
     if (newProjName) {
       setIsOpen(false);
+      setIsInitialOpen(false);
       newProject(newProjName);
       setNewProjName("");
     } else {
