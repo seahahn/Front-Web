@@ -7,10 +7,10 @@ import LeftMLNavPart from "./LeftMLNavPart";
 import LeftSvcIntroPart from "./LeftSvcIntroPart";
 import RightMenu from "./RightMenu";
 import ServiceUsage from "MLML/SubComponents/ServiceUsage";
-import SignUp from "ServiceIntro/SignUp";
-import SignIn from "ServiceIntro/SignIn";
-import FindPw from "ServiceIntro/FindPw";
-import UserProfile from "ServiceIntro/UserProfile";
+import SignUp from "ServiceIntro/UserAuthFuncs/SignUp";
+import SignIn from "ServiceIntro/UserAuthFuncs/SignIn";
+import FindPw from "ServiceIntro/UserAuthFuncs/FindPw";
+import UserProfile from "ServiceIntro/UserAuthFuncs/UserProfile";
 import errorPic from "assets/error_pic.png";
 
 function Navbar({ props, isMLML }) {
