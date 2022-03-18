@@ -310,7 +310,7 @@ const Container = () => {
       value={{ projName, modelListRef, projListRef, handleLoading, isLoading, isLoadProjectOpen, setIsLoadProjectOpen, isInitialOpen, setIsInitialOpen }}>
       <Navbar props={navbarProps} isMLML={true} />
       <div className="flex flex-row h-full mt-16">
-        <div className="flex flex-col bg-slate-700">
+        <div className="flex flex-col bg-black">
           {/* 요소 확대/축소 및 위치 이동 기능을 넣기 위한 Wrapper */}
           <TransformWrapper minScale={0.1} maxScale={2} limitToBounds={false} disabled={!movingEnabled}>
             {/* 확대 / 축소 / 원 위치 이동 함수 넣기 */}
@@ -336,7 +336,7 @@ const Container = () => {
                 </Toolbox>
                 {/* TransformComponent 안의 컴포넌트가 실제로 확대 / 축소 / 위치 이동 기능이 적용되는 대상임 */}
                 <TransformComponent>
-                  <div className="page columns h-full">
+                  <div className="flex py-5 h-full">
                     {/* layout 데이터에서 column 하나씩 내놓음. 한 column에 한 index */}
                     <LayoutContext.Provider value={{ layoutRef }}>
                       {layout.map((column, index) => {

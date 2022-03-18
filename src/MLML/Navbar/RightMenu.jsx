@@ -22,7 +22,7 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
             <Link to="/mlml">
               <button
                 type="button"
-                className="bg-blue-300 p-1 rounded-xl text-white hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                className="bg-teal-300 p-1 rounded-xl text-white hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 MLML
               </button>
             </Link>
@@ -93,7 +93,7 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
           <button
             type="button"
             onClick={() => openerStates.setIsSignUpOpen(true)}
-            className="bg-blue-300 p-1 rounded-lg text-slate-700 hover:text-white hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-gray-800 hover:ring-white">
+            className="bg-teal-300 p-1 rounded-lg text-slate-700 hover:text-white hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-gray-800 hover:ring-white">
             <span>Sign Up</span>
           </button>
         </div>

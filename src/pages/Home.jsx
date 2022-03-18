@@ -2,18 +2,18 @@ import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 
-import AnimationRevealPage from "ServiceIntro/Templates/helpers/AnimationRevealPage";
+import AnimationRevealPage from "ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
 
-import Hero from "ServiceIntro/Templates/hero/TwoColumnWithFeaturesAndTestimonial";
-import Features from "ServiceIntro/Templates/features/ThreeColWithSideImage";
-import MainFeature from "ServiceIntro/Templates/features/TwoColWithTwoHorizontalFeaturesAndButton";
-import FeatureStats from "ServiceIntro/Templates/features/ThreeColCenteredStatsPrimaryBackground";
-import Pricing from "ServiceIntro/Templates/pricing/TwoPlansWithDurationSwitcher";
-import Testimonial from "ServiceIntro/Templates/testimonials/TwoColumnWithImageAndRating";
-import FAQ from "ServiceIntro/Templates/faqs/SingleCol";
-import GetStarted from "ServiceIntro/Templates/cta/GetStartedLight";
+import Hero from "ServiceIntro/WebTemplate/hero/TwoColumnWithFeaturesAndTestimonial";
+import Features from "ServiceIntro/WebTemplate/features/ThreeColWithSideImage";
+import MainFeature from "ServiceIntro/WebTemplate/features/TwoColWithTwoHorizontalFeaturesAndButton";
+import FeatureStats from "ServiceIntro/WebTemplate/features/ThreeColCenteredStatsPrimaryBackground";
+import Pricing from "ServiceIntro/WebTemplate/pricing/TwoPlansWithDurationSwitcher";
+import Testimonial from "ServiceIntro/WebTemplate/testimonials/TwoColumnWithImageAndRating";
+import FAQ from "ServiceIntro/WebTemplate/faqs/SingleCol";
+import GetStarted from "ServiceIntro/WebTemplate/cta/GetStartedLight";
 
-const HighlightedText = styled.span`text-teal-300`;
+const HighlightedText = tw.span`text-primary-300`;
 
 function Home() {
   return (

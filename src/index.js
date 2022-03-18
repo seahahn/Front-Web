@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import GlobalStyles from "./GlobalStyles";
-import "./index.css";
-import "./App.css";
-import "./styles.css";
 import "tw-elements";
+import GlobalStyles from "./styles/GlobalStyles";
+import "./styles/index.css";
+import "./styles/App.css";
+import "./styles/styles.css";
 import App from "./App";
 
 ReactDOM.render(
