@@ -26,17 +26,33 @@ function Home() {
     primaryButtonUrl: "",
     primaryButtonText: "Get Started",
     buttonRounded: true,
-    features: [
-      "GUI 기반의 머신 러닝 모델 제작 도구 말랑말랑(MalLang-MalLang)",
-      "직접 체험 가능한 N개 이상의 머신 러닝 모델 프로젝트",
-      "N개의 딥 러닝 프로젝트",
-    ],
+    features: ["GUI 기반 머신 러닝 모델 제작 도구 말랑말랑(MalLang-MalLang)", "직접 체험 가능한 N개 이상의 머신 러닝 모델 프로젝트", "N개의 딥 러닝 프로젝트"],
     testimonial: {
       quote:
         "250년 이상 동안 경제 성장의 근본적인 동인은 기술 혁신이었다.\n이들 중 가장 중요한 것은 경제학자들이 범용 기술이라고 부르는 증기기관, 전기, 내연기관 등을 포함한다.\n우리 시대의 가장 중요한 범용기술은 인공지능, 특히 기계 학습이다.",
       customerName: "에릭 브린욜프손, 앤드류 맥아피",
       customerCompany: "MIT 슬론경영대학원 교수, 부교수",
     },
+  };
+
+  const featureStatsProps = {
+    subheading: "",
+    heading: "N개 이상의 인공지능 프로젝트",
+    description: "이미 인공지능에 관심을 가진 수많은 분들이 주목하고 있습니다!\n우리는 여러분이 쉽고 재미있게 인공지능을 경험할 수 있도록 도와드립니다!",
+    stats: [
+      {
+        key: "Clients",
+        value: "10+",
+      },
+      {
+        key: "Revenue",
+        value: "$10+",
+      },
+      {
+        key: "Employees",
+        value: "3+",
+      },
+    ],
   };
 
   const faqProps = {
@@ -79,7 +95,7 @@ function Home() {
   return (
     <AnimationRevealPage>
       <FirstSection props={firstSectionProps} />
-      <FeatureStats />
+      <FeatureStats props={featureStatsProps} />
       <Features
         heading={
           <>

@@ -46,7 +46,7 @@ const CardLinks = styled.div`
 const About = ({
   heading = "AI Play Team Members",
   subheading = "Our Team",
-  description = "AI Play를 만들어가는 팀원들을 소개합니다!",
+  description = "AI Play를 만들어 가는 팀원들을 소개합니다!",
   cards = [
     {
       imageSrc:
