@@ -137,4 +137,4 @@ function Target({ handleOptions, colObjArray, handleSteps, steps, step }) {
   );
 }
 
-export default Target;
+export default React.memo(Target);

@@ -25,28 +25,30 @@ const DecoratorBlob1 = tw(SvgDecoratorBlob1)`absolute bottom-0 left-0 w-80 h-80 
 const DecoratorBlob2 = tw(SvgDecoratorBlob1)`absolute top-0 right-0 w-80 h-80 transform  translate-x-20 -translate-y-64 text-primary-300 opacity-5`;
 
 const GetStartedLight = ({
-  subheading = "Interested in Treact ?",
-  heading = "Join the closed beta now.",
-  primaryLinkText = "Get Started",
-  primaryLinkUrl = "http://timerse.com",
-  secondaryLinkText = "Contact Us",
-  secondaryLinkUrl = "http://google.com",
-  pushDownFooter = true,
+  props = {
+    subheading: "Interested in Treact ?",
+    heading: "Join the closed beta now.",
+    primaryLinkText: "Get Started",
+    primaryLinkUrl: "http://timerse.com",
+    secondaryLinkText: "Contact Us",
+    secondaryLinkUrl: "http://google.com",
+    pushDownFooter: true,
+  },
 }) => {
   const { setIsSignInOpenFromHome } = React.useContext(AppContext);
 
   return (
-    <Container css={pushDownFooter && tw`mb-20 lg:mb-24`}>
+    <Container css={props.pushDownFooter && tw`mb-20 lg:mb-24`}>
       <ContentWithPaddingXl>
         <PrimaryBackgroundContainer>
           <Row>
             <TextContainer>
-              {subheading && <Subheading>{subheading}</Subheading>}
-              <Heading>{heading}</Heading>
+              {props.subheading && <Subheading>{props.subheading}</Subheading>}
+              <Heading>{props.heading}</Heading>
             </TextContainer>
             <LinksContainer>
-              <PrimaryLink onClick={() => setIsSignInOpenFromHome(true)}>{primaryLinkText}</PrimaryLink>
-              <SecondaryLink href={secondaryLinkUrl}>{secondaryLinkText}</SecondaryLink>
+              <PrimaryLink onClick={() => setIsSignInOpenFromHome(true)}>{props.primaryLinkText}</PrimaryLink>
+              <SecondaryLink href={props.secondaryLinkUrl}>{props.secondaryLinkText}</SecondaryLink>
             </LinksContainer>
           </Row>
           <DecoratorBlobContainer>

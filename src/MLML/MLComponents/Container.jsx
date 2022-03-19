@@ -135,13 +135,13 @@ const Container = () => {
   // 프로젝트 실행 시 프로젝트 구조 불러와서 적용하기
   const initProject = useCallback(
     async (proj_idx) => {
-      console.log(proj_idx);
+      // console.log(proj_idx);
       // 사용자 번호와 프로젝트 번호를 통해 프로젝트 구조 불러오기
       const response = await fetch(UPM_PROJ_URL + `/${userIdx}/${proj_idx}`, httpConfig(null, "GET"));
       // 기존 프로젝트라면 불러오고, 새로운 프로젝트라면 새로운 프로젝트 데이터 생성
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         localStorage.setItem("aiplay_proj_idx", proj_idx);
         setLayout(data.layout);
         setProjName(data.proj_name);
@@ -297,8 +297,16 @@ const Container = () => {
       const newLayout = layout.filter((value, index, arr) => {
         return value.id !== event.target.value;
       });
-
       setLayout(newLayout);
+
+      // 삭제시킨 블록의 id로 시작하는 sessionStorage 값들을 삭제
+      [...Object.keys(sessionStorage)]
+        .filter((key) => {
+          return key.startsWith(event.target.value);
+        })
+        .forEach((key) => {
+          sessionStorage.removeItem(key);
+        });
     },
     [layout]
   );

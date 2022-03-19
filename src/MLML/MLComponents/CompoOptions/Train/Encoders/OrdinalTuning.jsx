@@ -96,4 +96,4 @@ function OrdinalTuning({ handleOptions, handleSteps, steps, step }) {
   );
 }
 
-export default OrdinalTuning;
+export default React.memo(OrdinalTuning);

@@ -4,7 +4,7 @@ import tw, { theme, GlobalStyles } from "twin.macro";
 
 const CustomStyles = createGlobalStyle`
   body {
-    -webkit-tap-highlight-color: ${theme`colors.purple.500`};
+    -webkit-tap-highlight-color: ${theme`colors.primary.500`};
     ${tw`antialiased`}
   }
 `;

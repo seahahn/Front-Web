@@ -88,4 +88,4 @@ function OneHot({ handleOptions, colObjArray, handleSteps, steps, step }) {
   );
 }
 
-export default OneHot;
+export default React.memo(OneHot);

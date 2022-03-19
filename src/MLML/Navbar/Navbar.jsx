@@ -27,7 +27,7 @@ function Navbar({ props, isMLML }) {
   const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
 
   useEffect(() => {
-    console.log(isSignInOpenFromHome);
+    // console.log(isSignInOpenFromHome);
     setIsSignInOpen(isSignInOpenFromHome);
   }, [isSignInOpenFromHome]);
 

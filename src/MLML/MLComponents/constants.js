@@ -84,6 +84,20 @@ export const ITEMS_NEW_BLOCK = [
     func: FUNCS_CODE.MergeDf,
     title: "Merge",
     content: "Merge Function",
+    param: {
+      how: "inner", // Select
+      on: [], // MultiSelect
+      left_on: [], // MultiSelect
+      right_on: [], // MultiSelect
+      left_index: false, // Switch
+      right_index: false, // Switch
+      sort: false, // Switch
+      left_suf: "", // input text
+      right_suf: "", // input text
+      copy: true, // Switch
+      indicator: false, // Switch
+      validate: "", // Select
+    },
   },
   {
     id: FUNCS_CODE.ConcatDf,
@@ -91,6 +105,16 @@ export const ITEMS_NEW_BLOCK = [
     func: FUNCS_CODE.ConcatDf,
     title: "Concat",
     content: "Concat Function",
+    param: {
+      axis: 0, // Select
+      join: "outer", // Select
+      ig_idx: false, // 기존 인덱스 무시 여부 Switch
+      keys: "", // 각각의 데이터셋을 구분짓는 그룹명 input text
+      names: "", // 멀티인덱스 각 레벨의 이름 input text
+      veri_integ: false, // 무결성(데이터 중복 여부) 탐지 Switch
+      sort: false, // outer일 때 정렬. inner일 때 효과 없음 Switch
+      copy: true, // Switch
+    },
   },
 ];
 

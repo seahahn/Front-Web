@@ -204,7 +204,7 @@ export const getModelSteps = async (key, modelName, detail = false, includeModel
     .then((response) => response.json())
     .then((data) => {
       console.log("getModelSteps");
-      console.log(data);
+      // console.log(data);
       return !detail && !includeModel ? data.filter((step) => step.includes("encoder") || step.includes("scaler")) : data;
     })
     .catch((error) => console.error(error));

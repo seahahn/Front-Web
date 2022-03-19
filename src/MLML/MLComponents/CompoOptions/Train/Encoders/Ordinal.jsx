@@ -152,4 +152,4 @@ function Ordinal({ handleOptions, colObjArray, handleSteps, steps, step }) {
   );
 }
 
-export default Ordinal;
+export default React.memo(Ordinal);

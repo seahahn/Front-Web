@@ -44,9 +44,9 @@ const CardLinks = styled.div`
 `;
 
 const About = ({
-  heading = "Meet These Fine Folks.",
+  heading = "AI Play Team Members",
   subheading = "Our Team",
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  description = "AI Play를 만들어가는 팀원들을 소개합니다!",
   cards = [
     {
       imageSrc:
