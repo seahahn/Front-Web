@@ -17,7 +17,7 @@ const HighlightedText = tw.span`text-primary-300`;
 
 function Home() {
   const firstSectionProps = {
-    heading: "Simple, Easy & Fun\nAI Experiences",
+    heading: "Simple, Easy & Fun\nAI Experience",
     description:
       "인공지능이 무엇인지 궁금하셨나요?\nAI Play에서 단순하고, 쉽고, 재미있게 경험해보세요!\n말로만 듣던 머신 러닝과 딥 러닝이 무엇인지 직접 경험해보세요!",
     imageSrc:
@@ -57,7 +57,7 @@ function Home() {
 
   const faqProps = {
     subheading: "FAQS",
-    description: "많은 들이 주로 궁금해하시는 부분들을 모아봤어요!\n아래에서 궁금하신 부분을 찾아보세요!",
+    description: "많은 분들이 주로 궁금해하시는 부분들을 모아봤어요!\n아래에서 궁금하신 부분을 찾아보세요!",
     faqs: [
       {
         question: "Is lunch provided free of cost ?",

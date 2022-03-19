@@ -1,9 +1,10 @@
-import React, { useRef, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import blankPic from "assets/blank_pic.png";
+import Chat from "MLML/Chatting/Chat";
 
 /**
  * 상단 네비게이션 바의 우측 메뉴
@@ -12,12 +13,14 @@ import blankPic from "assets/blank_pic.png";
  * 프로필 아이콘 클릭 시 사용자 관련 메뉴 출력
  */
 function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleImgError }) {
+  const [chatOpen, setChatOpen] = useState(false);
+
   return (
     <div className="absolute inset-y-0 right-0 min-w-1/10 flex items-center space-x-2 justify-end pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
       {/* 로그인 되어 있으면 공개 채팅 & 프로필 아이콘 / 안 되어 있으면 Sign In & Sign Up 버튼 */}
       {loggedIn ? (
         <>
-          {/* 공개 채팅 버튼 */}
+          {/* 머신 러닝 웹 앱(MLML) 이동 버튼 */}
           {!isMLML && (
             <Link to="/mlml">
               <button
@@ -27,12 +30,20 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
               </button>
             </Link>
           )}
-          <button
-            type="button"
-            className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-            <span className="sr-only">View notifications</span>
-            <HiOutlineChatAlt2 className="h-8 w-8" />
-          </button>
+
+          {/* 공개 채팅 버튼 */}
+          <div className="relative flex flex-col items-center">
+            <button
+              type="button"
+              onClick={() => setChatOpen(!chatOpen)}
+              className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+              <span className="sr-only">View notifications</span>
+              <HiOutlineChatAlt2 className="h-8 w-8" />
+            </button>
+            <div className={classNames(chatOpen ? "" : "hidden")}>
+              <Chat />
+            </div>
+          </div>
 
           {/* 프로필 아이콘 */}
           <Menu as="div" className="ml-3 relative">

@@ -570,6 +570,8 @@ module.exports = {
       "10/12": "83.333333%",
       "11/12": "91.666667%",
       full: "100%",
+      "1/2-screen": "50vh",
+      "3/4-screen": "75vh",
       screen: "100vh",
       min: "min-content",
       max: "max-content",
