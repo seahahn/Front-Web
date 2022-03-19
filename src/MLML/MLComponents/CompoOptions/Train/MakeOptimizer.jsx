@@ -13,10 +13,9 @@ import {
 import { MLMLContext } from "pages/MLML";
 import { ContainerContext } from "MLML/MLComponents/Container";
 import { showDataResult, getColumns, getModelSteps } from "MLML/MLComponents/CompoOptions/util";
-import { ENCODERS_TUNING_MAPPING, MODELS_TUNING_MAPPING, SCALERS_TUNING_MAPPING, REG_MODELS, METRICS_CLS, METRICS_REG } from "MLML/MLComponents/constants";
+import { ENCODERS_TUNING_MAPPING, REG_MODELS, METRICS_CLS, METRICS_REG } from "MLML/MLComponents/constants";
 import { inputStyle } from "MLML/MLComponents/componentStyle";
 import { Select, Switch } from "MLML/MLComponents/CompoOptions/CompoPiece";
-import MultiSelect from "react-select";
 import { BlockContext } from "MLML/MLComponents/Column";
 import EncoderTuning from "./Encoders/EncoderTuning";
 import ScalerTuning from "./Scalers/ScalerTuning";
@@ -35,9 +34,6 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
   const colObjArray = [...columns.map((column) => ({ label: column, value: column }))]; // MultiSelect에서 사용하는 객체 목록
 
-  const scalers = Object.keys(SCALERS_TUNING_MAPPING);
-  const models = Object.keys(MODELS_TUNING_MAPPING);
-
   const [steps, setSteps] = useState(param.steps); // 파이프라인 steps 파라미터 설정
   const handleSteps = (step) => {
     setSteps(Object.assign(steps, step));
@@ -47,24 +43,14 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
   const nameRef = useRef();
 
   useEffect(() => {
-    console.log(modelListRef.current);
+    // console.log(modelListRef.current);
     setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
   }, [render]);
 
-  // useEffect(() => {
-  //   console.log(modelList[0]);
-  //   setParam({
-  //     ...param,
-  //     name: modelList[0],
-  //   });
-  // }, [modelList]);
-
-  // console.log(param);
   useEffect(() => {
-    console.log(modelList[0]);
-
+    // console.log(modelList[0]);
     getModelSteps(MODEL_KEY_PREFIX + userIdx, param.name ? param.name : modelList[0], false, true).then((res) => {
-      console.log(res);
+      // console.log(res);
       setParam({
         ...param,
         name: param.name ? param.name : modelList[0],
@@ -76,7 +62,7 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
   }, [modelList, param.name]);
 
   useEffect(() => {
-    console.log("steps changed");
+    // console.log("steps changed");
     setParam({
       ...param,
       steps: steps,
@@ -97,11 +83,6 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
         [name]: value === "None" ? "" : value,
       });
     }
-
-    // 스케일러 혹은 모델 미선택 시 steps에서 제거
-    // if (value === "None") {
-    //   setSteps(_.omit(steps, name));
-    // }
   };
 
   // 백앤드로 데이터 전송
@@ -151,7 +132,7 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
     await fetch(targetUrl, httpConfig(JSON.stringify(item)))
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data);
+        // console.log(data);
         if (data.result) {
           const modelData = {
             user_idx: userIdx,
@@ -161,7 +142,7 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
           const freshModelList = await response.json();
           showDataResult(dfd, data.message, resultId);
           modelListRef.current = freshModelList; // 모델 목록 최신화
-          console.log(modelListRef.current);
+          // console.log(modelListRef.current);
         }
       })
       .catch((error) => console.error(error));

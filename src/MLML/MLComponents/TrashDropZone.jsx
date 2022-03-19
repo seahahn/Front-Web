@@ -33,6 +33,6 @@ const TrashDropZone = ({ data, onDrop }) => {
   });
 
   const isActive = isOver && canDrop;
-  return <div className={classNames("trashDropZone", { active: isActive }, "rounded-lg")} ref={drop} />;
+  return <div className={classNames("trashDropZone", { active: isActive }, "rounded-lg bg-slate-800")} ref={drop} />;
 };
 export default TrashDropZone;

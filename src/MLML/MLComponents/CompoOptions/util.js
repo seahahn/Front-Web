@@ -72,8 +72,6 @@ export const loadTrainTest = (blockId) => {
   const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
   const XValid = window.sessionStorage.getItem(blockId + "_XValid"); // 웹 스토리지에 저장된 특성 검증 데이터프레임(JSON) 불러오기
   const yValid = window.sessionStorage.getItem(blockId + "_yValid"); // 웹 스토리지에 저장된 타겟 검증 데이터프레임(JSON) 불러오기
-  console.log(XValid);
-  // console.log(yValid)
   return {
     X_train: XTrain,
     X_test: XTest,
@@ -85,25 +83,14 @@ export const loadTrainTest = (blockId) => {
 };
 
 export const saveYPred = (blockId, data) => {
-  console.log(data); // X_train, (X_valid), X_test
-  console.log(Object.keys(data)); // X_train, (X_valid), X_test
   Object.keys(data).forEach((key) => {
     const realKey = key.split("_")[1];
-    console.log(key, realKey);
-    // const y = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
-    // window.sessionStorage.setItem(blockId + "_yTrue_"+realKey, y); // 웹 스토리지에 실제 결과 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_yPred_" + realKey, data[key].y_pred); // 웹 스토리지에 예측 결과 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_yPredProba_" + realKey, data[key].y_pred_proba); // 웹 스토리지에 예측 결과 확률 데이터프레임(JSON) 저장
   });
-
-  // const yTest = window.sessionStorage.getItem(blockId + "_yTest"); // 웹 스토리지에 저장된 타겟 테스트 데이터프레임(JSON) 불러오기
-  // window.sessionStorage.setItem(blockId + "_yTrue", yTest); // 웹 스토리지에 실제 결과 데이터프레임(JSON) 저장
-  // window.sessionStorage.setItem(blockId + "_yPred", data.y_pred); // 웹 스토리지에 예측 결과 데이터프레임(JSON) 저장
-  // window.sessionStorage.setItem(blockId + "_yPredProba", data.y_pred_proba); // 웹 스토리지에 예측 결과 확률 데이터프레임(JSON) 저장
 };
 
 export const loadYPred = (blockId) => {
-  // const yTrue = window.sessionStorage.getItem(blockId + "_yTrue"); // 웹 스토리지에 저장된 예측 결과 데이터프레임(JSON) 불러오기
   const yPreds = {};
   const yTrain = window.sessionStorage.getItem(blockId + "_yTrain"); // 웹 스토리지에 저장된 타겟 훈련 데이터프레임(JSON) 불러오기
   const yValid = window.sessionStorage.getItem(blockId + "_yValid"); // 웹 스토리지에 저장된 타겟 검증 데이터프레임(JSON) 불러오기
@@ -121,7 +108,6 @@ export const loadYPred = (blockId) => {
       y_pred_proba: yPredProba,
     };
   });
-  console.log(yPreds);
   return yPreds;
 };
 
@@ -218,7 +204,7 @@ export const getModelSteps = async (key, modelName, detail = false, includeModel
     .then((response) => response.json())
     .then((data) => {
       console.log("getModelSteps");
-      console.log(data);
+      // console.log(data);
       return !detail && !includeModel ? data.filter((step) => step.includes("encoder") || step.includes("scaler")) : data;
     })
     .catch((error) => console.error(error));
@@ -261,9 +247,6 @@ export const getProjList = async (userIdx, ref) => {
   return projList;
   // console.log(ref.current);
 };
-
-// 테스트용 임시 모델 목록
-export const modelList = ["refac_test", "ahn_model"];
 
 export const getModelList = async (userIdx, ref) => {
   const response = await fetch(UPM_MODEL_URL + "/list/" + userIdx, httpConfig(null, "GET"));

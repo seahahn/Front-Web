@@ -9,10 +9,6 @@
   background: #e1e1e1;
 }
 
-.page {
-  padding: 0 20px;
-}
-
 .dropZone {
   flex: 0 0 auto;
   height: 40px;
@@ -83,7 +79,7 @@
   /* padding-top: 2rem !important; */
   top: 2rem;
   bottom: 2rem;
-  background-color: #334155;
+  background-color: #000000;
 }
 
 .react-transform-component {

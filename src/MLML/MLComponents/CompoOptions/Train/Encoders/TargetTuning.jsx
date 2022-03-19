@@ -5,7 +5,6 @@ import MultiSelect from "react-select";
 import { colArrayToObjArray } from "MLML/MLComponents/CompoOptions/util";
 
 function Target({ handleOptions, handleSteps, steps, step, optimizer }) {
-  console.log(step);
   const initialOpts = {
     // cols: null,
     // drop_invariant: false,
@@ -108,4 +107,4 @@ function Target({ handleOptions, handleSteps, steps, step, optimizer }) {
   );
 }
 
-export default Target;
+export default React.memo(Target);

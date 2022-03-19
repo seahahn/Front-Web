@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useCallback, useEffect } from "react";
 import { targetURL, MLFUNCS_URL, MLFUNCS_SUFFIX_DF, URLS_PREPROCESS, httpConfig } from "MLML/MLComponents/CompoOptions/networkConfigs";
 import { MLMLContext } from "pages/MLML";
 import { showDataResult, saveDf, loadDf } from "MLML/MLComponents/CompoOptions/util";
@@ -6,47 +6,48 @@ import { inputStyle } from "MLML/MLComponents/componentStyle";
 import { Select, Switch } from "MLML/MLComponents/CompoOptions/CompoPiece";
 import { BlockContext } from "MLML/MLComponents/Column";
 
-function ConcatDf({ formId, resultId }) {
+function ConcatDf({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { dfd, storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
-  // 데이터프레임 목록 가져오기
-  const dfs = [...Object.keys(storage)]
-    .filter((df) => {
-      return df.endsWith("_df"); // 맨 뒤 _df 붙은 데이터프레임만 가져오기
-    })
-    .map((df) => df.slice(0, -3)) // 목록에 표시하기 위해 _df 제거
-    .reverse(); // 가장 처음에 저장된 것부터 나열하기 위해 reverse
+  // 데이터프레임 목록 가져오기 위한 콜백
+  const getDfList = useCallback(() => {
+    return [...Object.keys(storage)]
+      .filter((df) => {
+        return df.endsWith("_df"); // 맨 뒤 _df 붙은 데이터프레임만 가져오기
+      })
+      .map((df) => df.slice(0, -3)) // 목록에 표시하기 위해 _df 제거
+      .reverse(); // 가장 처음에 저장된 것부터 나열하기 위해 reverse
+  }, [storage]);
+
+  const [dfs, setDfs] = useState(getDfList());
 
   const [leftBlockId, setLeftBlockId] = useState(dfs[0]); // Select
   const [rightBlockId, setRightBlockId] = useState(dfs[0]); // Select
-
-  const [params, setParams] = useState({
-    axis: 0, // Select
-    join: "outer", // Select
-    ig_idx: false, // 기존 인덱스 무시 여부 Switch
-    keys: "", // 각각의 데이터셋을 구분짓는 그룹명 input text
-    names: "", // 멀티인덱스 각 레벨의 이름 input text
-    veri_integ: false, // 무결성(데이터 중복 여부) 탐지 Switch
-    sort: false, // outer일 때 정렬. inner일 때 효과 없음 Switch
-    copy: true, // Switch
-  });
 
   // DOM 접근 위한 Ref
   const leftBlockIdRef = useRef();
   const rightBlockIdRef = useRef();
 
+  useEffect(() => {
+    setDfs(getDfList());
+    const firstDf = getDfList()[0];
+
+    leftBlockIdRef.current.value = firstDf;
+    rightBlockIdRef.current.value = firstDf;
+  }, [render]);
+
   // 옵션 상태 값 저장
   const handleChange = (event) => {
     const { name, value, checked } = event.target;
     if (event.target.type === "checkbox") {
-      setParams({
-        ...params,
+      setParam({
+        ...param,
         [name]: checked,
       });
     } else {
-      setParams({
-        ...params,
+      setParam({
+        ...param,
         [name]: value,
       });
     }
@@ -54,10 +55,11 @@ function ConcatDf({ formId, resultId }) {
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 API URL에 파라미터 추가
-    const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.ConcatDf), params);
+    const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.ConcatDf), param);
     const df = loadDf(leftBlockId, rightBlockId); // 선택된 데이터프레임(JSON) 2개 가져오기
     console.log(JSON.stringify(df));
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
@@ -68,6 +70,7 @@ function ConcatDf({ formId, resultId }) {
         showDataResult(dfd, data, resultId);
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (
@@ -105,10 +108,10 @@ function ConcatDf({ formId, resultId }) {
           <input name={"names"} className={inputStyle} type="text" onChange={handleChange} />
         </div>
         <div className="grid grid-rows-2 grid-cols-2 space-2">
-          <Switch name={"ig_idx"} text="기존 인덱스 무시 : " onChange={handleChange} checked={params.ig_idx} />
-          <Switch name={"veri_integ"} text="무결성 탐지 여부 : " onChange={handleChange} checked={params.veri_integ} />
-          <Switch name={"sort"} text="정렬 여부 : " onChange={handleChange} checked={params.sort} />
-          <Switch name={"copy"} text="복사 여부 : " onChange={handleChange} checked={params.copy} />
+          <Switch name={"ig_idx"} text="기존 인덱스 무시 : " onChange={handleChange} checked={param.ig_idx} />
+          <Switch name={"veri_integ"} text="무결성 탐지 여부 : " onChange={handleChange} checked={param.veri_integ} />
+          <Switch name={"sort"} text="정렬 여부 : " onChange={handleChange} checked={param.sort} />
+          <Switch name={"copy"} text="복사 여부 : " onChange={handleChange} checked={param.copy} />
         </div>
       </div>
     </form>

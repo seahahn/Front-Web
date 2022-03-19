@@ -59,47 +59,7 @@ const Component = ({ data, compoType, path }) => {
   }, [compoParam, compoRef]);
 
   // 컴포넌트의 기능에 맞춰 옵션 영역 집어넣기
-  const OptionList = [
-    "DataUpload",
-    "Head",
-    "Tail",
-    "Shape",
-    "Dtype",
-    "ColumnList",
-    "Unique",
-    "IsNa",
-    "Corr",
-    "Describe",
-    "ColConditionDf",
-    "LocDf",
-    "ILocDf",
-    "Transpose",
-    "Groupby",
-    "Drop",
-    "DropNa",
-    "RenameCol",
-    "SortValue",
-    "SetColumn",
-    "BoxPlot",
-    "HistPlot",
-    "CountPlot",
-    "ScatterPlot",
-    "FeatureTargetSplit",
-    "TrainTestSplit",
-    "MergeDf",
-    "ConcatDf",
-    "MakePipeline",
-    "MakeOptimizer",
-    "Fit",
-    "Transform",
-    "ModelSteps",
-    "Predict",
-    "Score",
-  ];
-  let Options = AllCompo[data.func];
-  if (!OptionList.includes(data.func)) {
-    Options = AllCompo["DataUpload"];
-  }
+  const Options = AllCompo[data.func];
 
   // 각각의 컴포넌트의 고유값에 맞춰 옵션과 결과 영역 고유값 지정(다른 컴포넌트에 결과 출력 방지)
   const formId = "form" + data.id;
@@ -119,9 +79,6 @@ const Component = ({ data, compoType, path }) => {
           <button type="submit" form={formId} className={classNames(isLoading && "hidden", buttonStyle)} disabled={isLoading}>
             실행
           </button>
-          {/* <div className={classNames(!isLoading && "hidden", "flex justify-center items-center")}>
-            <LoadingSpin />
-          </div> */}
           <span>{component.id}</span>
           <button
             type="button"

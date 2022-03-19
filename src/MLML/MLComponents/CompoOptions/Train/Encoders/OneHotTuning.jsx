@@ -106,4 +106,4 @@ function OneHotTuning({ handleOptions, handleSteps, steps, step }) {
   );
 }
 
-export default OneHotTuning;
+export default React.memo(OneHotTuning);

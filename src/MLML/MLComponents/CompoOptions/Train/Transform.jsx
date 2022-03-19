@@ -26,7 +26,7 @@ function Transform({ formId, resultId, param, setParam, isLoading, setIsLoading,
   const [targetList, setTargetList] = useState([]);
 
   useEffect(() => {
-    console.log(modelList[0]);
+    // console.log(modelList[0]);
     setParam({
       ...param,
       name: modelList[0],
@@ -34,10 +34,10 @@ function Transform({ formId, resultId, param, setParam, isLoading, setIsLoading,
   }, [render]);
 
   useEffect(() => {
-    console.log(modelList.length);
+    // console.log(modelList.length);
     modelList.length !== 0 &&
       getModelSteps(MODEL_KEY_PREFIX + userIdx, param.name ? param.name : modelList[0]).then((res) => {
-        console.log(res);
+        // console.log(res);
         setTargetList(res);
       });
   }, [modelList, param.name]);
@@ -71,7 +71,7 @@ function Transform({ formId, resultId, param, setParam, isLoading, setIsLoading,
     }; // 입력해야 할 파라미터 설정
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.Transform), paramResult);
     const df = _.pick(loadTrainTest(blockId), ["X_train"]).X_train; // 훈련 데이터셋 가져오기
-    console.log(paramResult);
+    // console.log(paramResult);
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())

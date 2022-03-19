@@ -8,7 +8,7 @@ import { inputStyle } from "MLML/MLComponents/componentStyle";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "MLML/MLComponents/CompoOptions/networkConfigs";
 
 function SignIn({ isOpen, openerStates, setProfilePic }) {
-  const { setUserIdx } = useContext(AppContext);
+  const { setUserIdx, setIsSignInOpenFromHome } = useContext(AppContext);
 
   const setIsOpen = openerStates.setIsSignInOpen;
   const setIsSignUpOpen = openerStates.setIsSignUpOpen;
@@ -47,6 +47,11 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
     });
   }, 200);
 
+  const handleClose = () => {
+    setIsOpen(false);
+    setIsSignInOpenFromHome(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (input.email === "") {
@@ -74,6 +79,7 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
           setProfilePic(userData.profile_pic);
           setLoggedIn(true);
           setIsOpen(false);
+          setIsSignInOpenFromHome(false);
         } else {
           data.email_state ? alert("비밀번호가 일치하지 않습니다.") : alert("가입하지 않은 이메일입니다.");
         }
@@ -93,6 +99,7 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
         break;
     }
     setIsOpen(false);
+    setIsSignInOpenFromHome(false);
   };
 
   return (
@@ -102,7 +109,7 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
         {/* 제목 부분 */}
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-xl p-2">로그인</h3>
-          <HiX onClick={() => setIsOpen(false)} className="inline w-8 h-8 mx-2 cursor-pointer" />
+          <HiX onClick={handleClose} className="inline w-8 h-8 mx-2 cursor-pointer" />
         </div>
         {/* 이메일 입력란 */}
         <div className="flex flex-row">
