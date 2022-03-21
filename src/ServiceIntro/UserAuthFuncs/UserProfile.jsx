@@ -11,12 +11,11 @@ import Inactive from "./Inactive";
 import ProfilePic from "./ProfilePic";
 
 function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, handleImgError }) {
-  const { userIdx } = useContext(AppContext);
+  const { userIdx, userNickname, setUserNickname } = useContext(AppContext);
   const userEmail = localStorage.getItem("AIPLAY_USER_EMAIL");
-  const nickname = localStorage.getItem("AIPLAY_USER_NICKNAME");
 
   const [input, setInput] = useState({
-    nickname: nickname,
+    nickname: userNickname,
   });
 
   const [isNicknameChanging, setNicknameChanging] = useState(false);
@@ -31,7 +30,7 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
     // input 초기화
     // nicknameRef.current.value = "";
     setInput({
-      nickname: nickname,
+      nickname: userNickname,
     });
   }, [isOpen]);
 
@@ -46,7 +45,7 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
 
   const submitNicknameChange = async () => {
     const { nickname: newNickname } = input;
-    const oldNickname = nickname;
+    const oldNickname = userNickname;
     // const token = localStorage.getItem("AIPLAY_TOKEN");
 
     if (newNickname === oldNickname) {
@@ -67,6 +66,7 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
         if (data.result) {
           // alert("닉네임 변경 성공");
           localStorage.setItem("AIPLAY_USER_NICKNAME", newNickname);
+          setUserNickname(newNickname);
           setNicknameChanging(false);
         } else {
           alert("닉네임 변경 실패");
@@ -104,10 +104,10 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
               className={inputStyle + " mx-2 flex-1"}
               placeholder="닉네임을 입력해주세요."
               onChange={handleChange}
-              defaultValue={nickname}
+              defaultValue={userNickname}
             />
           ) : (
-            <span className={"mx-2 flex-1"}>{nickname}</span>
+            <span className={"mx-2 flex-1"}>{userNickname}</span>
           )}
           <div className="flex flex-row items-center mr-2">
             <button
