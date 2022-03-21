@@ -1,5 +1,5 @@
 import logoNav from "assets/logo_nav.png";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { AppContext } from "App";
 import { Disclosure } from "@headlessui/react";
 import { Link } from "react-router-dom";
@@ -50,11 +50,11 @@ function Navbar({ props, isMLML }) {
     setLoggedIn(false);
   };
 
-  const handleImgError = (e) => {
+  const handleImgError = useCallback((e) => {
     console.log(e.target);
     e.target.src = errorPic;
     e.target.title = "이미지 로딩 오류";
-  };
+  }, []);
 
   return (
     <Disclosure as="nav" className="bg-gray-800 fixed top-0 left-0 right-0 z-50">

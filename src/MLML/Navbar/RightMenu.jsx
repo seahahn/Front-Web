@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
@@ -14,6 +14,20 @@ import Chat from "MLML/Chatting/Chat";
  */
 function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleImgError }) {
   const [chatOpen, setChatOpen] = useState(false);
+  const [chatStart, setChatStart] = useState(false);
+  const [chatIsChanged, setChatIsChanged] = useState(false);
+  const chatProps = {
+    chatOpen,
+    setChatOpen,
+    chatStart,
+    setChatStart,
+    chatIsChanged,
+    setChatIsChanged,
+  };
+
+  useEffect(() => {
+    chatOpen && setChatIsChanged(false);
+  }, [chatOpen]);
 
   return (
     <div className="absolute inset-y-0 right-0 min-w-1/10 flex items-center space-x-2 justify-end pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -33,15 +47,22 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
 
           {/* 공개 채팅 버튼 */}
           <div className="relative flex flex-col items-center">
+            <span
+              class={classNames(
+                chatStart && !chatOpen && chatIsChanged ? "animate-ping" : "hidden",
+                "absolute top-1 right-1 inline-flex h-2 w-2 rounded-full bg-sky-400 opacity-75"
+              )}></span>
             <button
               type="button"
               onClick={() => setChatOpen(!chatOpen)}
-              className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+              className={classNames(
+                "bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+              )}>
               <span className="sr-only">View notifications</span>
               <HiOutlineChatAlt2 className="h-8 w-8" />
             </button>
             <div className={classNames(chatOpen ? "" : "hidden")}>
-              <Chat />
+              <Chat props={chatProps} handleImgError={handleImgError} />
             </div>
           </div>
 

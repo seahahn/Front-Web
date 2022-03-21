@@ -6,10 +6,11 @@ export const AppContext = createContext(); // Navbar 및 MLComponents 모두에 
 
 function App() {
   const [userIdx, setUserIdx] = React.useState(localStorage.getItem("AIPLAY_USER_IDX"));
+  const [userNickname, setUserNickname] = React.useState(localStorage.getItem("AIPLAY_USER_NICKNAME"));
   const [isSignInOpenFromHome, setIsSignInOpenFromHome] = React.useState(false);
 
   return (
-    <AppContext.Provider value={{ userIdx, setUserIdx, isSignInOpenFromHome, setIsSignInOpenFromHome }}>
+    <AppContext.Provider value={{ userIdx, setUserIdx, userNickname, setUserNickname, isSignInOpenFromHome, setIsSignInOpenFromHome }}>
       <Routes>
         <Route path="/mlml" element={<MLML />} />
         <Route element={<ServiceIntro />}>
@@ -24,4 +25,4 @@ function App() {
   );
 }
 
-export default App;
+export default React.memo(App);

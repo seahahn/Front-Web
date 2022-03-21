@@ -2,6 +2,8 @@ export const CORS = "cors"; // CORS 설정
 
 export const UPLOAD_ACCEPT = "application/vnd.ms-excel, text/csv"; // 데이터셋 업로드 시 파일 확장자 설정
 
+//export const ML_URL = "https://3x52mr4b5j.execute-api.ap-northeast-2.amazonaws.com/pre-test/dataframe/head";
+
 export const MLFUNCS_URL = "http://localhost:8000/"; // ML-Funcs 서버 주소
 export const MLFUNCS_SUFFIX_DF = "dataframe/"; // EDA, 전처리 기능 경로
 export const MLFUNCS_SUFFIX_PLOT = "plot/"; // 시각화 기능 경로
@@ -15,6 +17,8 @@ export const UPM_PROJ_URL = "http://localhost:3001/project"; // User-Proj-Managi
 export const UPM_MODEL_URL = "http://localhost:3001/model"; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
 
 export const USER_AUTH_URL = "http://localhost:8002/userauth/"; // User-Auth 서버 주소
+
+export const PROFILE_PIC_BASE_URL = `https://${process.env.REACT_APP_AWS_BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/profile_pic/`; // 프로필 사진 경로
 
 // EDA, 전처리 기능 각각의 최종 URL 경로
 export const URLS_PREPROCESS = {
