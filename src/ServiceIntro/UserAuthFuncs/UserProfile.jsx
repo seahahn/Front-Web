@@ -85,7 +85,7 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
         </div>
         {/* 프로필 사진 부분 */}
         <div className="relative flex flex-row justify-center items-center">
-          <img src={profilePic ? profilePic : blankPic} alt="profile" className="w-32 h-32 rounded-full" onError={handleImgError} />
+          <img src={profilePic ? profilePic : blankPic} alt="profile" className="object-cover w-32 h-32 rounded-full" onError={handleImgError} />
           <ProfilePic profilePic={profilePic} setProfilePic={setProfilePic} />
         </div>
         {/* 이메일 부분 */}

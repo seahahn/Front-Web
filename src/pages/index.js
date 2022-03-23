@@ -4,3 +4,4 @@ export { default as Home } from "./Home";
 export { default as About } from "./About";
 export { default as MLExamples } from "./MLExamples";
 export { default as DLExamples } from "./DLExamples";
+export { default as AIExamplePage } from "./AIExamplePage";

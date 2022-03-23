@@ -18,7 +18,11 @@ export const UPM_MODEL_URL = "http://localhost:3001/model"; // User-Proj-Managin
 
 export const USER_AUTH_URL = "http://localhost:8002/userauth/"; // User-Auth 서버 주소
 
-export const PROFILE_PIC_BASE_URL = `https://${process.env.REACT_APP_AWS_BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/profile_pic/`; // 프로필 사진 경로
+export const DL_API_URL = "http://localhost:8003/"; // DL-API 서버 주소
+export const DL_API_CV = "cv/"; // DL-API 분류 - CV
+export const DL_API_NLP = "nlp/"; // DL-API 분류 - NLP
+
+export const PROFILE_PIC_BASE_URL = `${process.env.REACT_APP_AWS_BASE_URL}/profile_pic/`; // 프로필 사진 경로
 
 // EDA, 전처리 기능 각각의 최종 URL 경로
 export const URLS_PREPROCESS = {
@@ -87,6 +91,11 @@ export const URLS_USER_AUTH = {
   pw_change: "pw_change",
   profile_pic_change: "profile_pic_change",
   inactive: "inactive",
+};
+
+export const URLS_DL_API = {
+  posts: "posts/", // AI 예시 프로젝트 게시물 관련 URL 경로
+  hair_color_gen: "hair_color_gen",
 };
 
 // fetch API로 HTTP 통신하기 위한 설정

@@ -24,13 +24,13 @@ function ServiceIntro() {
   }, []);
 
   return (
-    <div>
+    <>
       <Navbar isMLML={false} />
-      <main className="mt-16">
+      <main className="mt-16 h-auto min-h-full pb-16">
         <Outlet />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }
 

@@ -2,7 +2,10 @@ import React, { memo, forwardRef } from "react";
 import classNames from "classnames";
 import { inputStyle } from "MLML/MLComponents/componentStyle";
 
-function Select({ options, optionText, name, value, id, text: labelText, onChange, defaultValue, className, multiple = false, disabled = false }, ref) {
+function Select(
+  { options, optionText, name, value, id, text: labelText, onChange, defaultValue, className, multiple = false, disabled = false, required = false },
+  ref
+) {
   return (
     <div className={classNames(className)}>
       <label>
@@ -16,7 +19,8 @@ function Select({ options, optionText, name, value, id, text: labelText, onChang
           onChange={onChange}
           defaultValue={defaultValue}
           multiple={multiple}
-          disabled={disabled}>
+          disabled={disabled}
+          required={required}>
           {options.map((option, index) => {
             return (
               <option

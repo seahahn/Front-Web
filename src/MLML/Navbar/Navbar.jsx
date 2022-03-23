@@ -88,23 +88,22 @@ function Navbar({ props, isMLML }) {
           </svg>
         </button>
       </div>
-      {isMLML ? (
-        <ServiceUsage isOpen={isServiceUsageOpen} setIsOpen={setIsServiceUsageOpen} />
-      ) : (
+      {isMLML && <ServiceUsage isOpen={isServiceUsageOpen} setIsOpen={setIsServiceUsageOpen} />}
+      <SignIn isOpen={isSignInOpen} openerStates={openerStates} setProfilePic={setProfilePic} />
+      <SignUp isOpen={isSignUpOpen} setIsOpen={setIsSignUpOpen} setIsSignInOpen={setIsSignInOpen} />
+      <FindPw isOpen={isFindPwOpen} setIsOpen={setIsFindPwOpen} setIsSignInOpen={setIsSignInOpen} />
+      {isUserProfileOpen && (
         <>
-          <SignIn isOpen={isSignInOpen} openerStates={openerStates} setProfilePic={setProfilePic} />
-          <SignUp isOpen={isSignUpOpen} setIsOpen={setIsSignUpOpen} setIsSignInOpen={setIsSignInOpen} />
-          <FindPw isOpen={isFindPwOpen} setIsOpen={setIsFindPwOpen} setIsSignInOpen={setIsSignInOpen} />
+          <UserProfile
+            isOpen={isUserProfileOpen}
+            setIsOpen={setIsUserProfileOpen}
+            logout={logout}
+            profilePic={profilePic}
+            setProfilePic={setProfilePic}
+            handleImgError={handleImgError}
+          />
         </>
       )}
-      <UserProfile
-        isOpen={isUserProfileOpen}
-        setIsOpen={setIsUserProfileOpen}
-        logout={logout}
-        profilePic={profilePic}
-        setProfilePic={setProfilePic}
-        handleImgError={handleImgError}
-      />
     </Disclosure>
   );
 }

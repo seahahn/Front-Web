@@ -16,6 +16,10 @@ import GetStarted from "ServiceIntro/WebTemplate/cta/GetStartedLight";
 const HighlightedText = tw.span`text-primary-300`;
 
 function Home() {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const firstSectionProps = {
     heading: "Simple, Easy & Fun\nAI Experience",
     description:

@@ -1,6 +1,6 @@
 import React, { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { MLML, ServiceIntro, Home, About, MLExamples, DLExamples } from "pages";
+import { MLML, ServiceIntro, Home, About, MLExamples, DLExamples, AIExamplePage } from "pages";
 
 export const AppContext = createContext(); // Navbar 및 MLComponents 모두에 사용되는 변수를 전달하기 위한 컨텍스트
 
@@ -19,6 +19,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/mlexamples" element={<MLExamples />} />
           <Route path="/dlexamples" element={<DLExamples />} />
+          <Route path="/dlexamples/:func" element={<AIExamplePage />} />
         </Route>
       </Routes>
     </AppContext.Provider>
