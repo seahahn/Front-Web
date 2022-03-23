@@ -12,6 +12,7 @@ module.exports = {
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
+      "3xl": "1920px",
     },
     colors: {
       transparent: "transparent",
@@ -689,6 +690,7 @@ module.exports = {
     minHeight: (theme) => ({
       0: "0px",
       full: "100%",
+      "1/2-screen": "50vh",
       screen: "100vh",
       "1/5": "20%",
       "2/5": "40%",

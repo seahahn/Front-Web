@@ -80,6 +80,7 @@ export default ServiceUsage;
  * @param setModelList : 모델 목록을 전달하는 함수
  */
 const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) => {
+  console.log(model);
   const { userIdx } = useContext(AppContext);
 
   const [isUpdating, setIsUpdating] = useState(false);
@@ -114,6 +115,19 @@ const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) 
     }
   };
 
+  const downloadModel = async () => {
+    handleLoading(true);
+    const response = await fetch(`${UPM_MODEL_URL}/download/${userIdx}/${model.idx}`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${model.model_name}.joblib`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    handleLoading(false);
+  };
+
   return (
     <div className="flex flex-row justify-between items-center">
       <div className="flex flex-col space-between">
@@ -126,9 +140,9 @@ const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) 
             defaultValue={model.model_name}
           />
         ) : (
-          <a href={model.model_url} download={model.model_name} className="text-base">
+          <span onClick={downloadModel} className="text-base cursor-pointer">
             {model.model_name}
-          </a>
+          </span>
         )}
         <span className="text-xs">{model.size} Byte</span>
       </div>

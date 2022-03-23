@@ -2,6 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro";
+import AnimationRevealPage from "ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
 import { Container, ContentWithPaddingXl } from "ServiceIntro/WebTemplate/misc/Layouts";
 import { SectionHeading, Subheading as SubheadingBase } from "ServiceIntro/WebTemplate/misc/Headings";
 import { SectionDescription } from "ServiceIntro/WebTemplate/misc/Typography";
@@ -170,34 +171,40 @@ const About = ({
     },
   ],
 }) => {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <Container>
-      <ContentWithPaddingXl>
-        <HeadingContainer>
-          {subheading && <Subheading>{subheading}</Subheading>}
-          {heading && <Heading>{heading}</Heading>}
-          {description && <Description>{description}</Description>}
-        </HeadingContainer>
-        <Cards>
-          {cards.map((card, index) => (
-            <Card key={index}>
-              <CardImage imageSrc={card.imageSrc} />
-              <CardContent>
-                <span className="position">{card.position}</span>
-                <span className="name">{card.name}</span>
-                <CardLinks>
-                  {card.links.map((link, linkIndex) => (
-                    <a key={linkIndex} className="link" href={link.url}>
-                      <link.icon className="icon" />
-                    </a>
-                  ))}
-                </CardLinks>
-              </CardContent>
-            </Card>
-          ))}
-        </Cards>
-      </ContentWithPaddingXl>
-    </Container>
+    <AnimationRevealPage>
+      <Container>
+        <ContentWithPaddingXl>
+          <HeadingContainer>
+            {subheading && <Subheading>{subheading}</Subheading>}
+            {heading && <Heading>{heading}</Heading>}
+            {description && <Description>{description}</Description>}
+          </HeadingContainer>
+          <Cards>
+            {cards.map((card, index) => (
+              <Card key={index}>
+                <CardImage imageSrc={card.imageSrc} />
+                <CardContent>
+                  <span className="position">{card.position}</span>
+                  <span className="name">{card.name}</span>
+                  <CardLinks>
+                    {card.links.map((link, linkIndex) => (
+                      <a key={linkIndex} className="link" href={link.url}>
+                        <link.icon className="icon" />
+                      </a>
+                    ))}
+                  </CardLinks>
+                </CardContent>
+              </Card>
+            ))}
+          </Cards>
+        </ContentWithPaddingXl>
+      </Container>
+    </AnimationRevealPage>
   );
 };
 

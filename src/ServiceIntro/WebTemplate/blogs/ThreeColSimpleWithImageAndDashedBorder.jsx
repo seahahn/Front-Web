@@ -1,5 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
+import { Link as RouteLink } from "react-router-dom";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { SectionHeading as HeadingTitle, Subheading } from "ServiceIntro/WebTemplate/misc/Headings";
@@ -9,8 +10,11 @@ import { ReactComponent as TagIcon } from "feather-icons/dist/icons/tag.svg";
 import { ReactComponent as SvgDecoratorBlob1 } from "ServiceIntro/WebTemplate/images/svg-decorator-blob-1.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "ServiceIntro/WebTemplate/images/svg-decorator-blob-3.svg";
 
+import AdminPost from "AIExampleComponents/AdminPost";
+import { deletePost } from "AIExampleComponents/post";
+
 const Container = tw.div`relative`;
-const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
+const Content = tw.div`max-w-screen-xl mx-auto py-10 lg:py-12 3xl:py-24`;
 const ThreeColumn = tw.div`flex flex-col items-center lg:items-stretch lg:flex-row flex-wrap`;
 const Column = tw.div`mt-24 lg:w-1/3`;
 
@@ -29,16 +33,24 @@ const Meta = styled.div`
   }
 `;
 
-const Title = tw.h5`mt-4 leading-snug font-bold text-lg`;
+const Title = tw.h5`mt-4 leading-snug font-bold text-lg text-slate-100`;
 const Description = tw.p`mt-2 text-sm text-secondary-100`;
 const Link = styled(PrimaryButtonBase).attrs({ as: "a", target: "_blank", rel: "noopener noreferrer" })`
-  ${tw`inline-block mt-4 text-sm font-semibold`}
+  ${tw`inline-block mt-4 text-sm font-semibold self-end`}
+`;
+const LinkCover = styled(PrimaryButtonBase)`
+  ${tw`inline-block mt-4 text-sm font-semibold self-end`}
 `;
 
 const DecoratorBlob1 = tw(SvgDecoratorBlob1)`-z-10 absolute bottom-0 right-0 w-48 h-48 transform translate-x-40 -translate-y-8 opacity-25`;
 const DecoratorBlob2 = tw(SvgDecoratorBlob2)`-z-10 absolute top-0 left-0 w-48 h-48 transform -translate-x-32 translate-y-full opacity-25`;
 
 const ThreeColSimpleWithImageAndDashedBorder = ({
+  refresh,
+  setRefresh,
+  isAdminPostOpen,
+  setIsAdminPostOpen,
+  isDL = false,
   heading = (
     <>
       We Love <span tw="text-primary-500">Writing.</span>
@@ -47,34 +59,43 @@ const ThreeColSimpleWithImageAndDashedBorder = ({
   props = {
     subheading: "Blog",
     description: "Some amazing blog posts that are written by even more amazing people.",
-    blogPosts: [
+    posts: [
       {
-        imageSrc: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80",
+        image_src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80",
         author: "Adam Wathan",
         category: "SEO",
         title: "Optimizing your website for your main keyword",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        url: "https://reddit.com",
+        dsc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        link: "https://reddit.com",
       },
       {
-        imageSrc: "https://images.unsplash.com/photo-1479660095429-2cf4e1360472?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80",
+        image_src: "https://images.unsplash.com/photo-1479660095429-2cf4e1360472?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80",
         author: "Owais Khan",
         category: "Advertising",
         title: "Creating The perfect advertisement campaign",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        url: "https://timerse.com",
+        dsc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        link: "https://timerse.com",
       },
       {
-        imageSrc: "https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+        image_src: "https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
         author: "Steve Schoger",
         category: "Social Media",
         title: "Efficient management of your social media assets",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        url: "https://timerse.com",
+        dsc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        link: "https://timerse.com",
       },
     ],
   },
 }) => {
+  const userMembership = localStorage.getItem("AIPLAY_USER_MEMBERSHIP");
+
+  const handleDeletePost = (e) => {
+    deletePost(e.target.value).then((res) => {
+      console.log(res);
+      setRefresh(!refresh);
+    });
+  };
+
   return (
     <Container>
       <Content>
@@ -82,12 +103,20 @@ const ThreeColSimpleWithImageAndDashedBorder = ({
           {props.subheading && <Subheading>{props.subheading}</Subheading>}
           <HeadingTitle>{heading}</HeadingTitle>
           <HeadingDescription>{props.description}</HeadingDescription>
+          {userMembership === process.env.REACT_APP_ADMIN_MEMBERSHIP_CODE && (
+            <>
+              <button type="button" onClick={() => setIsAdminPostOpen(true)} className="p-2 bg-primary-500 text-white">
+                게시물 추가
+              </button>
+              <AdminPost isOpen={isAdminPostOpen} setIsOpen={setIsAdminPostOpen} />
+            </>
+          )}
         </HeadingInfoContainer>
         <ThreeColumn>
-          {props.blogPosts.map((post, index) => (
+          {props.posts.map((post, index) => (
             <Column key={index}>
               <Card>
-                <Image imageSrc={post.imageSrc} />
+                <Image imageSrc={post.image_src} />
                 <Details>
                   <MetaContainer>
                     <Meta>
@@ -100,8 +129,19 @@ const ThreeColSimpleWithImageAndDashedBorder = ({
                     </Meta>
                   </MetaContainer>
                   <Title>{post.title}</Title>
-                  <Description>{post.description}</Description>
-                  <Link href={post.url}>Read Post</Link>
+                  <Description>{post.dsc}</Description>
+                  {isDL ? (
+                    <RouteLink to={post.link} state={{ props: post }}>
+                      <LinkCover>이동하기</LinkCover>
+                    </RouteLink>
+                  ) : (
+                    <Link href={post.link}>이동하기</Link>
+                  )}
+                  {userMembership === process.env.REACT_APP_ADMIN_MEMBERSHIP_CODE && (
+                    <button type="button" value={post.idx} onClick={handleDeletePost} className="bg-red-500 text-white p-2 justify-self-end">
+                      삭제
+                    </button>
+                  )}
                 </Details>
               </Card>
             </Column>

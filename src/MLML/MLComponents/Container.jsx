@@ -344,7 +344,7 @@ const Container = () => {
                 </Toolbox>
                 {/* TransformComponent 안의 컴포넌트가 실제로 확대 / 축소 / 위치 이동 기능이 적용되는 대상임 */}
                 <TransformComponent>
-                  <div className="flex py-5 h-full">
+                  <div className="flex pt-5 pb-32 h-full">
                     {/* layout 데이터에서 column 하나씩 내놓음. 한 column에 한 index */}
                     <LayoutContext.Provider value={{ layoutRef }}>
                       {layout.map((column, index) => {

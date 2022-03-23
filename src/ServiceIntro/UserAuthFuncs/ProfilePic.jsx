@@ -33,7 +33,8 @@ function ProfilePic({ profilePic, setProfilePic }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          setProfilePic(data.profile_pic);
+          const timestamp = new Date().getTime();
+          setProfilePic(data.profile_pic + "?v=" + timestamp);
           picInputRef.current.value = null;
         } else {
           alert("사진 업로드 실패. 잠시 뒤에 시도해주세요.");

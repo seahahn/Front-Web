@@ -5,7 +5,7 @@ import { GoMarkGithub } from "react-icons/go";
 
 function Footer() {
   return (
-    <div className="flex flex-1 flex-row items-center justify-between bg-gray-800 p-4 h-16">
+    <div className="flex flex-1 flex-row items-center justify-between bg-gray-800 p-4 h-16 relative -translate-y-full">
       <div className="flex flex-row items-center space-x-4">
         <img src={logoNav} alt="logo" className="h-8 rounded-lg" />
         <span className="text-sm text-slate-300">ⓒ 2022. Team AI Play. All rights reserved.</span>

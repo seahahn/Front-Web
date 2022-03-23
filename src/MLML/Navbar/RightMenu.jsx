@@ -48,7 +48,7 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
           {/* 공개 채팅 버튼 */}
           <div className="relative flex flex-col items-center">
             <span
-              class={classNames(
+              className={classNames(
                 chatStart && !chatOpen && chatIsChanged ? "animate-ping" : "hidden",
                 "absolute top-1 right-1 inline-flex h-2 w-2 rounded-full bg-sky-400 opacity-75"
               )}></span>
@@ -71,7 +71,7 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
             <div>
               <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span className="sr-only">Open user menu</span>
-                <img className="h-8 w-8 rounded-full" src={profilePic ? profilePic : blankPic} alt="" onError={handleImgError} />
+                <img className="object-cover h-8 w-8 rounded-full" src={profilePic ? profilePic : blankPic} alt="" onError={handleImgError} />
               </Menu.Button>
             </div>
             <Transition
