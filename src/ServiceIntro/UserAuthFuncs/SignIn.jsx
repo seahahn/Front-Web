@@ -6,9 +6,10 @@ import { HiX } from "react-icons/hi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { inputStyle } from "MLML/MLComponents/componentStyle";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "MLML/MLComponents/CompoOptions/networkConfigs";
+import { refreshToken } from "utils/auth";
 
 function SignIn({ isOpen, openerStates, setProfilePic }) {
-  const { setUserIdx, setIsSignInOpenFromHome } = useContext(AppContext);
+  const { setUserIdx, setUserNickname, setIsSignInOpenFromHome, refreshTokenInterval } = useContext(AppContext);
 
   const setIsOpen = openerStates.setIsSignInOpen;
   const setIsSignUpOpen = openerStates.setIsSignUpOpen;
@@ -39,7 +40,6 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
   }, [isOpen]);
 
   const handleChange = _.debounce((event) => {
-    console.log(event.target);
     const { name, value } = event.target;
     setInput({
       ...input,
@@ -77,14 +77,26 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
           localStorage.setItem("AIPLAY_USER_PIC", userData.profile_pic);
           localStorage.setItem("AIPLAY_USER_MEMBERSHIP", userData.membership);
           setUserIdx(userData.idx);
+          setUserNickname(userData.nickname);
           setProfilePic(userData.profile_pic);
           setLoggedIn(true);
           setIsOpen(false);
           setIsSignInOpenFromHome(false);
+
+          // 1시간마다 JWT 갱신 시작
+          setTimeout(() => {
+            refreshTokenInterval.current = setInterval(refreshToken, 1000 * 10 * 60);
+          }, 1000 * 10 * 60);
         } else {
           data.email_state ? alert("비밀번호가 일치하지 않습니다.") : alert("가입하지 않은 이메일입니다.");
         }
       });
+  };
+
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
+    }
   };
 
   const goToSignUp = (event) => {
@@ -132,7 +144,10 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
         </div>
 
         <div className="flex flex-row justify-around">
-          <button type="submit" className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+          <button
+            type="submit"
+            onKeyPress={handleEnter}
+            className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
             로그인
           </button>
         </div>

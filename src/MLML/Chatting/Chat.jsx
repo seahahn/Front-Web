@@ -10,7 +10,6 @@ function Chat({ props, handleImgError }) {
   const { userIdx, userNickname } = useContext(AppContext);
 
   const [msgs, setMsgs] = useState([]);
-  console.log(msgs);
 
   const chatBodyRef = useRef(null);
 

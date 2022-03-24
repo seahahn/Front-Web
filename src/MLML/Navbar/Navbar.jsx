@@ -1,5 +1,6 @@
 import logoNav from "assets/logo_nav.png";
 import React, { useState, useContext, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "App";
 import { Disclosure } from "@headlessui/react";
 import { Link } from "react-router-dom";
@@ -12,13 +13,15 @@ import SignIn from "ServiceIntro/UserAuthFuncs/SignIn";
 import FindPw from "ServiceIntro/UserAuthFuncs/FindPw";
 import UserProfile from "ServiceIntro/UserAuthFuncs/UserProfile";
 import errorPic from "assets/error_pic.png";
-
+import { removeToken } from "utils/auth";
 function Navbar({ props, isMLML }) {
-  const { userIdx, isSignInOpenFromHome } = useContext(AppContext);
+  const navigate = useNavigate();
+
+  const { userIdx, setUserIdx, setUserNickname, isSignInOpenFromHome, refreshTokenInterval } = useContext(AppContext);
 
   const [profilePic, setProfilePic] = useState(localStorage.getItem("AIPLAY_USER_PIC"));
 
-  const [loggedIn, setLoggedIn] = useState(userIdx);
+  const [loggedIn, setLoggedIn] = useState(userIdx ? true : false);
 
   const [isServiceUsageOpen, setIsServiceUsageOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -48,6 +51,14 @@ function Navbar({ props, isMLML }) {
     localStorage.removeItem("aiplay_proj_idx");
     sessionStorage.clear();
     setLoggedIn(false);
+    setUserIdx(null);
+    setUserNickname(null);
+    setProfilePic(null);
+
+    // 1시간마다 갱신하던 토큰을 제거
+    clearInterval(refreshTokenInterval.current);
+    removeToken();
+    navigate("/");
   };
 
   const handleImgError = useCallback((e) => {

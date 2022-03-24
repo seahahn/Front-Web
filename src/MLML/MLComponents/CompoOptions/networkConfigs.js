@@ -91,6 +91,8 @@ export const URLS_USER_AUTH = {
   pw_change: "pw_change",
   profile_pic_change: "profile_pic_change",
   inactive: "inactive",
+  refresh_jwt: "refresh_jwt",
+  remove_jwt: "remove_jwt",
 };
 
 export const URLS_DL_API = {

@@ -15,7 +15,7 @@ function ProfilePic({ profilePic, setProfilePic }) {
     console.log("image upload");
     const formData = new FormData();
     formData.append("profile_pic", e.target.files[0]);
-    formData.append("user_idx", userIdx);
+    formData.append("idx", userIdx);
 
     const config = {
       method: "POST",

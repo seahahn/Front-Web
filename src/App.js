@@ -9,8 +9,19 @@ function App() {
   const [userNickname, setUserNickname] = React.useState(localStorage.getItem("AIPLAY_USER_NICKNAME"));
   const [isSignInOpenFromHome, setIsSignInOpenFromHome] = React.useState(false);
 
+  const refreshTokenInterval = React.useRef(null);
+
   return (
-    <AppContext.Provider value={{ userIdx, setUserIdx, userNickname, setUserNickname, isSignInOpenFromHome, setIsSignInOpenFromHome }}>
+    <AppContext.Provider
+      value={{
+        userIdx,
+        setUserIdx,
+        userNickname,
+        setUserNickname,
+        isSignInOpenFromHome,
+        setIsSignInOpenFromHome,
+        refreshTokenInterval,
+      }}>
       <Routes>
         <Route path="/mlml" element={<MLML />} />
         <Route element={<ServiceIntro />}>
