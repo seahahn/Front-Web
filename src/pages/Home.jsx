@@ -2,16 +2,16 @@ import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 
-import AnimationRevealPage from "ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
+import AnimationRevealPage from "Components/ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
 
-import FirstSection from "ServiceIntro/WebTemplate/hero/TwoColumnWithFeaturesAndTestimonial";
-import Features from "ServiceIntro/WebTemplate/features/ThreeColWithSideImage";
-import MainFeature from "ServiceIntro/WebTemplate/features/TwoColWithTwoHorizontalFeaturesAndButton";
-import FeatureStats from "ServiceIntro/WebTemplate/features/ThreeColCenteredStatsPrimaryBackground";
-import Pricing from "ServiceIntro/WebTemplate/pricing/TwoPlansWithDurationSwitcher";
-import Testimonial from "ServiceIntro/WebTemplate/testimonials/TwoColumnWithImageAndRating";
-import FAQ from "ServiceIntro/WebTemplate/faqs/SingleCol";
-import GetStarted from "ServiceIntro/WebTemplate/cta/GetStartedLight";
+import FirstSection from "Components/ServiceIntro/WebTemplate/hero/TwoColumnWithFeaturesAndTestimonial";
+import Features from "Components/ServiceIntro/WebTemplate/features/ThreeColWithSideImage";
+import MainFeature from "Components/ServiceIntro/WebTemplate/features/TwoColWithTwoHorizontalFeaturesAndButton";
+import FeatureStats from "Components/ServiceIntro/WebTemplate/features/ThreeColCenteredStatsPrimaryBackground";
+import Pricing from "Components/ServiceIntro/WebTemplate/pricing/TwoPlansWithDurationSwitcher";
+import Testimonial from "Components/ServiceIntro/WebTemplate/testimonials/TwoColumnWithImageAndRating";
+import FAQ from "Components/ServiceIntro/WebTemplate/faqs/SingleCol";
+import GetStarted from "Components/ServiceIntro/WebTemplate/cta/GetStartedLight";
 
 const HighlightedText = tw.span`text-primary-300`;
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import Navbar from "MLML/Navbar/Navbar";
-import Footer from "ServiceIntro/Footer";
+import Navbar from "Components/MLML/Navbar/Navbar";
+import Footer from "Components/ServiceIntro/Footer";
 import { Outlet } from "react-router-dom";
-import { targetURL, USER_AUTH_URL, URLS_USER_AUTH } from "MLML/MLComponents/CompoOptions/networkConfigs";
+import { targetURL, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 import { setCookie } from "utils/cookie";
 
 function ServiceIntro() {

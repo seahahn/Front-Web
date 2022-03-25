@@ -1,9 +1,9 @@
 import React from "react";
 import tw from "twin.macro";
 import { useParams, useLocation } from "react-router-dom";
-import { ExpHeader, ExpBody } from "AIExampleComponents";
-import AnimationRevealPage from "ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
-import AdminPost from "AIExampleComponents/AdminPost";
+import { ExpHeader, ExpBody } from "Components/AIExampleComponents";
+import AnimationRevealPage from "Components/ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
+import AdminPost from "Components/AIExampleComponents/AdminPost";
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-10 lg:py-12 3xl:py-24`;
