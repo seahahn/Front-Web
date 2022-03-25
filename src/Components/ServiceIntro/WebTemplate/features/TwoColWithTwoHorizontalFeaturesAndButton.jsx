@@ -8,6 +8,7 @@ import TeamIllustrationSrc from "Components/ServiceIntro/WebTemplate/images/team
 import { ReactComponent as SvgDotPattern } from "Components/ServiceIntro/WebTemplate/images/dot-pattern.svg";
 import { ReactComponent as BriefcaseIcon } from "feather-icons/dist/icons/briefcase.svg";
 import { ReactComponent as MoneyIcon } from "feather-icons/dist/icons/dollar-sign.svg";
+import { AppContext } from "App";
 
 const Container = tw.div`relative`;
 const TwoColumn = tw.div`flex flex-col md:flex-row justify-between max-w-screen-xl mx-auto py-20 md:py-24 items-center`;
@@ -26,7 +27,7 @@ const TextContent = tw.div`lg:py-8 text-center md:text-left`;
 
 const Subheading = tw(SubheadingBase)`text-center md:text-left`;
 const Heading = tw(SectionHeading)`mt-4 font-black text-left text-3xl sm:text-4xl lg:text-5xl text-center md:text-left leading-tight`;
-const Description = tw.p`mt-8 text-center md:text-left text-sm md:text-base lg:text-lg font-medium leading-relaxed text-slate-100`;
+const Description = tw.p`mt-8 text-center md:text-left text-sm md:text-base lg:text-lg font-medium leading-relaxed whitespace-pre-line text-slate-100`;
 
 const Features = tw.div`mx-auto md:mx-0 flex flex-col lg:flex-row max-w-xs lg:max-w-none`;
 const Feature = tw.div`mt-10 lg:mt-8 flex items-center md:items-start flex-col md:mr-8 last:mr-0`;
@@ -46,26 +47,29 @@ const FeatureDescription = tw.div`mt-4 text-center md:text-left text-gray-600 le
 const PrimaryButton = styled(PrimaryButtonBase)((props) => [tw`mt-12 text-sm inline-block mx-auto md:mx-0`, props.buttonRounded && tw`rounded-full`]);
 
 const TwoColWithTwoHorizontalFeaturesAndButton = ({
-  subheading = "Our Expertise",
   heading = (
     <>
       Designed & Developed by <span tw="text-primary-300">Professionals.</span>
     </>
   ),
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  primaryButtonText = "Learn More",
-  primaryButtonUrl = "https://timerse.com",
-  imageSrc = TeamIllustrationSrc,
-  buttonRounded = true,
-  imageRounded = true,
-  imageBorder = false,
-  imageShadow = false,
-  showDecoratorBlob = false,
-  textOnLeft = true,
-  features = null,
-  iconRoundedFull = true,
-  iconFilled = true,
-  iconContainerCss = null,
+  props = {
+    subheading: "Our Expertise",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    primaryButtonText: "Learn More",
+    primaryButtonUrl: "https://timerse.com",
+    imageSrc: TeamIllustrationSrc,
+    buttonRounded: true,
+    imageRounded: true,
+    imageBorder: false,
+    imageShadow: false,
+    showDecoratorBlob: false,
+    textOnLeft: true,
+    features: null,
+    iconRoundedFull: true,
+    iconFilled: true,
+    iconContainerCss: null,
+  },
 }) => {
   // The textOnLeft boolean prop can be used to display either the text on left or right side of the image.
 
@@ -88,25 +92,30 @@ const TwoColWithTwoHorizontalFeaturesAndButton = ({
     },
   ];
 
-  if (!features) features = defaultFeatures;
+  const { handleGetStarted } = React.useContext(AppContext);
+
+  if (!props.features) props.features = defaultFeatures;
 
   return (
     <Container>
       <TwoColumn>
         <ImageColumn>
-          <Image src={imageSrc} imageBorder={imageBorder} imageShadow={imageShadow} imageRounded={imageRounded} />
-          {showDecoratorBlob && <DecoratorBlob />}
+          <Image src={props.imageSrc} imageBorder={props.imageBorder} imageShadow={props.imageShadow} imageRounded={props.imageRounded} />
+          {props.showDecoratorBlob && <DecoratorBlob />}
         </ImageColumn>
-        <TextColumn textOnLeft={textOnLeft}>
+        <TextColumn textOnLeft={props.textOnLeft}>
           <TextContent>
-            <Subheading>{subheading}</Subheading>
+            <Subheading>{props.subheading}</Subheading>
             <Heading>{heading}</Heading>
-            <Description>{description}</Description>
+            <Description>{props.description}</Description>
             <Features>
-              {features.map((feature, index) => (
+              {props.features.map((feature, index) => (
                 <Feature key={index}>
                   <FeatureHeadingContainer>
-                    <FeatureIconContainer iconFilled={iconFilled} iconRoundedFull={iconRoundedFull} css={feature.iconContainerCss || iconContainerCss}>
+                    <FeatureIconContainer
+                      iconFilled={props.iconFilled}
+                      iconRoundedFull={props.iconRoundedFull}
+                      css={feature.iconContainerCss || props.iconContainerCss}>
                       {<feature.Icon />}
                     </FeatureIconContainer>
                     <FeatureHeading>{feature.title}</FeatureHeading>
@@ -116,8 +125,8 @@ const TwoColWithTwoHorizontalFeaturesAndButton = ({
               ))}
             </Features>
 
-            <PrimaryButton buttonRounded={buttonRounded} as="a" href={primaryButtonUrl}>
-              {primaryButtonText}
+            <PrimaryButton buttonRounded={props.buttonRounded} onClick={handleGetStarted}>
+              {props.primaryButtonText}
             </PrimaryButton>
           </TextContent>
         </TextColumn>

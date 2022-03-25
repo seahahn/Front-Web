@@ -69,21 +69,23 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 `;
 
 const TwoPlansWithDurationSwitcher = ({
-  subheading = "Pricing",
-  heading = "Flexible Plans.",
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  plans = null,
-  primaryButtonText = "Buy Now",
-  planDurations = [
-    {
-      text: "Month",
-      switcherText: "Monthly",
-    },
-    {
-      text: "Year",
-      switcherText: "Yearly",
-    },
-  ],
+  props = {
+    subheading: "Pricing",
+    heading: "Flexible Plans.",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    plans: null,
+    primaryButtonText: "Buy Now",
+    planDurations: [
+      {
+        text: "Month",
+        switcherText: "Monthly",
+      },
+      {
+        text: "Year",
+        switcherText: "Yearly",
+      },
+    ],
+  },
 }) => {
   const defaultPlans = [
     {
@@ -101,7 +103,7 @@ const TwoPlansWithDurationSwitcher = ({
     },
   ];
 
-  if (!plans) plans = defaultPlans;
+  if (!props.plans) props.plans = defaultPlans;
 
   const [activeDurationIndex, setActiveDurationIndex] = useState(0);
 
@@ -109,11 +111,11 @@ const TwoPlansWithDurationSwitcher = ({
     <Container>
       <ContentWithPaddingXl>
         <HeaderContainer>
-          {subheading && <Subheading>{subheading}</Subheading>}
-          <Heading>{heading}</Heading>
-          {description && <Description>{description}</Description>}
+          {props.subheading && <Subheading>{props.subheading}</Subheading>}
+          <Heading>{props.heading}</Heading>
+          {props.description && <Description>{props.description}</Description>}
           <PlanDurationSwitcher>
-            {planDurations.map((planDuration, index) => (
+            {props.planDurations.map((planDuration, index) => (
               <SwitchButton active={activeDurationIndex === index} key={index} onClick={() => setActiveDurationIndex(index)}>
                 {planDuration.switcherText}
               </SwitchButton>
@@ -121,13 +123,13 @@ const TwoPlansWithDurationSwitcher = ({
           </PlanDurationSwitcher>
         </HeaderContainer>
         <PlansContainer>
-          {plans.map((plan, index) => (
+          {props.plans.map((plan, index) => (
             <Plan key={index} featured={plan.featured}>
               <PlanHeader>
                 <span className="priceAndDuration">
                   <span className="price">{plan.durationPrices[activeDurationIndex]}</span>
                   <span className="slash"> / </span>
-                  <span className="duration">{planDurations[activeDurationIndex].text}</span>
+                  <span className="duration">{props.planDurations[activeDurationIndex].text}</span>
                 </span>
                 <span className="name">{plan.name}</span>
                 <span className="mainFeature">{plan.mainFeature}</span>
@@ -140,7 +142,7 @@ const TwoPlansWithDurationSwitcher = ({
                 ))}
               </PlanFeatures>
               <PlanAction>
-                <BuyNowButton>{primaryButtonText}</BuyNowButton>
+                <BuyNowButton>{props.primaryButtonText}</BuyNowButton>
               </PlanAction>
             </Plan>
           ))}

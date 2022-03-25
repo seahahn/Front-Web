@@ -21,8 +21,8 @@ const Column = ({ data, handleDrop, path, removeBlock }) => {
   };
 
   return (
-    <div ref={ref} className="base column max-w-full rounded-lg">
-      <div className="flex flex-row justify-between">
+    <div ref={ref} className="border border-black bg-slate-300 column flex-auto p-2 max-w-full rounded-lg">
+      <div className="flex flex-row justify-between px-2">
         <span>{data.id}</span>
         <button type="button" onClick={removeBlock} value={data.id} className={negButtonStyle}>
           블록 삭제

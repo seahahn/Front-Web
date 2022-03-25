@@ -69,10 +69,10 @@ function ChangePw({ isOpen, setIsOpen }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={submitPwChange} className="absolute w-2/5 h-fit bg-white border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
+      <form onSubmit={submitPwChange} className="absolute w-2/5 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
         {/* 제목 부분 */}
         <div className="flex flex-row justify-between items-center">
-          <h3 className="text-xl p-2">비밀번호 변경하기</h3>
+          <h3 className="text-lg p-2 text-white">비밀번호 변경하기</h3>
           <HiX onClick={() => setIsOpen(false)} className="inline w-8 h-8 mx-2 cursor-pointer" />
         </div>
         {/* 현재 비밀번호 입력란 */}
@@ -81,7 +81,7 @@ function ChangePw({ isOpen, setIsOpen }) {
             ref={pwRef}
             type={pwVisible ? "text" : "password"}
             name="pw"
-            className={inputStyle + " mx-2 flex-1"}
+            className={"mx-2 px-2 flex-1 text-lg placeholder:text-base rounded-md"}
             placeholder="현재 비밀번호"
             onChange={handleChange}
             required={true}
@@ -96,7 +96,7 @@ function ChangePw({ isOpen, setIsOpen }) {
             ref={newPwRef}
             type={newPwVisible ? "text" : "password"}
             name="new_pw"
-            className={inputStyle + " mx-2 flex-1"}
+            className={"mx-2 px-2 flex-1 text-lg placeholder:text-base rounded-md"}
             placeholder="새 비밀번호(영문, 숫자, 특수문자 포함 8~16자)"
             title="비밀번호(영문, 숫자, 특수문자 포함 8~16자)"
             pattern={pwRegexStr}
@@ -109,7 +109,9 @@ function ChangePw({ isOpen, setIsOpen }) {
         </div>
 
         <div className="flex flex-row justify-around">
-          <button type="submit" className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+          <button
+            type="submit"
+            className="mb-2 bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
             변경하기
           </button>
         </div>

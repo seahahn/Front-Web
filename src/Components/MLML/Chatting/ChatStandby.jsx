@@ -11,7 +11,7 @@ const ChatStandby = ({ startChat }) => {
       <button
         type="button"
         onClick={() => startChat(true)}
-        className="w-1/2 self-center bg-blue-500 hover:bg-blue-700 text-white text-md font-bold py-1 px-2 rounded">
+        className="w-1/3 self-center bg-primary-500 hover:bg-primary-700 text-white text-md font-bold py-1 px-1 rounded-full">
         채팅 시작
       </button>
     </div>

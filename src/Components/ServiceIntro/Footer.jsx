@@ -2,6 +2,7 @@ import React from "react";
 import logoNav from "assets/logo_nav.png";
 import { Link } from "react-router-dom";
 import { GoMarkGithub } from "react-icons/go";
+import mailTo from "utils/mailTo";
 
 function Footer() {
   return (
@@ -14,8 +15,10 @@ function Footer() {
         <Link to="/about">
           <span className="text-sm text-slate-300">About</span>
         </Link>
-        <span className="text-sm text-slate-300">Contact</span>
-        <a href="https://github.com/AI-Play" target="_blank" rel="noreferrer">
+        <a href={mailTo()} target="_blank" rel="noreferrer" className="text-sm text-slate-300">
+          <span className="text-sm text-slate-300">Contact</span>
+        </a>
+        <a href={"https://github.com/AI-Play"} target="_blank" rel="noreferrer">
           <GoMarkGithub className="h-8 w-8 text-white" />
         </a>
       </div>
@@ -23,4 +26,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default React.memo(Footer);

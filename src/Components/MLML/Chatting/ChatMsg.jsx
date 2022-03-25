@@ -2,7 +2,7 @@ import { PROFILE_PIC_BASE_URL } from "utils/networkConfigs";
 import blankPic from "assets/blank_pic.png";
 
 const timeStyle = "text-xs self-end";
-const contentStyle = "font-sans px-1 text-sm border border-1 border-black bg-white rounded-lg";
+const contentStyle = "font-sans px-2 py-1 text-sm bg-white rounded-lg";
 
 const ChatMsg = ({ idx, msg, handleImgError }) => {
   const profilePic = `${PROFILE_PIC_BASE_URL}${msg.idx}/${msg.idx}.png`;

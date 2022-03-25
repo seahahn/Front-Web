@@ -59,15 +59,15 @@ function LoadProject({ isOpen, setIsOpen, setIsNewProjectOpen, initProject, dele
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <div className="absolute w-2/5 max-h-2/5 bg-white border-2 rounded-lg flex flex-col justify-around divide-solid p-2">
-        <h3 className="text-xl p-2">프로젝트 목록</h3>
+      <div className="absolute w-1/4 max-h-2/5 bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid p-2 space-y-3">
+        <h3 className="text-xl p-2 font-bold text-white self-center">프로젝트 목록</h3>
         {projList && projList.length > 0 ? (
           <>
             <Radio
               options={projList ? projList.map((proj) => proj.idx) : []}
               optionText={projList ? projList.map((proj) => proj.proj_name) : null}
               group="projList"
-              className="custom-scroll overflow-y-auto flex flex-col space-y-2 px-2"
+              className="custom-scroll overflow-y-auto flex flex-col space-y-2 px-2 text-lg text-slate-200"
               handleChange={handleChange}
               handleDelete={handleDelete}
               disabledTarget={!isInitialOpen ? projIdx : null}
@@ -77,14 +77,16 @@ function LoadProject({ isOpen, setIsOpen, setIsNewProjectOpen, initProject, dele
               <button
                 type="button"
                 onClick={handleConfirm}
-                className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+                className={classNames(
+                  "bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded-full"
+                )}>
                 확인
               </button>
               {!isInitialOpen && (
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="border border-red-500 hover:bg-red-300 text-black text-md md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+                  className="bg-red-500 hover:bg-red-700 text-white text-md md:text-xs font-bold w-2/5 py-2 px-2 rounded-full">
                   취소
                 </button>
               )}
@@ -92,12 +94,12 @@ function LoadProject({ isOpen, setIsOpen, setIsNewProjectOpen, initProject, dele
           </>
         ) : (
           !isLoading && (
-            <div className="flex flex-col space-y-2 px-2">
-              <div className="text-center">
+            <div className="flex flex-col items-center space-y-5 px-2 pb-2">
+              <div className="text-center text-slate-100">
                 생성된 프로젝트가 없습니다! <br />
                 아래 버튼을 눌러 프로젝트를 생성해주세요.
               </div>
-              <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={openNewProject}>
+              <button type="button" className="bg-primary-500 hover:bg-primary-700 text-white font-bold w-1/2 py-2 px-4 rounded-full" onClick={openNewProject}>
                 프로젝트 생성하기
               </button>
             </div>

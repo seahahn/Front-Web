@@ -55,20 +55,29 @@ function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={handleSubmit} className="absolute w-2/5 h-fit bg-white border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
+      <form onSubmit={handleSubmit} className="absolute w-1/4 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-4">
         {/* 제목 부분 */}
-        <div className="flex flex-row justify-between items-center">
-          <h3 className="text-xl p-2">임시 비밀번호 발송</h3>
-          <HiX onClick={() => setIsOpen(false)} className="inline w-8 h-8 mx-2 cursor-pointer" />
+        <div className="relative flex flex-row justify-center items-center">
+          <h3 className="text-xl font-bold p-2 text-white self-center">임시 비밀번호 발송</h3>
+          <HiX onClick={() => setIsOpen(false)} className="absolute right-0 inline w-8 h-8 mx-2 cursor-pointer" />
         </div>
         {/* 이메일 입력란 */}
-        <div className="flex flex-row">
-          <input ref={emailRef} type="email" name="email" className={inputStyle + " mx-2 flex-1"} placeholder="이메일" onChange={handleChange} />
+        <div className="flex flex-row mx-8">
+          <input
+            ref={emailRef}
+            type="email"
+            name="email"
+            className={"mx-2 px-2 flex-1 text-lg placeholder:text-base rounded-md"}
+            placeholder="이메일"
+            onChange={handleChange}
+          />
         </div>
-        <p className="text-xs">입력하신 메일로 임시 비밀번호를 보내드립니다.</p>
+        <p className="text-sm text-slate-200 mx-2 text-center">입력하신 메일로 임시 비밀번호를 보내드립니다.</p>
 
-        <div className="flex flex-row justify-around">
-          <button type="submit" className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+        <div className="flex flex-row justify-around pb-3">
+          <button
+            type="submit"
+            className="mb-2 bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-base md:text-sm font-bold w-2/5 py-2 px-2 rounded-full">
             임시 비밀번호 발송
           </button>
         </div>

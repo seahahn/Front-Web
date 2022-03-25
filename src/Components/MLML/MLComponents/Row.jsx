@@ -20,7 +20,7 @@ const Row = ({ data, handleDrop, path }) => {
   };
 
   return (
-    <div ref={ref} className="base row rounded-lg my-3">
+    <div ref={ref} className="my-3 bg-slate-100 rounded-lg">
       <div className="flex flex-row justify-between p-2">
         {data.id}
         <button className={buttonStyle} onClick={() => setRowOpened(!rowOpened)}>
@@ -49,4 +49,4 @@ const Row = ({ data, handleDrop, path }) => {
     </div>
   );
 };
-export default Row;
+export default React.memo(Row);

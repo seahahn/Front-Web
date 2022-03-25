@@ -3,8 +3,7 @@ import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { inputStyle } from "Components/MLML/MLComponents/componentStyle";
-import { pwRegex, pwRegexStr } from "Components/MLML/MLComponents/CompoOptions/mlUtilFuncs";
+import { pwRegexStr } from "Components/MLML/MLComponents/CompoOptions/mlUtilFuncs";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 import Timer from "./Timer";
 
@@ -177,105 +176,117 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={handleSubmit} className="absolute w-2/5 h-fit bg-white border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
+      <form onSubmit={handleSubmit} className="absolute w-2/5 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-4">
         {/* 제목 부분 */}
-        <div className="flex flex-row justify-between items-center">
-          <h3 className="text-xl p-2">가입하기</h3>
-          <HiX onClick={() => setIsOpen(false)} className="inline w-8 h-8 mx-2 cursor-pointer" />
+        <div className="relative flex flex-row justify-center items-center">
+          <h3 className="text-xl font-bold p-2 text-white self-center">가입하기</h3>
+          <HiX onClick={() => setIsOpen(false)} className="absolute right-0 inline w-8 h-8 mx-2 cursor-pointer" />
         </div>
-        {/* 이메일 입력란 */}
-        <div className="flex flex-row">
-          <input
-            ref={emailRef}
-            type="email"
-            name="email"
-            className={inputStyle + " ml-2 flex-1"}
-            placeholder="이메일"
-            onChange={handleChange}
-            required={true}
-          />
-          <button
-            type="button"
-            onClick={emailState.emailSent ? cancelSendEmail : sendEmail}
-            className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded">
-            {emailState.emailSent ? <Timer onStop={cancelSendEmail} /> : "인증 요청"}
-          </button>
-        </div>
-        {/* 인증 번호 입력란 */}
-        <div className="flex flex-row">
-          <input
-            ref={cert_numberRef}
-            type="text"
-            name="cert_number"
-            className={inputStyle + " ml-2 flex-1"}
-            placeholder="인증 번호"
-            onChange={handleChange}
-            disabled={!emailState.emailSent || emailState.emailChecked ? true : false}
-          />
-          <button
-            type="button"
-            onClick={checkEmail}
-            className={classNames(
-              emailState.emailSent ? "border border-blue-500 hover:bg-blue-300 text-black" : "text-slate-300",
-              "text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded"
-            )}
-            disabled={!emailState.emailSent || emailState.emailChecked ? true : false}>
-            {emailState.emailChecked ? "인증 완료" : emailState.emailSent ? "인증하기" : emailState.emailCheckTimeout ? "시간 초과" : "인증하기"}
-          </button>
-        </div>
-        {/* 비밀번호 입력란 */}
-        <div className="flex flex-row items-center">
-          <input
-            ref={pwRef}
-            type={pwVisible ? "text" : "password"}
-            name="pw"
-            pattern={pwRegexStr}
-            className={inputStyle + " mx-2 flex-1"}
-            placeholder="비밀번호(영문, 숫자, 특수문자 포함 8~16자)"
-            title="비밀번호(영문, 숫자, 특수문자 포함 8~16자)"
-            onChange={handleChange}
-            required={true}
-          />
-          <button type="button" className="absolute right-0 mr-4" onClick={() => setPwVisible(!pwVisible)}>
-            {pwVisible ? <AiFillEyeInvisible /> : <AiFillEye />}
-          </button>
-        </div>
-        {/* 닉네임 입력란 */}
-        <div className="flex flex-row">
-          <input
-            ref={nicknameRef}
-            type="text"
-            name="nickname"
-            className={inputStyle + " ml-2 flex-1"}
-            placeholder="닉네임"
-            onChange={handleChange}
-            required={true}
-          />
-          <button
-            type="button"
-            onClick={checkNickname}
-            className={classNames(
-              !nicknameChecked ? "border border-blue-500 hover:bg-blue-300 text-black" : "text-slate-300",
-              "text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded"
-            )}
-            disabled={nicknameChecked ? true : false}>
-            {nicknameChecked ? "확인 완료" : "중복 확인"}
-          </button>
+        <div className="flex flex-col space-y-2 px-16">
+          {/* 이메일 입력란 */}
+          <div className="flex flex-row">
+            <input
+              ref={emailRef}
+              type="email"
+              name="email"
+              className={"ml-2 px-2 flex-1 text-lg placeholder:text-base rounded-l-md"}
+              placeholder="이메일"
+              onChange={handleChange}
+              required={true}
+            />
+            <button
+              type="button"
+              onClick={emailState.emailSent ? cancelSendEmail : sendEmail}
+              className="bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded-r-md">
+              {emailState.emailSent ? <Timer onStop={cancelSendEmail} /> : "인증 요청"}
+            </button>
+          </div>
+          {/* 인증 번호 입력란 */}
+          <div className="flex flex-row">
+            <input
+              ref={cert_numberRef}
+              type="text"
+              name="cert_number"
+              className={"ml-2 px-2 flex-1 text-lg placeholder:text-base rounded-l-md disabled:rounded-md"}
+              placeholder="인증 번호"
+              onChange={handleChange}
+              disabled={!emailState.emailSent || emailState.emailChecked ? true : false}
+            />
+            <button
+              type="button"
+              onClick={checkEmail}
+              className={classNames(
+                emailState.emailSent ? "bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300" : "text-slate-300",
+                "text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded-r-md"
+              )}
+              disabled={!emailState.emailSent || emailState.emailChecked ? true : false}>
+              {emailState.emailChecked ? "인증 완료" : emailState.emailSent ? "인증하기" : emailState.emailCheckTimeout ? "시간 초과" : "인증하기"}
+            </button>
+          </div>
+          {/* 비밀번호 입력란 */}
+          <div className="flex flex-row items-center">
+            <input
+              ref={pwRef}
+              type={pwVisible ? "text" : "password"}
+              name="pw"
+              pattern={pwRegexStr}
+              className={"mx-2 px-2 flex-1 text-lg placeholder:text-base rounded-md h-8"}
+              placeholder="비밀번호(영문, 숫자, 특수문자 포함 8~16자)"
+              title="비밀번호(영문, 숫자, 특수문자 포함 8~16자)"
+              onChange={handleChange}
+              required={true}
+            />
+            <button type="button" className="absolute right-16 mr-4" onClick={() => setPwVisible(!pwVisible)}>
+              {pwVisible ? <AiFillEyeInvisible /> : <AiFillEye />}
+            </button>
+          </div>
+          {/* 닉네임 입력란 */}
+          <div className="flex flex-row">
+            <input
+              ref={nicknameRef}
+              type="text"
+              name="nickname"
+              className={"ml-2 px-2 flex-1 text-lg placeholder:text-base rounded-l-md"}
+              placeholder="닉네임"
+              onChange={handleChange}
+              required={true}
+            />
+            <button
+              type="button"
+              onClick={checkNickname}
+              className={classNames(
+                !nicknameChecked ? "bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300" : "text-slate-300",
+                "text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded-r-md"
+              )}
+              disabled={nicknameChecked ? true : false}>
+              {nicknameChecked ? "확인 완료" : "중복 확인"}
+            </button>
+          </div>
         </div>
 
-        <p className="text-xs">
-          가입하기 버튼을 누르면 AI Play의{" "}
-          <a href={"https://seahahn.notion.site/AI-PLAY-33d2becf91c744638b5dd412e0ebffed"} target="_blank" rel="noreferrer">
+        <p className="text-xs py-2 mx-16 text-center">
+          가입하기 버튼을 누르시면 AI Play의{" "}
+          <a
+            className="text-primary-300 hover:text-primary-400"
+            href={"https://seahahn.notion.site/AI-PLAY-33d2becf91c744638b5dd412e0ebffed"}
+            target="_blank"
+            rel="noreferrer">
             개인정보 처리방침
           </a>{" "}
-          및{" "}
-          <a href={"https://seahahn.notion.site/AI-PLAY-1ca5f843b4d043d495757921a5f40ea2"} target="_blank" rel="noreferrer">
+          및 <br />
+          <a
+            className="text-primary-300 hover:text-primary-400"
+            href={"https://seahahn.notion.site/AI-PLAY-1ca5f843b4d043d495757921a5f40ea2"}
+            target="_blank"
+            rel="noreferrer">
             서비스 이용약관
           </a>
           에 동의하게 됩니다.
         </p>
-        <div className="flex flex-row justify-around">
-          <button type="submit" className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+        <div className="flex flex-row justify-around py-2">
+          <button
+            type="submit"
+            className="mb-2 bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 md:text-base sm:text-xs font-bold w-2/5 py-2 px-2 rounded-full">
             가입하기
           </button>
         </div>

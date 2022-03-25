@@ -72,8 +72,8 @@ function ProfilePic({ profilePic, setProfilePic }) {
     <Menu as="div" className="absolute bottom-0" style={{ left: "55%" }}>
       <div>
         <Menu.Button className="flex text-sm rounded-full hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-gray-800 hover:ring-white">
-          <span className="sr-only">Open user menu</span>
-          <AiOutlineCamera className="w-8 h-8" />
+          <span className="sr-only">Open profile pic menu</span>
+          <AiOutlineCamera className="w-8 h-8 text-slate-300 hover:text-slate-100" />
         </Menu.Button>
       </div>
       <Transition

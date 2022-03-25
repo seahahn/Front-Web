@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import HeaderBase, { NavLinks, NavLink, PrimaryLink } from "Components/ServiceIntro/WebTemplate/headers/light";
+// import HeaderBase, { NavLinks, NavLink, PrimaryLink } from "Components/ServiceIntro/WebTemplate/headers/light";
 import { SectionHeading } from "Components/ServiceIntro/WebTemplate/misc/Headings";
 import { SectionDescription } from "Components/ServiceIntro/WebTemplate/misc/Typography";
 import { PrimaryButton as PrimaryButtonBase } from "Components/ServiceIntro/WebTemplate/misc/Buttons";
@@ -12,8 +12,8 @@ import { ReactComponent as QuotesLeftIconBase } from "Components/ServiceIntro/We
 import { ReactComponent as SvgDecoratorBlob1 } from "Components/ServiceIntro/WebTemplate/images/dot-pattern.svg";
 import { AppContext } from "App";
 
-const Header = tw(HeaderBase)`max-w-none`;
-const Row = tw.div`flex flex-col lg:flex-row justify-between items-center lg:py-16 max-w-screen-2xl mx-auto sm:px-8`;
+// const Header = tw(HeaderBase)`max-w-none`;
+const Row = tw.div`flex flex-col lg:flex-row justify-around items-center lg:py-16 max-w-screen-2xl mx-auto sm:px-8`;
 const Column = tw.div``;
 const TextColumn = tw(Column)`mr-auto lg:mr-0 max-w-lg lg:max-w-xl xl:max-w-2xl`;
 const Heading = tw(SectionHeading)`text-left text-primary-700 whitespace-pre-line leading-snug xl:text-6xl`;
@@ -57,7 +57,7 @@ const TwoColumnWithFeaturesAndTestimonial = ({
     },
   },
 }) => {
-  const { setIsSignInOpenFromHome } = React.useContext(AppContext);
+  const { handleGetStarted } = React.useContext(AppContext);
 
   const buttonRoundedCss = props.buttonRounded && tw`rounded-full`;
   // const navLinks = [
@@ -86,7 +86,7 @@ const TwoColumnWithFeaturesAndTestimonial = ({
             <TextColumn>
               <Heading>{props.heading}</Heading>
               <Description>{props.description}</Description>
-              <PrimaryButton css={buttonRoundedCss} onClick={() => setIsSignInOpenFromHome(true)}>
+              <PrimaryButton css={buttonRoundedCss} onClick={handleGetStarted}>
                 {props.primaryButtonText}
               </PrimaryButton>
               <FeatureList>

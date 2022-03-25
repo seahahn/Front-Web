@@ -118,44 +118,51 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={handleSubmit} className="absolute w-2/5 h-fit bg-white border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
+      <form onSubmit={handleSubmit} className="absolute w-1/5 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-4">
         {/* 제목 부분 */}
-        <div className="flex flex-row justify-between items-center">
-          <h3 className="text-xl p-2">로그인</h3>
-          <HiX onClick={handleClose} className="inline w-8 h-8 mx-2 cursor-pointer" />
+        <div className="relative flex flex-row justify-center items-center">
+          <h3 className="text-xl p-2 font-bold text-white self-center">Login</h3>
+          <HiX onClick={handleClose} className="absolute right-0 inline w-8 h-8 mx-2 cursor-pointer" />
         </div>
         {/* 이메일 입력란 */}
-        <div className="flex flex-row">
-          <input ref={emailRef} type="email" name="email" className={inputStyle + " mx-2 flex-1"} placeholder="이메일" onChange={handleChange} />
+        <div className="flex flex-row px-8">
+          <input
+            ref={emailRef}
+            type="email"
+            name="email"
+            className={"mx-2 px-2 flex-1 text-lg placeholder:text-base rounded-md"}
+            placeholder="이메일"
+            onChange={handleChange}
+          />
         </div>
         {/* 비밀번호 입력란 */}
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center px-8">
           <input
             ref={pwRef}
             type={pwVisible ? "text" : "password"}
             name="pw"
-            className={inputStyle + " mx-2 flex-1"}
+            className={"mx-2 px-2 flex-1 text-lg placeholder:text-base rounded-md"}
             placeholder="비밀번호"
             onChange={handleChange}
           />
-          <button type="button" className="absolute right-0 mr-4" onClick={() => setPwVisible(!pwVisible)}>
+          <button type="button" className="absolute right-8 mr-4" onClick={() => setPwVisible(!pwVisible)}>
             {pwVisible ? <AiFillEyeInvisible /> : <AiFillEye />}
           </button>
         </div>
 
-        <div className="flex flex-row justify-around">
+        <div className="flex flex-row justify-around pb-2">
           <button
             type="submit"
             onKeyPress={handleEnter}
-            className="border border-blue-500 hover:bg-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+            className="bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-base md:text-sm font-bold w-3/5 py-2 px-2 rounded-full">
             로그인
           </button>
         </div>
-        <div className="flex flex-row justify-around">
-          <button type="button" name="signUp" onClick={goToSignUp} className="hover:text-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2">
+        <div className="flex flex-col items-center pb-3">
+          <button type="button" name="signUp" onClick={goToSignUp} className="text-white hover:text-primary-300 text-sm md:text-xs font-bold w-2/5 py-1 px-2">
             회원가입
           </button>
-          <button type="button" name="findPw" onClick={goToSignUp} className="hover:text-blue-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2">
+          <button type="button" name="findPw" onClick={goToSignUp} className="text-white hover:text-primary-300 text-sm md:text-xs font-bold w-2/5 py-1 px-2">
             비밀번호 찾기
           </button>
         </div>

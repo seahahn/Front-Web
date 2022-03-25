@@ -2,11 +2,11 @@ export const CORS = "cors"; // CORS 설정
 
 export const UPLOAD_ACCEPT = "application/vnd.ms-excel, text/csv"; // 데이터셋 업로드 시 파일 확장자 설정
 
-export const MLFUNCS_URL = process.env.REACT_APP_ML_URL; // ML-Funcs 서버 주소
+export const MLFUNCS_URL = process.env.REACT_APP_MLFUNCS_URL; // ML-Funcs 서버 주소
 export const MLFUNCS_SUFFIX_DF = "dataframe/"; // EDA, 전처리 기능 경로
 export const MLFUNCS_SUFFIX_PLOT = "plot/"; // 시각화 기능 경로
 
-export const MLTRAIN_URL = process.env.REACT_APP_ML_URL; // ML-Train 서버 주소
+export const MLTRAIN_URL = process.env.REACT_APP_MLTRAIN_URL; // ML-Train 서버 주소
 export const MLTRAIN_SUFFIX_MODEL = "model/"; // 모델 학습 기능 경로
 
 // UPM = User-Proj-Managing
@@ -14,13 +14,13 @@ export const MODEL_KEY_PREFIX = "model/";
 export const UPM_PROJ_URL = process.env.REACT_APP_UPM_PROJ_URL; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
 export const UPM_MODEL_URL = process.env.REACT_APP_UPM_MODEL_URL; // User-Proj-Managing(사용자 프로젝트 관리) 서버 주소
 
-export const USER_AUTH_URL = process.env.REACT_APP_AWS_BASE_URL; // User-Auth 서버 주소
+export const USER_AUTH_URL = process.env.REACT_APP_USER_AUTH_URL; // User-Auth 서버 주소
 
 export const DL_API_URL = process.env.REACT_APP_DL_API_URL; // DL-API 서버 주소
 export const DL_API_CV = "cv/"; // DL-API 분류 - CV
 export const DL_API_NLP = "nlp/"; // DL-API 분류 - NLP
 
-export const PROFILE_PIC_BASE_URL = `${process.env.REACT_APP_AWS_BASE_URL}/profile_pic/`; // 프로필 사진 경로
+export const PROFILE_PIC_BASE_URL = `${process.env.REACT_APP_AWS_BASE_URL}/profile_pic/`; // AWS S3 내 사용자 프로필 사진 경로
 
 // EDA, 전처리 기능 각각의 최종 URL 경로
 export const URLS_PREPROCESS = {

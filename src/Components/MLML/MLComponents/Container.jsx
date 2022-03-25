@@ -327,18 +327,18 @@ const Container = () => {
                 <Toolbox>
                   {/* 위치 이동 가능 여부를 설정할 수 있는 버튼 추가 */}
                   <button
-                    className={classNames(movingEnabled ? "bg-green-500" : "bg-green-50", "rounded-bl-lg")}
+                    className={classNames(movingEnabled ? "bg-teal-300" : "bg-teal-50", "rounded-bl-lg")}
                     onClick={() => setMovingEnabled(!movingEnabled)}>
                     Move
                   </button>
                   {/* 확대 / 축소 / 원 위치 이동을 위한 버튼 */}
-                  <button className="bg-green-50" onClick={() => zoomIn(0.2)}>
+                  <button className="bg-teal-50" onClick={() => zoomIn(0.2)}>
                     Zoom In
                   </button>
-                  <button className="bg-green-50" onClick={() => zoomOut(0.2)}>
+                  <button className="bg-teal-50" onClick={() => zoomOut(0.2)}>
                     Zoom Out
                   </button>
-                  <button className="bg-green-50 rounded-br-lg" onClick={() => resetTransform()}>
+                  <button className="bg-teal-50 rounded-br-lg" onClick={() => resetTransform()}>
                     Reset
                   </button>
                 </Toolbox>

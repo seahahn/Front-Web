@@ -42,7 +42,7 @@ function SideBar({ addNewBlock }) {
 
   return (
     // 사이드바와 사이드바 내 아이템들
-    <div className={classNames(isSidebarHidden ? "rounded-bl-lg" : "bottom-0", "sideBar w-1/5 overflow-y-scroll space-y-2")}>
+    <div className={classNames(isSidebarHidden ? "rounded-bl-lg" : "bottom-0", "sideBar bg-gray-300 w-1/5 overflow-y-scroll space-y-2")}>
       <div className="relative flex flex-row justify-between">
         <button type="button" onClick={addNewBlock} className={buttonStyle}>
           블록 추가
@@ -63,7 +63,7 @@ function SideBar({ addNewBlock }) {
             <SideBarItem key={sideBarItem.id} data={sideBarItem} />
           ))}
         </div>
-        <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
+        <hr className="border-2 border-slate-700 bg-slate-700 rounded-lg" />
         <div className={classNames("flex flex-row justify-between")}>
           <span>EDA / 전처리 기능</span>
           <button ref={isPreprocessHiddenRef} type="button" onClick={handleHidden} className={buttonStyle}>
@@ -75,7 +75,7 @@ function SideBar({ addNewBlock }) {
             <SideBarItem key={sideBarItem.id} data={sideBarItem} />
           ))}
         </div>
-        <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
+        <hr className="border-2 border-slate-700 bg-slate-700 rounded-lg" />
         <div className={classNames("flex flex-row justify-between")}>
           <span>모델 훈련 기능</span>
           <button ref={isTrainHiddenRef} type="button" onClick={handleHidden} className={buttonStyle}>
@@ -87,7 +87,7 @@ function SideBar({ addNewBlock }) {
             <SideBarItem key={sideBarItem.id} data={sideBarItem} />
           ))}
         </div>
-        <hr className="border-2 border-sky-700 bg-sky-700 rounded-lg" />
+        <hr className="border-2 border-slate-700 bg-slate-700 rounded-lg" />
         <div className={classNames("flex flex-row justify-between")}>
           <span>모델 평가 기능</span>
           <button ref={isEvalHiddenRef} type="button" onClick={handleHidden} className={buttonStyle}>

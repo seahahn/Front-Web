@@ -48,6 +48,7 @@ function Navbar({ props, isMLML }) {
     localStorage.removeItem("AIPLAY_USER_EMAIL");
     localStorage.removeItem("AIPLAY_USER_NICKNAME");
     localStorage.removeItem("AIPLAY_USER_PIC");
+    localStorage.removeItem("AIPLAY_USER_MEMBERSHIP");
     localStorage.removeItem("aiplay_proj_idx");
     sessionStorage.clear();
     setLoggedIn(false);

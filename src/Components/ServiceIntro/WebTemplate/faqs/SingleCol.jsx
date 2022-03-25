@@ -27,7 +27,7 @@ const QuestionToggleIcon = motion(styled.span`
     ${tw`w-6 h-6`}
   }
 `);
-const Answer = motion(tw.dd`pointer-events-none text-sm sm:text-base leading-relaxed`);
+const Answer = motion(tw.dd`pointer-events-none text-sm sm:text-base whitespace-pre-line leading-relaxed`);
 
 const DecoratorBlob1 = styled(SvgDecoratorBlob1)`
   ${tw`pointer-events-none -z-20 absolute right-0 top-0 h-56 w-56 opacity-15 transform translate-x-2/3 -translate-y-12 text-primary-400`}

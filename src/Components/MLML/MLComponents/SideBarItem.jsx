@@ -11,13 +11,13 @@ const SideBarItem = ({ data }) => {
   });
 
   return (
-    <div className="rounded-lg bg-lime-800 text-slate-100 px-2 py-1 mt-2 min-w-full" ref={drag} style={{ opacity }}>
+    <div className="rounded-lg bg-slate-100 hover:bg-teal-300 text-slate-900 hover:text-slate-700 px-2 py-1 mt-2 min-w-full" ref={drag} style={{ opacity }}>
       {/* {data.id}
       <br /> */}
       {/* break-normal whitespace-nowrap => 크기 줄여도 텍스트 줄바꿈 일어나지 않음 */}
-      <p className="break-normal whitespace-nowrap text-sm">{data.title}</p>
+      <p className="break-normal whitespace-nowrap text-sm font-bold">{data.title}</p>
       {/* <p className="break-normal whitespace-nowrap text-sm">{data.content}</p> */}
     </div>
   );
 };
-export default SideBarItem;
+export default React.memo(SideBarItem);

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { useDrop } from "react-dnd";
-import { COMPONENT, ROW, COLUMN, PREPROCESS, TRAIN, EVAL } from "./constants";
+import { COLUMN, PREPROCESS, TRAIN, EVAL } from "./constants";
 
 const ACCEPTS = [COLUMN, PREPROCESS, TRAIN, EVAL];
 
@@ -33,6 +33,6 @@ const TrashDropZone = ({ data, onDrop }) => {
   });
 
   const isActive = isOver && canDrop;
-  return <div className={classNames("trashDropZone", { active: isActive }, "rounded-lg bg-slate-800")} ref={drop} />;
+  return <div className={classNames("trashDropZone", { active: isActive }, "bg-slate-800 rounded-lg")} ref={drop} />;
 };
 export default TrashDropZone;

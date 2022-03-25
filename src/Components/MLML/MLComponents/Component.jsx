@@ -79,7 +79,7 @@ const Component = ({ data, compoType, path }) => {
           <button type="submit" form={formId} className={classNames(isLoading && "hidden", buttonStyle)} disabled={isLoading}>
             실행
           </button>
-          <span>{component.id}</span>
+          <span className="font-bold">{component.id}</span>
           <button
             type="button"
             onClick={() => {

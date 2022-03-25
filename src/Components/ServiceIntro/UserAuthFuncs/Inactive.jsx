@@ -60,10 +60,10 @@ function Inactive({ isOpen, setIsOpen, logout }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={submitInactive} className="absolute w-2/5 h-fit bg-white border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
+      <form onSubmit={submitInactive} className="absolute w-2/5 h-fit bg-slate-300 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
         {/* 제목 부분 */}
         <div className="flex flex-row justify-between items-center">
-          <h3 className="text-xl p-2">회원 탈퇴</h3>
+          <h3 className="text-xl p-2 text-black">회원 탈퇴</h3>
           <HiX onClick={() => setIsOpen(false)} className="inline w-8 h-8 mx-2 cursor-pointer" />
         </div>
         {/* 비밀번호 입력란 */}
@@ -83,7 +83,7 @@ function Inactive({ isOpen, setIsOpen, logout }) {
         </div>
 
         <div className="flex flex-row justify-around">
-          <button type="submit" className="border border-red-500 hover:bg-red-300 text-black text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+          <button type="submit" className="mb-2 bg-red-500 hover:bg-red-700 text-white text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
             탈퇴하기
           </button>
         </div>
