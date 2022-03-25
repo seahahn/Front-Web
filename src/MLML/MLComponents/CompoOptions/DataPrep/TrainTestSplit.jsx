@@ -7,7 +7,7 @@ import { loadFeatureTarget, saveTrainTest, showShape } from "MLML/MLComponents/C
 import { Switch } from "MLML/MLComponents/CompoOptions/CompoPiece";
 import { BlockContext } from "MLML/MLComponents/Column";
 
-function TrainTestSplit({ formId, resultId, param, setParam }) {
+function TrainTestSplit({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { dfd } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
@@ -29,6 +29,7 @@ function TrainTestSplit({ formId, resultId, param, setParam }) {
 
   // 백앤드로 데이터 전송
   const handleSubmit = async (event) => {
+    setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
 
     // 백앤드 API URL에 파라미터 추가
@@ -43,6 +44,7 @@ function TrainTestSplit({ formId, resultId, param, setParam }) {
         showShape(dfd, JSON.parse(data), resultId, param.valid);
       })
       .catch((error) => console.error(error));
+    setIsLoading(false); // 로딩 종료
   };
 
   return (
