@@ -265,16 +265,12 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
 
         <p className="text-xs">
           가입하기 버튼을 누르면 AI Play의{" "}
-          <a href={"https://www.google.com"} target="_blank" rel="noreferrer">
-            약관
-          </a>
-          ,{" "}
-          <a href={"https://www.google.com"} target="_blank" rel="noreferrer">
-            데이터 정책
+          <a href={"https://seahahn.notion.site/AI-PLAY-33d2becf91c744638b5dd412e0ebffed"} target="_blank" rel="noreferrer">
+            개인정보 처리방침
           </a>{" "}
           및{" "}
-          <a href={"https://www.google.com"} target="_blank" rel="noreferrer">
-            쿠키 정책
+          <a href={"https://seahahn.notion.site/AI-PLAY-1ca5f843b4d043d495757921a5f40ea2"} target="_blank" rel="noreferrer">
+            서비스 이용약관
           </a>
           에 동의하게 됩니다.
         </p>

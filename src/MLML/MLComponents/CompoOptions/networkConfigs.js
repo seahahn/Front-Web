@@ -2,7 +2,7 @@ export const CORS = "cors"; // CORS 설정
 
 export const UPLOAD_ACCEPT = "application/vnd.ms-excel, text/csv"; // 데이터셋 업로드 시 파일 확장자 설정
 
-//export const ML_URL = "https://3x52mr4b5j.execute-api.ap-northeast-2.amazonaws.com/pre-test/dataframe/head";
+//export const ML_URL = "https://3x52mr4b5j.execute-api.ap-northeast-2.amazonaws.com/pre-test/";
 
 export const MLFUNCS_URL = "http://localhost:8000/"; // ML-Funcs 서버 주소
 export const MLFUNCS_SUFFIX_DF = "dataframe/"; // EDA, 전처리 기능 경로
