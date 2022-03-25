@@ -18,4 +18,4 @@ const ChatStandby = ({ startChat }) => {
   );
 };
 
-export default ChatStandby;
+export default React.memo(ChatStandby);
