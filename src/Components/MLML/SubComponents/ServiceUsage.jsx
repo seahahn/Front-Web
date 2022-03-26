@@ -79,7 +79,6 @@ export default ServiceUsage;
  * @param setModelList : 모델 목록을 전달하는 함수
  */
 const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) => {
-  console.log(model);
   const { userIdx } = useContext(AppContext);
 
   const [isUpdating, setIsUpdating] = useState(false);
@@ -97,7 +96,6 @@ const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) 
     };
     const response = await fetch(`${UPM_MODEL_URL}/name/${userIdx}/${model.idx}`, httpConfig(JSON.stringify(modelData), "PUT", true));
     const result = await response.json();
-    console.log(result);
     modelListRef.current = result;
     setIsUpdating(false);
     handleLoading(false);
@@ -108,7 +106,6 @@ const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) 
       handleLoading(true);
       const response = await fetch(`${UPM_MODEL_URL}/${userIdx}/${model.idx}`, httpConfig(null, "DELETE"));
       const result = await response.json();
-      console.log(result);
       modelListRef.current = result;
       handleLoading(false);
     }

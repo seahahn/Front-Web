@@ -42,7 +42,7 @@ function MergeDf({ formId, resultId, param, setParam, isLoading, setIsLoading, r
   const allBlockColsRef = useRef();
   const leftBlockColsRef = useRef();
   const rightBlockColsRef = useRef();
-  // console.log(param);
+
   useEffect(() => {
     if (getDfList().length > 0) {
       setDfs(getDfList());
@@ -62,7 +62,6 @@ function MergeDf({ formId, resultId, param, setParam, isLoading, setIsLoading, r
       leftBlockColsRef.current.clearValue();
       rightBlockColsRef.current.clearValue();
 
-      // console.log("useEffect setParam");
       setParam({
         ...param,
         on: [],
@@ -147,17 +146,14 @@ function MergeDf({ formId, resultId, param, setParam, isLoading, setIsLoading, r
       left_on: param.left_on.length > 0 ? param.left_on : "",
       right_on: param.right_on.length > 0 ? param.right_on : "",
     };
-    console.log(paramResult);
 
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.MergeDf), paramResult);
     const df = loadDf(leftBlockId, rightBlockId); // 선택된 데이터프레임(JSON) 2개 가져오기
-    console.log(JSON.stringify(df));
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         data.startsWith("{") && saveDf(blockId, "_df", data, true); // 데이터프레임 저장
         showDataResult(dfd, data, resultId);
       })

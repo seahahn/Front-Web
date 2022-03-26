@@ -12,7 +12,7 @@ function LeftSvcIntroPart({ isMLML }) {
         ["/dlexamples", "Deep Learning"],
         ["/about", "About Us"],
       ].map(([link, text]) => (
-        <Link to={link}>
+        <Link key={link} to={link}>
           <li className={navTextStyle}>{text}</li>
         </Link>
       ))}

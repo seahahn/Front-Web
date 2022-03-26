@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
@@ -7,7 +8,9 @@ import { pwRegexStr } from "Components/MLML/MLComponents/CompoOptions/mlUtilFunc
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 import Timer from "./Timer";
 
-function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
+function AdminRegister() {
+  const navigate = useNavigate();
+
   const [input, setInput] = useState({
     email: "",
     pw: "",
@@ -27,10 +30,11 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   const emailRef = useRef();
   const pwRef = useRef();
   const nicknameRef = useRef();
+  const adminCodeRef = useRef();
   const cert_numberRef = useRef();
 
   useEffect(() => {
-    isOpen ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
+    document.body.style.overflow = "auto";
 
     // input 초기화
     emailRef.current.value = "";
@@ -51,7 +55,7 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
     });
     setNicknameChecked(false);
     setPwVisible(false);
-  }, [isOpen]);
+  }, []);
 
   const handleChange = _.debounce((event) => {
     const { name, value } = event.target;
@@ -156,30 +160,34 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
       return;
     }
 
+    if (input.adminCode !== process.env.REACT_APP_ADMIN_REGISTER_CODE) {
+      alert("코드 불일치");
+      return;
+    }
+
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.signup));
-    await fetch(targetUrl, httpConfig(JSON.stringify(_.omit(input, ["cert_number"])), "POST", true))
+    await fetch(targetUrl, httpConfig(JSON.stringify(_.omit(input, ["cert_number", "adminCode"])), "POST", true))
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          alert("회원가입이 완료되었습니다.");
-          setIsSignInOpen(true);
-          setIsOpen(false);
+          alert("등록 완료");
+          navigate("/");
         } else {
-          alert("회원가입에 실패했습니다. 잠시 뒤에 시도해주세요.");
+          alert("등록 실패");
         }
       });
   };
 
   return (
-    <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
+    <div className={classNames("fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
       <form
         onSubmit={handleSubmit}
         className="absolute w-full lg:w-2/5 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-4">
         {/* 제목 부분 */}
         <div className="relative flex flex-row justify-center items-center">
-          <h3 className="text-xl font-bold p-2 text-white self-center">가입하기</h3>
-          <HiX onClick={() => setIsOpen(false)} className="absolute right-0 inline w-8 h-8 mx-2 cursor-pointer" />
+          <h3 className="text-xl font-bold p-2 text-white self-center">관리자 등록</h3>
+          <HiX onClick={() => navigate("/")} className="absolute right-0 inline w-8 h-8 mx-2 cursor-pointer" />
         </div>
         <div className="flex flex-col space-y-2 px-16">
           {/* 이메일 입력란 */}
@@ -261,9 +269,21 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
               {nicknameChecked ? "확인 완료" : "중복 확인"}
             </button>
           </div>
+          {/* 관리자 등록 코드 입력란 */}
+          <div className="flex flex-row">
+            <input
+              ref={adminCodeRef}
+              type="text"
+              name="adminCode"
+              className={"mx-2 px-2 flex-1 text-lg placeholder:text-base rounded-md"}
+              placeholder="Admin Code"
+              onChange={handleChange}
+              required={true}
+            />
+          </div>
         </div>
 
-        <p className="text-xs py-2 mx-16 text-center">
+        {/* <p className="text-xs py-2 mx-16 text-center">
           가입하기 버튼을 누르시면 AI Play의{" "}
           <a
             className="text-primary-300 hover:text-primary-400"
@@ -281,12 +301,12 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
             서비스 이용약관
           </a>
           에 동의하게 됩니다.
-        </p>
+        </p> */}
         <div className="flex flex-row justify-around py-2">
           <button
             type="submit"
             className="mb-2 bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 md:text-base sm:text-xs font-bold w-2/5 py-2 px-2 rounded-full">
-            가입하기
+            등록하기
           </button>
         </div>
       </form>
@@ -294,4 +314,4 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   );
 }
 
-export default React.memo(SignUp);
+export default React.memo(AdminRegister);

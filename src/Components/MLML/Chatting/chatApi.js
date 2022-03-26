@@ -18,10 +18,8 @@ const connect = (userIdx, userNickname, bodyRef, setMsgs) => {
   socket.onmessage = (msg) => {
     const data = JSON.parse(msg.data);
     // console.log("Received message: ", data);
-    // bodyRef.current.scrollTo(0, bodyRef.current.scrollHeight);
 
     if (data.type === 1) {
-      // console.log(JSON.parse(data.body));
       const msgParsed = JSON.parse(data.body);
       setMsgs((prevMsgs) => [...prevMsgs, msgParsed]);
     } else {
@@ -52,7 +50,6 @@ const disconnect = (userIdx, userNickname) => {
 };
 
 const sendMsg = (userIdx, userNickname, msg) => {
-  // console.log("sending msg: ", msg);
   const now = new Date();
   const message = {
     type: 1,

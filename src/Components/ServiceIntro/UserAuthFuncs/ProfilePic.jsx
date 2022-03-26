@@ -11,8 +11,6 @@ function ProfilePic({ profilePic, setProfilePic }) {
   const picInputRef = useRef();
 
   const uploadImage = async (e) => {
-    console.log(e);
-    console.log("image upload");
     const formData = new FormData();
     formData.append("profile_pic", e.target.files[0]);
     formData.append("idx", userIdx);

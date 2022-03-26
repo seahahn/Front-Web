@@ -77,7 +77,6 @@ function RFCls({ step, handleSteps }) {
       value === "" ? setOptions({ ...options, [name]: null }) : setOptions({ ...options, [name]: value });
     } else if (name === "class_weight_dict") {
       try {
-        console.log(value);
         setOptions({ ...options, class_weight: JSON.parse(value) });
       } catch (error) {
         setOptions({ ...options, class_weight: "unbalanced" });

@@ -13,7 +13,6 @@ const HairColorGen = () => {
   // 변환 대상 이미지를 올려서 미리보기에 출력함
   const changeImg = (e) => {
     e.preventDefault();
-    console.log(e.target.files);
     e.target.files[0] && setImg(e.target.files[0]);
     previewImgRef.current.src = URL.createObjectURL(e.target.files[0]);
   };
@@ -21,7 +20,6 @@ const HairColorGen = () => {
   // 올린 이미지를 API에 전송하여 변환된 이미지 결과를 받아옴
   const uploadImg = async (e) => {
     e.preventDefault();
-    console.log("uploadImg");
     const formData = new FormData();
     formData.append("img", img);
 
@@ -39,7 +37,6 @@ const HairColorGen = () => {
     const targetUrl = targetURL(DL_API_URL.concat(DL_API_CV, URLS_DL_API.hair_color_gen));
     const response = await fetch(targetUrl, config);
     if (response.ok) {
-      console.log(response);
       const result = await response.blob();
       resultImgRef.current.src = URL.createObjectURL(result);
     }

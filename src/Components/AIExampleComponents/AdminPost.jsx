@@ -7,7 +7,6 @@ import { targetURL, httpConfig, DL_API_URL, URLS_DL_API } from "utils/networkCon
 import { Select } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
 
 function AddPost({ isOpen, setIsOpen, post }) {
-  console.log(post);
   const [input, setInput] = useState(
     post
       ? post
@@ -15,7 +14,6 @@ function AddPost({ isOpen, setIsOpen, post }) {
           div: "ml",
         }
   );
-  console.log(input);
 
   const imageSrcRef = useRef();
   const authorRef = useRef();

@@ -25,12 +25,10 @@ function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, rende
   const [modelList, setModelList] = useState(initialModelList);
 
   useEffect(() => {
-    // console.log(modelListRef.current);
     setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
   }, [render]);
 
   useEffect(() => {
-    // console.log(modelList[0]);
     setParam({
       ...param,
       name: modelList[0],

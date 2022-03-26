@@ -2,6 +2,8 @@ import React, { useState, useRef, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { WholeCover, MLML, ServiceIntro, Home, About, MLExamples, DLExamples, AIExamplePage } from "pages";
+import AdminRegister from "Components/ServiceIntro/UserAuthFuncs/AdminRegister";
+
 export const AppContext = createContext(); // Navbar 및 MLComponents 모두에 사용되는 변수를 전달하기 위한 컨텍스트
 
 function App() {
@@ -52,6 +54,9 @@ function App() {
             <Route path="/dlexamples" element={<DLExamples />} />
             <Route path="/dlexamples/:func" element={<AIExamplePage />} />
           </Route>
+        </Route>
+        <Route path="/admin/">
+          <Route path="register" element={<AdminRegister />} />
         </Route>
       </Routes>
     </AppContext.Provider>

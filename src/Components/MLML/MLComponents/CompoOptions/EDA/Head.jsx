@@ -31,7 +31,6 @@ function Head({ formId, resultId, param, setParam, isLoading, setIsLoading, rend
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
         showDataResult(dfd, data, resultId);
       })

@@ -49,7 +49,7 @@ function Groupby({ formId, resultId, param, setParam, isLoading, setIsLoading, r
       ...param,
       by: [...param.by.map((col) => col.value)],
     };
-    console.log(paramResult);
+
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLFUNCS_URL.concat(MLFUNCS_SUFFIX_DF, URLS_PREPROCESS.Groupby), paramResult);
     const df = storage.getItem(blockId + "_df"); // 기존에 스토리지에 저장되어 있던 데이터프레임(JSON) 가져오기

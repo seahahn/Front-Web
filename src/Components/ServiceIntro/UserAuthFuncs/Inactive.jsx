@@ -5,9 +5,9 @@ import classNames from "classnames";
 import { HiX } from "react-icons/hi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { inputStyle } from "Components/MLML/MLComponents/componentStyle";
-import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
+import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH, UPM_PROJ_URL, UPM_MODEL_URL } from "utils/networkConfigs";
 
-function Inactive({ isOpen, setIsOpen, logout }) {
+function Inactive({ isOpen, setIsOpen, setUserProfileOpen, logout }) {
   const { userIdx } = useContext(AppContext);
 
   const [input, setInput] = useState({
@@ -30,13 +30,19 @@ function Inactive({ isOpen, setIsOpen, logout }) {
   }, [isOpen]);
 
   const handleChange = _.debounce((event) => {
-    console.log(event.target);
     const { name, value } = event.target;
     setInput({
       ...input,
       [name]: value,
     });
   }, 200);
+
+  // 사용자의 모든 데이터 삭제 기능
+  const deleteUserData = async () => {
+    const projDeleteRes = await fetch(UPM_PROJ_URL + `/${userIdx}/all`, httpConfig(null, "DELETE"));
+    const projDeleteResult = await projDeleteRes.json();
+    console.log(projDeleteResult);
+  };
 
   const submitInactive = async (event) => {
     event.preventDefault();
@@ -47,10 +53,13 @@ function Inactive({ isOpen, setIsOpen, logout }) {
         .then((response) => response.json())
         .then((data) => {
           if (data.result) {
+            deleteUserData();
             alert("회원 탈퇴 성공");
+            setIsOpen(false);
+            setUserProfileOpen(false);
             logout();
-            window.location.href = "/";
           } else {
+            console.log(data);
             data.user_state ? alert("비밀번호가 일치하지 않습니다.") : alert("탈퇴 실패");
           }
         });
@@ -85,7 +94,7 @@ function Inactive({ isOpen, setIsOpen, logout }) {
         </div>
 
         <div className="flex flex-row justify-around">
-          <button type="submit" className="mb-2 bg-red-500 hover:bg-red-700 text-white text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded">
+          <button type="submit" className="mb-2 bg-red-500 hover:bg-red-700 text-white text-sm md:text-xs font-bold w-2/5 py-2 px-2 rounded-full">
             탈퇴하기
           </button>
         </div>

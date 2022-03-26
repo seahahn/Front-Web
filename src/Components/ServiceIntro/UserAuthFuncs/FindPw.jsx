@@ -22,7 +22,6 @@ function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
   }, [isOpen]);
 
   const handleChange = _.debounce((event) => {
-    console.log(event.target);
     const { name, value } = event.target;
     setInput({
       ...input,
