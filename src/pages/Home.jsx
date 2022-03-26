@@ -1,17 +1,21 @@
 import React from "react";
 import tw from "twin.macro";
-import styled from "styled-components";
+import mailTo from "utils/mailTo";
 
-import AnimationRevealPage from "ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
+import AnimationRevealPage from "Components/ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
 
-import FirstSection from "ServiceIntro/WebTemplate/hero/TwoColumnWithFeaturesAndTestimonial";
-import Features from "ServiceIntro/WebTemplate/features/ThreeColWithSideImage";
-import MainFeature from "ServiceIntro/WebTemplate/features/TwoColWithTwoHorizontalFeaturesAndButton";
-import FeatureStats from "ServiceIntro/WebTemplate/features/ThreeColCenteredStatsPrimaryBackground";
-import Pricing from "ServiceIntro/WebTemplate/pricing/TwoPlansWithDurationSwitcher";
-import Testimonial from "ServiceIntro/WebTemplate/testimonials/TwoColumnWithImageAndRating";
-import FAQ from "ServiceIntro/WebTemplate/faqs/SingleCol";
-import GetStarted from "ServiceIntro/WebTemplate/cta/GetStartedLight";
+import FirstSection from "Components/ServiceIntro/WebTemplate/hero/TwoColumnWithFeaturesAndTestimonial";
+// import Features from "Components/ServiceIntro/WebTemplate/features/ThreeColWithSideImage";
+import MainFeature from "Components/ServiceIntro/WebTemplate/features/TwoColWithTwoHorizontalFeaturesAndButton";
+import FeatureStats from "Components/ServiceIntro/WebTemplate/features/ThreeColCenteredStatsPrimaryBackground";
+import Pricing from "Components/ServiceIntro/WebTemplate/pricing/TwoPlansWithDurationSwitcher";
+// import Testimonial from "Components/ServiceIntro/WebTemplate/testimonials/TwoColumnWithImageAndRating";
+import FAQ from "Components/ServiceIntro/WebTemplate/faqs/SingleCol";
+import GetStarted from "Components/ServiceIntro/WebTemplate/cta/GetStartedLight";
+
+import TeamIllustrationSrc from "Components/ServiceIntro/WebTemplate/images/team-illustration-2.svg";
+import { ReactComponent as BriefcaseIcon } from "feather-icons/dist/icons/briefcase.svg";
+import { ReactComponent as MoneyIcon } from "feather-icons/dist/icons/dollar-sign.svg";
 
 const HighlightedText = tw.span`text-primary-300`;
 
@@ -50,11 +54,75 @@ function Home() {
       },
       {
         key: "Revenue",
-        value: "$10+",
+        value: "$0+",
       },
       {
         key: "Employees",
         value: "3+",
+      },
+    ],
+  };
+
+  const mainFeatureProps = {
+    subheading: "Our Expertise",
+    description:
+      "일일이 코딩하며 머신 러닝 모델을 만드는 것에 지치셨나요?\n이제는 간단한 마우스 클릭과 드래그, 그리고 키보드 입력을 통해\n머신 러닝 모델을 만들어보세요!\n쉽고 재미있게 머신 러닝을 경험할 수 있도록 도와드립니다!",
+    primaryButtonText: "Learn More",
+    primaryButtonUrl: "https://timerse.com",
+    imageSrc: TeamIllustrationSrc,
+    buttonRounded: true,
+    imageRounded: true,
+    imageBorder: false,
+    imageShadow: false,
+    showDecoratorBlob: false,
+    textOnLeft: true,
+    features: [
+      {
+        Icon: BriefcaseIcon,
+        title: "Professionalism",
+        description: "우리는 여러분에게 최상의 서비스를 제공하기 위해 최고의 팀 멤버를 갖추고 있습니다!",
+        iconContainerCss: tw`bg-primary-300 text-primary-800`,
+      },
+      {
+        Icon: MoneyIcon,
+        title: "Affordable",
+        description: "우리는 여러분에게 최소한의 비용(거의 무료)으로 최대한의 경험을 드리고자 합니다!",
+        iconContainerCss: tw`bg-red-300 text-red-800`,
+      },
+    ],
+    iconRoundedFull: true,
+    iconFilled: true,
+    iconContainerCss: null,
+  };
+
+  const pricingProps = {
+    subheading: "Pricing",
+    heading: "말랑말랑(MLML) 멤버십",
+    description: "손쉬운 머신 러닝 모델 구현을 바라시나요? 원하시는 기능과 용량에 맞춰 말랑말랑 멤버십을 선택해보세요!",
+    plans: [
+      {
+        name: "Free Membership",
+        durationPrices: ["$0", "$0"],
+        mainFeature: "For Simple Practice",
+        features: ["최대 3개 모델", "모델 용량 합계 최대 10MB", "최대 3개의 프로젝트", "기본 지원 제공"],
+      },
+      {
+        name: "Pro Membership",
+        durationPrices: ["$9", "$99"],
+        mainFeature: "Suited for Professional",
+        features: ["최대 10개 모델", "모델 용량 합계 최대 500MB", "최대 10개의 프로젝트", "우선 지원 제공"],
+        featured: true,
+      },
+    ],
+    primaryButtonText: "시작하기",
+    planDurations: [
+      {
+        text: "Month",
+        switcherText: "Monthly",
+      },
+      {
+        text: "Year",
+        switcherText: "Yearly",
       },
     ],
   };
@@ -64,24 +132,24 @@ function Home() {
     description: "많은 분들이 주로 궁금해하시는 부분들을 모아봤어요!\n아래에서 궁금하신 부분을 찾아보세요!",
     faqs: [
       {
-        question: "Is lunch provided free of cost ?",
+        question: "AI Play의 머신 러닝과 딥 러닝 체험 프로젝트들은 누가 만들었나요?",
         answer:
-          "Yes, it is, if you have a membership with us. Otherwise it is charged as per the menu. Some limits do apply as to how much items can be included in your lunch. This limit is enough for any one person and merely exists to discourage abusal of the system.",
+          "머신 러닝과 딥 러닝 프로젝트들은 AI Play의 멤버들이 만들었습니다.\n앞으로 계속해서 더 많은 참여자들을 확보할 예정입니다! 참여하고 싶으신 분들은 아래의 공식 깃허브 페이지를 확인해보세요!",
       },
       {
-        question: "Do you have 2 Bedroom suites ?",
+        question: "딥 러닝 체험 프로젝트 이용은 무료인가요?",
         answer:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          "네, 무료입니다. 기본적으로 우리의 서버에 이용자분의 이미지 등 어느 것도 저장하지 않기에 가능합니다.\n그러나 후에 서버의 자원을 많이 소모하는 프로젝트일 경우에는 유료 멤버십 이용자분께만 공개하는 것을 고려하고 있습니다.",
       },
       {
-        question: "Are Wi-Fi costs included in the price ?",
+        question: "말랑말랑(MLML)은 어떻게 만들어졌나요?",
         answer:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          "GUI 기반의 머신 러닝 모델 제작 서비스 말랑말랑은 데이터 분석 및 머신 러닝에 관한 대표적인 Python의 라이브러리인 Pandas 그리고 Scikit-Learn 등을 기반으로 만들어져 있습니다.\n따라서 이들 라이브러리에 대하여 어느 정도 이해하고 사용하시면 좋습니다.",
       },
       {
-        question: "Where can I reach you for support ?",
+        question: "지원 서비스는 어떻게 받을 수 있나요?",
         answer:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          "아래 Contact를 눌러서 이메일을 통해 지원 서비스를 신청하시면 됩니다.\n요청 순서에 따라 답신을 드린 후, 구체적인 지원 일정을 조율하여 직접 소통하며 도와드릴 것입니다.\n추후에 챗봇을 통한 지원 서비스도 제공할 예정입니다.",
       },
     ],
   };
@@ -92,7 +160,7 @@ function Home() {
     primaryLinkText: "Get Started",
     primaryLinkUrl: null,
     secondaryLinkText: "Contact Us",
-    secondaryLinkUrl: "http://google.com",
+    secondaryLinkUrl: mailTo(),
     pushDownFooter: true,
   };
 
@@ -100,28 +168,30 @@ function Home() {
     <AnimationRevealPage>
       <FirstSection props={firstSectionProps} />
       <FeatureStats props={featureStatsProps} />
-      <Features
+      {/* <Features
         heading={
           <>
             Amazing <HighlightedText>Features</HighlightedText>
           </>
         }
-      />
+      /> */}
       <MainFeature
+        props={mainFeatureProps}
         heading={
           <>
-            Cloud built by and for <HighlightedText>Professionals</HighlightedText>
+            No Code 머신 러닝 모델 제작 서비스 <HighlightedText>말랑말랑</HighlightedText>
           </>
         }
       />
-      <Testimonial
+      {/* <Testimonial
         heading={
           <>
             Our Clients <HighlightedText>Love Us</HighlightedText>
           </>
         }
-      />
+      /> */}
       <Pricing
+        props={pricingProps}
         heading={
           <>
             Flexible <HighlightedText>Plans</HighlightedText>

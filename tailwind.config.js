@@ -66,6 +66,12 @@ module.exports = {
         800: "#192b45",
         900: "#16253b",
       },
+      utility: {
+        del: "#d68175",
+        "del-hover": "#bd6775",
+        warn: "#fedd78",
+        "warn-hover": "#e5a857",
+      },
     },
     columns: {
       auto: "auto",
@@ -400,6 +406,7 @@ module.exports = {
       mono: ["Menlo", "Monaco", "Consolas", '"Liberation Mono"', '"Courier New"', "monospace"],
     },
     fontSize: {
+      "2xs": ["0.5rem", { lineHeight: "0.75rem" }],
       xs: ["0.75rem", { lineHeight: "1rem" }],
       sm: ["0.875rem", { lineHeight: "1.25rem" }],
       base: ["1rem", { lineHeight: "1.5rem" }],

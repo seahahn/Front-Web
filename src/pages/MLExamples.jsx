@@ -1,8 +1,8 @@
 import React from "react";
 import tw from "twin.macro";
-import AnimationRevealPage from "ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
-import Examples from "ServiceIntro/WebTemplate/blogs/ThreeColSimpleWithImageAndDashedBorder";
-import { getPosts } from "AIExampleComponents/post";
+import AnimationRevealPage from "Components/ServiceIntro/WebTemplate/helpers/AnimationRevealPage";
+import Examples from "Components/ServiceIntro/WebTemplate/blogs/ThreeColSimpleWithImageAndDashedBorder";
+import { getPosts } from "Components/AIExampleComponents/post";
 
 const HighlightedText = tw.span`text-primary-500`;
 
