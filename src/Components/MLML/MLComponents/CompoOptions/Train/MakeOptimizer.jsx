@@ -35,14 +35,11 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
   const nameRef = useRef();
 
   useEffect(() => {
-    // console.log(modelListRef.current);
     setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
   }, [render]);
 
   useEffect(() => {
-    // console.log(modelList[0]);
     getModelSteps(MODEL_KEY_PREFIX + userIdx, param.name ? param.name : modelList[0], false, true).then((res) => {
-      // console.log(res);
       setParam({
         ...param,
         name: param.name ? param.name : modelList[0],
@@ -54,7 +51,6 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
   }, [modelList, param.name]);
 
   useEffect(() => {
-    // console.log("steps changed");
     setParam({
       ...param,
       steps: steps,
@@ -115,16 +111,13 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
       },
       [[...param.encoder.map((enc) => enc.value)].toString(), param.scaler, param.model]
     ); // 전달할 데이터 설정
-    console.log(item);
-    console.log(paramResult);
-    // return;
+
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.MakeOptimizer), paramResult);
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(targetUrl, httpConfig(JSON.stringify(item)))
       .then((response) => response.json())
       .then(async (data) => {
-        // console.log(data);
         if (data.result) {
           const modelData = {
             user_idx: userIdx,
@@ -134,7 +127,6 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
           const freshModelList = await response.json();
           showDataResult(dfd, data.message, resultId);
           modelListRef.current = freshModelList; // 모델 목록 최신화
-          // console.log(modelListRef.current);
         }
       })
       .catch((error) => console.error(error));

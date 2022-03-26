@@ -76,11 +76,13 @@ function MakePipeline({ formId, resultId, param, setParam, isLoading, setIsLoadi
     if (param.name === "") {
       // 모델명 미입력시 포커스 주기
       nameRef.current.focus();
+      setIsLoading(false); // 로딩 종료
       return;
     }
     if (param.encoder.length === 0 && param.scaler === "" && param.model === "") {
       // 인코더, 스케일러, 모델 모두 선택 안 했을 시 경고 메시지 띄우기
       document.getElementById(resultId).innerHTML = '<span style="color: red;">인코더, 스케일러, 모델 중 최소 한 가지는 선택해주세요!</span>';
+      setIsLoading(false); // 로딩 종료
       return;
     }
     const modelName = param.name.replace(" ", "_");
@@ -96,7 +98,6 @@ function MakePipeline({ formId, resultId, param, setParam, isLoading, setIsLoadi
     await fetch(targetUrl, httpConfig(JSON.stringify(steps)))
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data);
         if (data.result) {
           const modelData = {
             user_idx: userIdx,
@@ -106,7 +107,6 @@ function MakePipeline({ formId, resultId, param, setParam, isLoading, setIsLoadi
           const freshModelList = await response.json();
           showDataResult(dfd, data.message, resultId);
           modelListRef.current = freshModelList; // 모델 목록 최신화
-          console.log(modelListRef.current);
         }
       })
       .catch((error) => console.error(error));

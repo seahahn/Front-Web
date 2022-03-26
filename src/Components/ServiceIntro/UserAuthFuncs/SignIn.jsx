@@ -82,10 +82,10 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
           setIsOpen(false);
           setIsSignInOpenFromHome(false);
 
-          // 1시간마다 JWT 갱신 시작
+          // 10분마다 JWT 갱신 시작
           setTimeout(() => {
-            refreshTokenInterval.current = setInterval(refreshToken, 1000 * 10 * 60);
-          }, 1000 * 10 * 60);
+            refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 1);
+          }, 1000 * 60 * 1);
         } else {
           data.email_state ? alert("비밀번호가 일치하지 않습니다.") : alert("가입하지 않은 이메일입니다.");
         }
@@ -99,7 +99,6 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
   };
 
   const goToSignUp = (event) => {
-    console.log(event.target);
     switch (event.target.name) {
       case "signUp":
         setIsSignUpOpen(true);

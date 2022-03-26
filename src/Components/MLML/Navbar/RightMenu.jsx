@@ -29,6 +29,12 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
     chatOpen && setChatIsChanged(false);
   }, [chatOpen]);
 
+  const handleLogout = () => {
+    if (window.confirm("정말 로그아웃 하시겠어요?")) {
+      logout();
+    }
+  };
+
   return (
     <div className="min-w-full md:min-w-1/10 flex items-center space-x-2 justify-center md:justify-end sm:static sm:inset-auto sm:pr-0">
       {/* 로그인 되어 있으면 공개 채팅 & 프로필 아이콘 / 안 되어 있으면 Sign In & Sign Up 버튼 */}
@@ -105,7 +111,7 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
                 )}
                 <Menu.Item>
                   {({ active }) => (
-                    <div onClick={logout} className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>
+                    <div onClick={handleLogout} className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>
                       로그아웃
                     </div>
                   )}

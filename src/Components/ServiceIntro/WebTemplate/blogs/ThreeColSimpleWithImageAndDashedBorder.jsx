@@ -91,7 +91,6 @@ const ThreeColSimpleWithImageAndDashedBorder = ({
 
   const handleDeletePost = (e) => {
     deletePost(e.target.value).then((res) => {
-      console.log(res);
       setRefresh(!refresh);
     });
   };

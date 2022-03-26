@@ -8,8 +8,6 @@ function EncoderTuning({ encoder, encVal, colObjArray, handleSteps, steps, optim
   const step = steps.hasOwnProperty("encoders") ? steps.encoders[encVal] : null;
 
   const Options = Encoders[encoder]; // 선택된 인코더의 옵션 가져오기
-  // console.log(encoder);
-  // console.log(Options);
   return <Options handleOptions={handleOptsObjArray} colObjArray={colObjArray} handleSteps={handleSteps} steps={steps} step={step} optimizer={optimizer} />;
 }
 

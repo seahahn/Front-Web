@@ -204,7 +204,6 @@ export const getModelSteps = async (key, modelName, detail = false, includeModel
     .then((response) => response.json())
     .then((data) => {
       console.log("getModelSteps");
-      // console.log(data);
       return !detail && !includeModel ? data.filter((step) => step.includes("encoder") || step.includes("scaler")) : data;
     })
     .catch((error) => console.error(error));
@@ -245,14 +244,12 @@ export const getProjList = async (userIdx, ref) => {
   const projList = await response.json();
   ref.current = projList;
   return projList;
-  // console.log(ref.current);
 };
 
 export const getModelList = async (userIdx, ref) => {
   const response = await fetch(UPM_MODEL_URL + "/list/" + userIdx, httpConfig(null, "GET"));
   const modelList = await response.json();
   ref.current = modelList;
-  // console.log(ref.current);
   return modelList;
 };
 

@@ -16,7 +16,6 @@ const LeftMLNavCover = ({ props }) => {
   // 컨테이너 컴포넌트의 Context를 컨테이너에 포함되지 않은 곳에 전달하기 위해 App으로 보냄
   // 보내진 Context는 AppContext를 통해서 필요한 곳에 전달됨
   React.useEffect(() => {
-    console.log(ccv);
     setContainerContextValues(ccv);
   }, [ccv.projName, ccv.isLoading, ccv.isLoadProjectOpen, ccv.isInitialOpen]);
 

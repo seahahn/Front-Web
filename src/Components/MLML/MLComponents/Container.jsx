@@ -86,7 +86,6 @@ const Container = () => {
       };
       const response = await fetch(UPM_PROJ_URL, httpConfig(JSON.stringify(projectData), "POST", true));
       const newProjIdx = await response.json();
-      console.log(newProjIdx);
 
       sessionStorage.clear(); // 기존 프로젝트 데이터 삭제
       localStorage.setItem("aiplay_proj_idx", newProjIdx); // 새로운 프로젝트 고유 번호 지정
@@ -124,7 +123,6 @@ const Container = () => {
       };
       const response = await fetch(UPM_PROJ_URL + "/name" + `/${userIdx}/${proj_idx}`, httpConfig(JSON.stringify(projectData), "PUT", true));
       const result = await response.json();
-      console.log(result);
       result === true && setProjName(proj_name);
       getProjList(userIdx, projListRef);
       setIsLoading(false);
@@ -135,13 +133,11 @@ const Container = () => {
   // 프로젝트 실행 시 프로젝트 구조 불러와서 적용하기
   const initProject = useCallback(
     async (proj_idx) => {
-      // console.log(proj_idx);
       // 사용자 번호와 프로젝트 번호를 통해 프로젝트 구조 불러오기
       const response = await fetch(UPM_PROJ_URL + `/${userIdx}/${proj_idx}`, httpConfig(null, "GET"));
       // 기존 프로젝트라면 불러오고, 새로운 프로젝트라면 새로운 프로젝트 데이터 생성
       if (response.ok) {
         const data = await response.json();
-        // console.log(data);
         localStorage.setItem("aiplay_proj_idx", proj_idx);
         setLayout(data.layout);
         setProjName(data.proj_name);
@@ -165,7 +161,6 @@ const Container = () => {
     await fetch(UPM_PROJ_URL + `/${userIdx}/${projIdx}`, httpConfig(JSON.stringify(projectData), "PUT", true))
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         console.log("project updated");
         setIsLoading(false); // 저장 완료
       })
@@ -206,13 +201,10 @@ const Container = () => {
   // DropZone에 아이템 드랍 시 아이템 추가 기능
   const handleDrop = useCallback(
     (dropZone, item) => {
-      // console.log("item", item);
-
       const splitDropZonePath = dropZone.path.split("-");
       const pathToDropZone = splitDropZonePath.slice(0, -1).join("-");
 
       const newItem = { id: item.id, type: item.type, func: item.func, param: item.param ? item.param : null };
-      // console.log('newItem id type', newItem);
       // if (item.type === COLUMN) {
       //   newItem.children = item.children;
       // }

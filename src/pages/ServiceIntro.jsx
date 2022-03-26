@@ -14,7 +14,6 @@ function ServiceIntro() {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log(data);
           localStorage.setItem("aiplay_csrf_token", data.csrf_token);
           setCookie("csrftoken", data.csrf_token);
         }

@@ -63,7 +63,6 @@ function Navbar() {
   };
 
   const handleImgError = useCallback((e) => {
-    console.log(e.target);
     e.target.src = errorPic;
     e.target.title = "이미지 로딩 오류";
   }, []);
@@ -110,18 +109,14 @@ function Navbar() {
       <SignIn isOpen={isSignInOpen} openerStates={openerStates} setProfilePic={setProfilePic} />
       <SignUp isOpen={isSignUpOpen} setIsOpen={setIsSignUpOpen} setIsSignInOpen={setIsSignInOpen} />
       <FindPw isOpen={isFindPwOpen} setIsOpen={setIsFindPwOpen} setIsSignInOpen={setIsSignInOpen} />
-      {isUserProfileOpen && (
-        <>
-          <UserProfile
-            isOpen={isUserProfileOpen}
-            setIsOpen={setIsUserProfileOpen}
-            logout={logout}
-            profilePic={profilePic}
-            setProfilePic={setProfilePic}
-            handleImgError={handleImgError}
-          />
-        </>
-      )}
+      <UserProfile
+        isOpen={isUserProfileOpen}
+        setIsOpen={setIsUserProfileOpen}
+        logout={logout}
+        profilePic={profilePic}
+        setProfilePic={setProfilePic}
+        handleImgError={handleImgError}
+      />
     </Disclosure>
   );
 }

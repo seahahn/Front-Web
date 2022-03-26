@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { memo, useState, useRef, useCallback, useContext, useEffect } from "react";
 import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
@@ -10,17 +11,27 @@ import classNames from "classnames";
 function Chat({ props }) {
   const { userIdx, userNickname } = useContext(AppContext);
 
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
+
   const [msgs, setMsgs] = useState(sessionStorage.getItem("msgs") ? JSON.parse(sessionStorage.getItem("msgs")) : []);
 
   const chatBodyRef = useRef();
 
   useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWindowSize(window.innerWidth);
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        setWindowSize(window.innerWidth);
+      });
+    };
+  }, []);
+  useEffect(() => {
     scrollToBottom();
     !props.chatOpen && props.setChatIsChanged(true);
     sessionStorage.setItem("msgs", JSON.stringify(msgs));
-    // console.log(msgs);
   }, [msgs]);
-
   const startChat = useCallback(() => {
     console.log("startChat");
     connect(userIdx, userNickname, chatBodyRef, setMsgs);
@@ -29,7 +40,6 @@ function Chat({ props }) {
 
   const send = useCallback(
     (msg) => {
-      console.log(msg);
       sendMsg(userIdx, userNickname, msg);
     },
     [userIdx, userNickname]
@@ -51,7 +61,9 @@ function Chat({ props }) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   };
-  const screenMd = matchMedia("min-width: 768px");
+
+  const screenMd = window.matchMedia("(min-width: 768px)");
+
   return (
     <div
       className={classNames(

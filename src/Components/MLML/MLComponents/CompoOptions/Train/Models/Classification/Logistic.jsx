@@ -58,15 +58,11 @@ function Logistic({ step, handleSteps }) {
 
   // 옵션 변경 시 MakePipeline 컴포넌트에 전달
   useEffect(() => {
-    // console.log("option changed");
     const classW = options.class_weight === "unbalanced" ? null : options.class_weight;
     handleSteps({ model: { ...options, class_weight: classW } });
   }, [handleSteps, options]);
 
   const classWeightRef = useRef();
-  // const copyXRef = useRef();
-  // const nJobsRef = useRef();
-  // const positiveRef = useRef();
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
@@ -80,7 +76,6 @@ function Logistic({ step, handleSteps }) {
       value === "" ? setOptions({ ...options, [name]: null }) : setOptions({ ...options, [name]: value });
     } else if (name === "class_weight_dict") {
       try {
-        // console.log(value);
         setOptions({ ...options, class_weight: JSON.parse(value) });
       } catch (error) {
         setOptions({ ...options, class_weight: "unbalanced" });

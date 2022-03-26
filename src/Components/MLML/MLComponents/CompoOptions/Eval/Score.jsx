@@ -44,11 +44,6 @@ function Score({ formId, resultId, param, setParam, isLoading, setIsLoading, ren
     await fetch(targetUrl, httpConfig(JSON.stringify(ys)))
       .then((response) => response.json())
       .then((data) => {
-        console.log(
-          Object.entries(data)
-            .map((x) => x.join(" : "))
-            .join("<br/>")
-        );
         if (data.hasOwnProperty("X_train")) {
           document.getElementById(resultId).innerHTML = Object.entries(data)
             .map((x) => [x[0].split("_")[1], x[1]].join(" : "))

@@ -15,7 +15,6 @@ function MLML() {
     e.returnValue = "저장되지 않은 데이터는 사라집니다.";
   };
   window.onunload = () => {
-    console.log("refresh");
     storage.clear();
   };
   return (

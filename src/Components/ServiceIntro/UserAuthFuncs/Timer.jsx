@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 export default function Timer({ onStop }) {
   const [seconds, setSeconds] = useState(300);
-  console.log(seconds);
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -13,7 +12,6 @@ export default function Timer({ onStop }) {
       setSeconds(parseInt(seconds) - 1);
     }, 1000);
     return () => {
-      // console.log("timer stopped");
       clearInterval(countdown);
     };
   }, [seconds]);

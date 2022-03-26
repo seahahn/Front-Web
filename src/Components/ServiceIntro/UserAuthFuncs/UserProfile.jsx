@@ -34,7 +34,6 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
   }, [isOpen, userNickname]);
 
   const handleChange = _.debounce((event) => {
-    console.log(event.target);
     const { name, value } = event.target;
     setInput({
       ...input,
@@ -48,7 +47,6 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
     // const token = localStorage.getItem("AIPLAY_TOKEN");
 
     if (newNickname === oldNickname) {
-      console.log("이전과 동일한 닉네임");
       setNicknameChanging(false);
       return;
     }
@@ -69,7 +67,6 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
           setNicknameChanging(false);
         } else {
           alert("닉네임 변경 실패");
-          console.log(data);
         }
       });
   };
@@ -137,7 +134,7 @@ function UserProfile({ isOpen, setIsOpen, logout, profilePic, setProfilePic, han
         </div>
       </div>
       {pwChanging && <ChangePw isOpen={pwChanging} setIsOpen={setPwChanging} />}
-      {inactiveOpen && <Inactive isOpen={inactiveOpen} setIsOpen={setInactiveOpen} logout={logout} />}
+      {inactiveOpen && <Inactive isOpen={inactiveOpen} setIsOpen={setInactiveOpen} setUserProfileOpen={setIsOpen} logout={logout} />}
     </div>
   );
 }

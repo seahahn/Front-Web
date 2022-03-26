@@ -16,7 +16,6 @@ const ChatInput = ({ send }) => {
 
   const handleSendMsg = () => {
     // const inputMsg = input.replaceAll(/(\n|\r\n)/g, "<br/>");
-    // console.log(inputMsg);
     if (input.length !== 0 && !input.startsWith("\n")) {
       send(input);
       setInput("");
