@@ -14,7 +14,7 @@ import Chat from "Components/MLML/Chatting/Chat";
  */
 function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleImgError }) {
   const [chatOpen, setChatOpen] = useState(false);
-  const [chatStart, setChatStart] = useState(false);
+  const [chatStart, setChatStart] = useState(sessionStorage.getItem("chatStart") ? true : false);
   const [chatIsChanged, setChatIsChanged] = useState(false);
   const chatProps = {
     chatOpen,
@@ -30,7 +30,7 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
   }, [chatOpen]);
 
   return (
-    <div className="absolute inset-y-0 right-0 min-w-1/10 flex items-center space-x-2 justify-end pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+    <div className="min-w-full md:min-w-1/10 flex items-center space-x-2 justify-center md:justify-end sm:static sm:inset-auto sm:pr-0">
       {/* 로그인 되어 있으면 공개 채팅 & 프로필 아이콘 / 안 되어 있으면 Sign In & Sign Up 버튼 */}
       {loggedIn ? (
         <>
@@ -39,7 +39,7 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
             <Link to="/mlml">
               <button
                 type="button"
-                className="bg-teal-300 p-1 rounded-xl text-white hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                className="bg-teal-300 px-2 py-1 rounded-full text-white hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 MLML
               </button>
             </Link>
@@ -58,11 +58,11 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
               className={classNames(
                 "bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
               )}>
-              <span className="sr-only">View notifications</span>
+              <span className="sr-only">View chatting</span>
               <HiOutlineChatAlt2 className="h-8 w-8" />
             </button>
             <div className={classNames(chatOpen ? "" : "hidden")}>
-              <Chat props={chatProps} handleImgError={handleImgError} />
+              <Chat props={chatProps} />
             </div>
           </div>
 
@@ -115,17 +115,17 @@ function RightMenu({ openerStates, isMLML, loggedIn, logout, profilePic, handleI
           </Menu>
         </>
       ) : (
-        <div className="flex flex-row space-x-2">
+        <div className="flex flex-col md:flex-row md:space-x-2 space-y-3 md:space-y-0">
           <button
             type="button"
             onClick={() => openerStates.setIsSignInOpen(true)}
-            className="p-1 text-white rounded-lg hover:text-white hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-gray-800 hover:ring-white">
+            className="px-4 md:px-1 py-2 md:py-1 text-white rounded-full hover:text-white hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-gray-800 hover:ring-white">
             <span>Sign In</span>
           </button>
           <button
             type="button"
             onClick={() => openerStates.setIsSignUpOpen(true)}
-            className="bg-teal-300 p-1 rounded-lg text-slate-700 hover:text-white hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-gray-800 hover:ring-white">
+            className="bg-teal-300 px-4 md:px-1 py-2 md:py-1 rounded-full text-slate-700 hover:text-white hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-gray-800 hover:ring-white">
             <span>Sign Up</span>
           </button>
         </div>

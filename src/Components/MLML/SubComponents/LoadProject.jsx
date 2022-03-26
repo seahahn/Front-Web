@@ -2,14 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { AppContext } from "App";
 import classNames from "classnames";
 import _ from "lodash";
-import { ContainerContext } from "Components/MLML/MLComponents/Container";
 import { Radio } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
 import { getProjList } from "Components/MLML/MLComponents/CompoOptions/mlUtilFuncs";
 
 function LoadProject({ isOpen, setIsOpen, setIsNewProjectOpen, initProject, deleteProject }) {
-  const { userIdx } = useContext(AppContext);
+  const { userIdx, ccv } = useContext(AppContext);
+  const { projListRef, isLoading, handleLoading, isInitialOpen, setIsInitialOpen } = ccv;
   const projIdx = Number(localStorage.getItem("aiplay_proj_idx"));
-  const { projListRef, isLoading, handleLoading, isInitialOpen, setIsInitialOpen } = useContext(ContainerContext);
 
   const [projList, setProjList] = useState(null);
 
@@ -59,7 +58,7 @@ function LoadProject({ isOpen, setIsOpen, setIsNewProjectOpen, initProject, dele
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <div className="absolute w-1/4 max-h-2/5 bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid p-2 space-y-3">
+      <div className="absolute w-full md:w-1/4 max-h-2/5 bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid p-2 space-y-3">
         <h3 className="text-xl p-2 font-bold text-white self-center">프로젝트 목록</h3>
         {projList && projList.length > 0 ? (
           <>

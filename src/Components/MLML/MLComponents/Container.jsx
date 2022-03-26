@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect, useRef, createContext, useContext } from "react";
+import React, { useState, useCallback, useEffect, useRef, createContext, useContext, useMemo } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import shortid from "shortid";
 import classNames from "classnames";
 import styled from "styled-components";
 import LoadingSpin from "react-loading-spin";
 import { AppContext } from "App";
-import Navbar from "Components/MLML/Navbar/Navbar";
+import LeftMLNavCover from "Components/MLML/Navbar/LeftMLNavCover";
 import TrashDropZone from "Components/MLML/MLComponents/TrashDropZone";
 import SideBar from "Components/MLML/MLComponents/SideBar";
 import Column from "Components/MLML/MLComponents/Column";
@@ -48,7 +48,7 @@ const Container = () => {
   const emptyLayout = emptyData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
   const initialLayout = initialData.layout; // 현재 더미 데이터 -> 이후 MongoDB에서 사용자의 프로젝트에 맞는 데이터 가져와야 함
 
-  const { userIdx } = useContext(AppContext);
+  const { userIdx, setIsMLML } = useContext(AppContext);
 
   const [projName, setProjName] = useState("");
   const [layout, setLayout] = useState(emptyLayout);
@@ -175,6 +175,12 @@ const Container = () => {
       });
   }, [userIdx]);
 
+  // Navbar에 MLML임을 알리기
+  useEffect(() => {
+    console.log("init MLML State");
+    setIsMLML(true);
+  }, []);
+
   // 프로젝트 실행 시 초기 세팅
   useEffect(() => {
     console.log("initProject");
@@ -287,7 +293,6 @@ const Container = () => {
       id: shortid.generate(),
       children: initialBlockForm.newBlock.children,
     };
-    // console.log([...layout, newBlock]);
     setLayout([...layout, newBlock]);
   }, [layout]);
 
@@ -311,12 +316,13 @@ const Container = () => {
     [layout]
   );
 
-  const navbarProps = { projName, isLoading, initProject, updateProject, newProject, updateProjName, deleteProject };
+  const leftNavProps = { initProject, updateProject, newProject, updateProjName, deleteProject };
 
   return (
     <ContainerContext.Provider
       value={{ projName, modelListRef, projListRef, handleLoading, isLoading, isLoadProjectOpen, setIsLoadProjectOpen, isInitialOpen, setIsInitialOpen }}>
-      <Navbar props={navbarProps} isMLML={true} />
+      <LeftMLNavCover props={leftNavProps} />
+
       <div className="flex flex-row h-full mt-16">
         <div className="flex flex-col bg-black">
           {/* 요소 확대/축소 및 위치 이동 기능을 넣기 위한 Wrapper */}

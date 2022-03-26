@@ -60,7 +60,9 @@ function Inactive({ isOpen, setIsOpen, logout }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={submitInactive} className="absolute w-2/5 h-fit bg-slate-300 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
+      <form
+        onSubmit={submitInactive}
+        className="absolute w-full lg:w-2/5 h-fit bg-slate-300 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
         {/* 제목 부분 */}
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-xl p-2 text-black">회원 탈퇴</h3>

@@ -4,7 +4,6 @@ import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { inputStyle } from "Components/MLML/MLComponents/componentStyle";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 import { pwRegexStr } from "Components/MLML/MLComponents/CompoOptions/mlUtilFuncs";
 
@@ -69,7 +68,9 @@ function ChangePw({ isOpen, setIsOpen }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={submitPwChange} className="absolute w-2/5 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
+      <form
+        onSubmit={submitPwChange}
+        className="absolute w-full lg:w-2/5 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-2">
         {/* 제목 부분 */}
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-lg p-2 text-white">비밀번호 변경하기</h3>

@@ -1,17 +1,21 @@
-import React, { createContext } from "react";
+import React, { useState, useRef, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import { MLML, ServiceIntro, Home, About, MLExamples, DLExamples, AIExamplePage } from "pages";
+import { WholeCover, MLML, ServiceIntro, Home, About, MLExamples, DLExamples, AIExamplePage } from "pages";
 export const AppContext = createContext(); // Navbar 및 MLComponents 모두에 사용되는 변수를 전달하기 위한 컨텍스트
 
 function App() {
   const navigate = useNavigate();
 
-  const [userIdx, setUserIdx] = React.useState(localStorage.getItem("AIPLAY_USER_IDX"));
-  const [userNickname, setUserNickname] = React.useState(localStorage.getItem("AIPLAY_USER_NICKNAME"));
-  const [isSignInOpenFromHome, setIsSignInOpenFromHome] = React.useState(false);
+  const [userIdx, setUserIdx] = useState(localStorage.getItem("AIPLAY_USER_IDX"));
+  const [userNickname, setUserNickname] = useState(localStorage.getItem("AIPLAY_USER_NICKNAME"));
+  const [isSignInOpenFromHome, setIsSignInOpenFromHome] = useState(false);
+  const [isMLML, setIsMLML] = useState(false);
 
-  const refreshTokenInterval = React.useRef(null);
+  const [containerContextValues, setContainerContextValues] = useState();
+  const [leftNavPart, setLeftNavPart] = useState(null);
+
+  const refreshTokenInterval = useRef(null);
 
   // Home 에서 Get Started 또는 Learn More 버튼 클릭 시 동작할 함수
   const handleGetStarted = () => {
@@ -30,16 +34,24 @@ function App() {
         setIsSignInOpenFromHome,
         handleGetStarted,
         refreshTokenInterval,
+        isMLML,
+        setIsMLML,
+        ccv: containerContextValues,
+        setContainerContextValues,
+        LeftNavPart: leftNavPart,
+        setLeftNavPart,
       }}>
       <Routes>
-        <Route path="/mlml" element={<MLML />} />
-        <Route element={<ServiceIntro />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/mlexamples" element={<MLExamples />} />
-          <Route path="/dlexamples" element={<DLExamples />} />
-          <Route path="/dlexamples/:func" element={<AIExamplePage />} />
+        <Route element={<WholeCover />}>
+          <Route path="/mlml" element={<MLML />} />
+          <Route element={<ServiceIntro />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/mlexamples" element={<MLExamples />} />
+            <Route path="/dlexamples" element={<DLExamples />} />
+            <Route path="/dlexamples/:func" element={<AIExamplePage />} />
+          </Route>
         </Route>
       </Routes>
     </AppContext.Provider>

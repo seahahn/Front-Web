@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import classNames from "classnames";
-import { ContainerContext } from "Components/MLML/MLComponents/Container";
 import { HiX, HiOutlineChevronDown, HiOutlineChevronLeft } from "react-icons/hi";
 import { httpConfig, UPM_MODEL_URL } from "utils/networkConfigs";
 import { AppContext } from "App";
 
 const ServiceUsage = ({ isOpen, setIsOpen }) => {
-  const { projListRef, modelListRef, handleLoading, isLoading } = useContext(ContainerContext);
+  const { ccv } = React.useContext(AppContext);
+  const { projListRef, modelListRef, handleLoading, isLoading } = ccv;
 
   const [modelListOpened, setModelListOpened] = useState(true);
   const [usageListOpened, setUsageListOpened] = useState(true);
@@ -20,7 +20,7 @@ const ServiceUsage = ({ isOpen, setIsOpen }) => {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <div className="absolute w-1/4 h-4/5 min-h-3/5 bg-slate-100 border-2 rounded-lg flex flex-col divide-solid p-2">
+      <div className="absolute w-full md:w-1/4 h-4/5 min-h-3/5 bg-slate-100 border-2 rounded-lg flex flex-col divide-solid p-2">
         <div className="relative flex flex-row justify-center items-center bg-slate-300 rounded-lg">
           <h3 className="text-xl font-bold p-2 text-black self-center">서비스 사용 현황</h3>
           <HiX onClick={() => setIsOpen(false)} className="absolute right-0 inline w-8 h-8 mx-2 cursor-pointer" />
@@ -134,7 +134,7 @@ const UpdateDeleteBtns = ({ model, modelListRef, handleLoading, setModelList }) 
           <input
             type="text"
             maxLength="255"
-            className={"px-2 flex-1 text-base placeholder:text-sm rounded-md"}
+            className={"border border-slate-500 px-2 flex-1 text-base placeholder:text-sm rounded-md"}
             onChange={(e) => setNewModelName(e.target.value)}
             defaultValue={model.model_name}
           />

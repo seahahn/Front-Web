@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
-import { inputStyle } from "Components/MLML/MLComponents/componentStyle";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 
 function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
@@ -55,7 +54,9 @@ function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={handleSubmit} className="absolute w-1/4 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="absolute w-full lg:w-1/3 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-4">
         {/* 제목 부분 */}
         <div className="relative flex flex-row justify-center items-center">
           <h3 className="text-xl font-bold p-2 text-white self-center">임시 비밀번호 발송</h3>

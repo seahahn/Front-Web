@@ -176,7 +176,9 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   return (
     <div className={classNames(!isOpen && "hidden", "fixed inset-0 z-10 flex justify-center items-center")}>
       <div className="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm" />
-      <form onSubmit={handleSubmit} className="absolute w-2/5 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="absolute w-full lg:w-2/5 h-fit bg-slate-500 border-2 rounded-lg flex flex-col justify-around divide-solid space-y-4">
         {/* 제목 부분 */}
         <div className="relative flex flex-row justify-center items-center">
           <h3 className="text-xl font-bold p-2 text-white self-center">가입하기</h3>

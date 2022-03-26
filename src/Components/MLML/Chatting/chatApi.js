@@ -1,11 +1,12 @@
 let socket;
 
-const connect = (userIdx, userNickname, bodyRef, msgs, setMsgs) => {
+const connect = (userIdx, userNickname, bodyRef, setMsgs) => {
   socket = new WebSocket("ws://127.0.0.1:5000/ws");
   console.log("Attempting Connection...");
 
   socket.onopen = () => {
     console.log("Successfully Connected");
+    sessionStorage.setItem("chatStart", true);
     const message = {
       type: 2,
       idx: userIdx,
@@ -16,11 +17,11 @@ const connect = (userIdx, userNickname, bodyRef, msgs, setMsgs) => {
 
   socket.onmessage = (msg) => {
     const data = JSON.parse(msg.data);
-    console.log("Received message: ", data);
-    bodyRef.current.scrollTo(0, bodyRef.current.scrollHeight);
+    // console.log("Received message: ", data);
+    // bodyRef.current.scrollTo(0, bodyRef.current.scrollHeight);
 
     if (data.type === 1) {
-      console.log(JSON.parse(data.body));
+      // console.log(JSON.parse(data.body));
       const msgParsed = JSON.parse(data.body);
       setMsgs((prevMsgs) => [...prevMsgs, msgParsed]);
     } else {
@@ -46,10 +47,12 @@ const disconnect = (userIdx, userNickname) => {
   };
   socket.send(JSON.stringify(message));
   socket.close();
+  sessionStorage.removeItem("chatStart");
+  sessionStorage.removeItem("msgs");
 };
 
 const sendMsg = (userIdx, userNickname, msg) => {
-  console.log("sending msg: ", msg);
+  // console.log("sending msg: ", msg);
   const now = new Date();
   const message = {
     type: 1,

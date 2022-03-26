@@ -80,15 +80,17 @@ const Component = ({ data, compoType, path }) => {
             실행
           </button>
           <span className="font-bold">{component.id}</span>
-          <button
-            type="button"
-            onClick={() => {
-              console.log(layoutRef.current);
-              console.log(compoRef);
-            }}
-            className={buttonStyle}>
-            로그 확인
-          </button>
+          {process.env.REACT_APP_STATUS === "development" && (
+            <button
+              type="button"
+              onClick={() => {
+                console.log(layoutRef.current);
+                console.log(compoRef);
+              }}
+              className={buttonStyle}>
+              로그 확인
+            </button>
+          )}
         </div>
         <div className="space-x-2">
           <button className={buttonStyle} onClick={() => setRender(!render)}>

@@ -1,5 +1,4 @@
-/* This example requires Tailwind CSS v2.0+ */
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { Fragment } from "react";
@@ -14,22 +13,22 @@ import {
   HiOutlineQuestionMarkCircle,
   HiOutlineHome,
 } from "react-icons/hi";
-import { ContainerContext } from "Components/MLML/MLComponents/Container";
+import { AppContext } from "App";
 import NewProject from "Components/MLML/SubComponents/NewProject";
 import ProjNameChange from "Components/MLML/SubComponents/ProjNameChange";
 import LoadProject from "Components/MLML/SubComponents/LoadProject";
 
 const LeftSidebar = ({ initProject, updateProject, newProject, updateProjName, deleteProject }) => {
-  const { isLoadProjectOpen, setIsLoadProjectOpen } = useContext(ContainerContext);
+  const { ccv } = React.useContext(AppContext);
+  const { isLoadProjectOpen, setIsLoadProjectOpen } = ccv;
 
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
   const [isProjNameChangeOpen, setIsProjNameChangeOpen] = useState(false);
-  // const [isLoadProjectOpen, setIsLoadProjectOpen] = useState(false);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+        <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-gray-100 hover:ring-primary-500">
           {/* <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" /> */}
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
