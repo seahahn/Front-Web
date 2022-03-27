@@ -142,7 +142,7 @@ const TwoPlansWithDurationSwitcher = ({
                 ))}
               </PlanFeatures>
               <PlanAction>
-                <BuyNowButton>{props.primaryButtonText}</BuyNowButton>
+                <BuyNowButton onClick={() => alert("아직 준비중 입니다!")}>{props.primaryButtonText}</BuyNowButton>
               </PlanAction>
             </Plan>
           ))}
