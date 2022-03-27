@@ -23,6 +23,11 @@ npm i
 npm start
 ```
 
+## 배포 플랫폼 및 서버 주소
+
+- 플랫폼 : Vercel
+- 주소 : https://front-web-xi.vercel.app
+
 ## Layout (예정)
 
 ![Layout](https://user-images.githubusercontent.com/73585246/154079010-04ce1feb-40cd-4b2d-8488-3334e4423475.png)
