@@ -31,7 +31,7 @@ function Predict({ formId, resultId, param, setParam, isLoading, setIsLoading, r
     setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
     setParam({
       ...param,
-      name: modelListRef.current ? modelListRef.current[0].model_name : "",
+      name: modelListRef.current.length > 0 ? modelListRef.current[0].model_name : "",
     });
   }, [render]);
 
