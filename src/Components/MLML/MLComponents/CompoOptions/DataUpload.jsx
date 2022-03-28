@@ -33,6 +33,7 @@ function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
       body: formData,
       headers: {
         "User-Id": userIdx,
+        token: localStorage.getItem("AIPLAY_USER_TOKEN"),
       },
     }; // HTTP 통신 설정
 
