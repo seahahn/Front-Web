@@ -14,11 +14,11 @@ import { NUM_PARAMS } from "Components/MLML/MLComponents/constants";
 import { funcResultConfig, funcResultLayout } from "Components/MLML/MLComponents/CompoOptions/funcResultConfigs";
 
 // 백앤드로 보내 가공 처리한 데이터프레임을 웹 스토리지에 저장
-export const saveDf = (blockId, name, df, saveColumns = false) => {
+export const saveDf = async (blockId, name, df, saveColumns = false) => {
   console.log("saveDf name : " + blockId + name);
   if (String(df).startsWith("{") || String(df).startsWith("{", 1)) {
     if (saveColumns) {
-      saveColumnList(blockId, df); // 컬럼 리스트 저장
+      await saveColumnList(blockId, df); // 컬럼 리스트 저장
     }
     window.sessionStorage.setItem(blockId + name, df); // 웹 스토리지에 데이터프레임(JSON) 저장
   }
