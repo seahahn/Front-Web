@@ -40,6 +40,7 @@ function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
     await fetch(url, config)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
         dfd
           .readJSON(jsonToFile(data))
