@@ -12,8 +12,9 @@ import FindPw from "Components/ServiceIntro/UserAuthFuncs/FindPw";
 import UserProfile from "Components/ServiceIntro/UserAuthFuncs/UserProfile";
 import ServiceUsage from "Components/MLML/SubComponents/ServiceUsage";
 import errorPic from "assets/error_pic.png";
-import { removeToken } from "utils/auth";
+import { removeToken, refreshToken } from "utils/auth";
 import classNames from "classnames";
+
 function Navbar() {
   const navigate = useNavigate();
 
