@@ -38,7 +38,7 @@ function Navbar() {
       const tokenState = await refreshToken();
       if (tokenState.result) {
         // 토큰 갱신 요청 성공한 경우
-        refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 1);
+        refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 10);
       } else {
         // 토큰 갱신 요청 실패한 경우 (토큰 만료)
         console.log("Token Expired");
