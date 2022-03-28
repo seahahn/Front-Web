@@ -7,7 +7,7 @@ function WholeCover() {
   useEffect(() => {
     // 접속 시 CSRF 토큰 발급
     initCSRFToken();
-  });
+  }, []);
 
   return (
     <>
