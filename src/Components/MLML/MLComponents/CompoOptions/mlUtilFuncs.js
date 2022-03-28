@@ -176,7 +176,7 @@ export const saveColumnList = async (blockId, df) => {
     .then((response) => response.json())
     .then((data) => {
       console.log("saveColumnList");
-      console.log(data.toString());
+      console.log(data);
       window.sessionStorage.setItem(blockId + "_columns", data.toString());
     })
     .catch((error) => console.error(error));
