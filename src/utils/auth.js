@@ -23,10 +23,10 @@ export const refreshToken = async () => {
       if (res.result) {
         console.log("refreshToken success", res.result);
         localStorage.setItem("AIPLAY_USER_TOKEN", res.token);
-        return res.token_state;
+        return res.result;
       } else {
         console.log("refreshToken error: ", res.message);
-        return res.token_state;
+        return res.result;
       }
     })
     .catch((err) => {
