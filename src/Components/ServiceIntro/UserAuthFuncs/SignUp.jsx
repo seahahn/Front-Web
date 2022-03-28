@@ -66,7 +66,7 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
         setNicknameChecked(false);
         break;
       default:
-        console.log("error");
+        // console.log("error");
         break;
     }
     setInput({
