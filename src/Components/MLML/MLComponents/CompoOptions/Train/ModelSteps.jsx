@@ -23,7 +23,7 @@ function ModelSteps({ formId, resultId, isLoading, setIsLoading, render }) {
 
   useEffect(() => {
     setModelList(modelListRef.current ? modelListRef.current.map((model) => model.model_name) : []);
-    setModelName(modelListRef.current ? modelListRef.current[0].model_name : "");
+    setModelName(modelListRef.current.length > 0 ? modelListRef.current[0].model_name : "");
   }, [render]);
 
   const handleChange = (event) => {
