@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import Navbar from "Components/MLML/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import { initCSRFToken } from "utils/auth";
@@ -17,4 +17,4 @@ function WholeCover() {
   );
 }
 
-export default WholeCover;
+export default memo(WholeCover);
