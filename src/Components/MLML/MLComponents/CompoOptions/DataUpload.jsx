@@ -35,6 +35,7 @@ function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
         "User-Id": userIdx,
         token: localStorage.getItem("AIPLAY_USER_TOKEN"),
       },
+      credentials: "include",
     }; // HTTP 통신 설정
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
