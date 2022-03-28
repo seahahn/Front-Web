@@ -37,7 +37,7 @@ function AddPost({ isOpen, setIsOpen, post }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(input);
     const targetUrl = targetURL(DL_API_URL.concat(URLS_DL_API.posts, post ? input.idx : ""));
     const response = await fetch(targetUrl, httpConfig(JSON.stringify(input), post ? "PUT" : "POST", true));
     if (response.ok) {
