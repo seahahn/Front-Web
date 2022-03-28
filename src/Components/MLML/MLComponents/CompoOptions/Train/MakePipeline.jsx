@@ -86,12 +86,15 @@ function MakePipeline({ formId, resultId, param, setParam, isLoading, setIsLoadi
       return;
     }
     const modelName = param.name.replace(" ", "_");
-    const paramResult = {
-      ...param,
-      name: modelName,
-      encoder: [...param.encoder.map((enc) => enc.value)],
-      key: MODEL_KEY_PREFIX + userIdx,
-    }; // 입력해야 할 파라미터 설정
+    const paramResult = _.omit(
+      {
+        ...param,
+        name: modelName,
+        encoder: [...param.encoder.map((enc) => enc.value)],
+        key: MODEL_KEY_PREFIX + userIdx,
+      },
+      ["steps"]
+    ); // 입력해야 할 파라미터 설정
     // 백앤드 API URL에 파라미터 추가
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_TRAIN.MakePipeline), paramResult);
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
