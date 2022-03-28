@@ -37,7 +37,7 @@ function Navbar() {
       // 로컬 스토리지에 저장된 사용자 고유 번호가 있는 경우 토큰 갱신 요청
       const tokenStateRes = refreshToken();
       console.log(tokenStateRes);
-      const tokenState = response.json().result;
+      const tokenState = tokenStateRes.json().result;
       console.log(tokenState);
       if (tokenState) {
         // 토큰 갱신 요청 성공한 경우
