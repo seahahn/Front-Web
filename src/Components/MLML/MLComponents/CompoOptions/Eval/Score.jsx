@@ -41,7 +41,7 @@ function Score({ formId, resultId, param, setParam, isLoading, setIsLoading, ren
     const targetUrl = targetURL(MLTRAIN_URL.concat(MLTRAIN_SUFFIX_MODEL, URLS_EVAL.Score), param);
     const ys = loadYPred(blockId); // 타겟 실제 데이터와 타겟 예측 데이터 가져오기
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
-    await fetch(targetUrl, httpConfig(JSON.stringify(ys)))
+    await fetch(targetUrl, httpConfig(JSON.stringify(ys), "POST", true))
       .then((response) => response.json())
       .then((data) => {
         if (data.hasOwnProperty("X_train")) {

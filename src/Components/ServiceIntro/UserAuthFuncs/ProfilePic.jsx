@@ -22,6 +22,7 @@ function ProfilePic({ profilePic, setProfilePic }) {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("aiplay_csrf_token")}`,
         "X-CSRFToken": localStorage.getItem("aiplay_csrf_token"),
+        token: localStorage.getItem("AIPLAY_USER_TOKEN"),
       },
       credentials: "include",
     }; // HTTP 통신 설정
@@ -53,6 +54,7 @@ function ProfilePic({ profilePic, setProfilePic }) {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("aiplay_csrf_token")}`,
           "X-CSRFToken": localStorage.getItem("aiplay_csrf_token"),
+          token: localStorage.getItem("AIPLAY_USER_TOKEN"),
         },
         credentials: "include",
       }; // HTTP 통신 설정

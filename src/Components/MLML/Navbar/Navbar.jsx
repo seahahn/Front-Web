@@ -31,11 +31,20 @@ function Navbar() {
   const [isFindPwOpen, setIsFindPwOpen] = useState(false);
   const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
 
-  useEffect(() => {
+  useEffect(async () => {
     // 새로고침 등으로 페이지가 새로 로딩된 경우 JWT 발급 재시작
     if (userIdx) {
-      refreshToken();
-      refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 10);
+      // 로컬 스토리지에 저장된 사용자 고유 번호가 있는 경우 토큰 갱신 요청
+      const tokenState = await refreshToken();
+      if (tokenState.result) {
+        // 토큰 갱신 요청 성공한 경우
+        refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 10);
+      } else {
+        // 토큰 갱신 요청 실패한 경우 (토큰 만료)
+        console.log("Token Expired");
+        alert("토큰이 만료되어 로그아웃 되었습니다.");
+        logout();
+      }
     }
   }, []);
 

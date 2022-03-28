@@ -33,13 +33,16 @@ function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
       body: formData,
       headers: {
         "User-Id": userIdx,
+        token: localStorage.getItem("AIPLAY_USER_TOKEN"),
       },
+      credentials: "include",
     }; // HTTP 통신 설정
 
     // 데이터 전송 후 받아온 데이터프레임을 사용자에게 보여주기 위한 코드
     await fetch(url, config)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
         dfd
           .readJSON(jsonToFile(data))

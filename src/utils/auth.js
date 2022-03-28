@@ -17,19 +17,16 @@ export const initCSRFToken = async () => {
 export const refreshToken = async () => {
   console.log("refresh token");
   const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.refresh_jwt));
-  await fetch(targetUrl, httpConfig(null, "GET"))
-    .then((res) => res.json())
-    .then((res) => {
-      if (res.result) {
-        console.log("refreshToken success", res.result);
-        localStorage.setItem("AIPLAY_USER_TOKEN", res.token);
-      } else {
-        console.log("refreshToken error: ", res.message);
-      }
-    })
-    .catch((err) => {
-      console.log("refreshToken error: ", err);
-    });
+  const response = await fetch(targetUrl, httpConfig(null, "GET"));
+  const res = await response.json();
+  if (res.result) {
+    console.log("refreshToken success", res.result);
+    localStorage.setItem("AIPLAY_USER_TOKEN", res.token);
+    return { result: res.result };
+  } else {
+    console.log("refreshToken error: ", res.message);
+    return { result: res.result };
+  }
 };
 
 export const removeToken = async () => {
