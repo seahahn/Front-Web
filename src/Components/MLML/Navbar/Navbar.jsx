@@ -57,6 +57,7 @@ function Navbar() {
     localStorage.removeItem("AIPLAY_USER_NICKNAME");
     localStorage.removeItem("AIPLAY_USER_PIC");
     localStorage.removeItem("AIPLAY_USER_MEMBERSHIP");
+    localStorage.removeItem("AIPLAY_USER_TOKEN");
     localStorage.removeItem("aiplay_csrf_token");
     localStorage.removeItem("aiplay_proj_idx");
     sessionStorage.clear();

@@ -108,6 +108,7 @@ export const httpConfig = (data = null, method = "POST", contentJson = false) =>
     "X-CSRFToken": localStorage.getItem("aiplay_csrf_token"),
     "Content-Type": contentJson ? "application/json" : "text/plain;charset=UTF-8",
     "User-Id": localStorage.getItem("AIPLAY_USER_IDX"),
+    token: localStorage.getItem("AIPLAY_USER_TOKEN"),
   },
   credentials: "include",
 });

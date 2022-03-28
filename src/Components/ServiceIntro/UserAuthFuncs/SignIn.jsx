@@ -75,6 +75,7 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
           localStorage.setItem("AIPLAY_USER_NICKNAME", userData.nickname);
           localStorage.setItem("AIPLAY_USER_PIC", userData.profile_pic);
           localStorage.setItem("AIPLAY_USER_MEMBERSHIP", userData.membership);
+          localStorage.setItem("AIPLAY_USER_TOKEN", userData.token);
           setUserIdx(userData.idx);
           setUserNickname(userData.nickname);
           setProfilePic(userData.profile_pic);
