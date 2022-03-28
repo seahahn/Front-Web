@@ -41,11 +41,11 @@ function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
       .then((response) => response.json())
       .then((data) => {
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-        saveDf(blockId, "_df", data, true); // 데이터프레임 저장
         dfd
           .readJSON(jsonToFile(data))
           .then((df) => {
             df.head().plot(resultId).table({ funcResultConfig, funcResultLayout }); // 결과 영역에 출력
+            saveDf(blockId, "_df", data, true); // 데이터프레임 저장
           })
           .catch((err) => {
             console.log(err);
