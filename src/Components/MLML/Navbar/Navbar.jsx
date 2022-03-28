@@ -35,10 +35,7 @@ function Navbar() {
     // 새로고침 등으로 페이지가 새로 로딩된 경우 JWT 발급 재시작
     if (userIdx) {
       // 로컬 스토리지에 저장된 사용자 고유 번호가 있는 경우 토큰 갱신 요청
-      const tokenStateRes = await refreshToken();
-      console.log(tokenStateRes);
-      const tokenState = await tokenStateRes.json();
-      console.log(tokenState);
+      const tokenState = await refreshToken();
       if (tokenState.result) {
         // 토큰 갱신 요청 성공한 경우
         refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 1);
