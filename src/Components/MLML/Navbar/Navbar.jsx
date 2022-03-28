@@ -34,8 +34,30 @@ function Navbar() {
   useEffect(() => {
     // 새로고침 등으로 페이지가 새로 로딩된 경우 JWT 발급 재시작
     if (userIdx) {
-      refreshToken();
-      refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 1);
+      // 로컬 스토리지에 저장된 사용자 고유 번호가 있는 경우 토큰 갱신 요청
+      const tokenState = refreshToken();
+
+      if (tokenState) {
+        // 토큰 갱신 요청 성공한 경우
+        refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 1);
+      } else {
+        // 토큰 갱신 요청 실패한 경우 (토큰 만료)
+        localStorage.removeItem("AIPLAY_USER_IDX");
+        localStorage.removeItem("AIPLAY_USER_EMAIL");
+        localStorage.removeItem("AIPLAY_USER_NICKNAME");
+        localStorage.removeItem("AIPLAY_USER_PIC");
+        localStorage.removeItem("AIPLAY_USER_MEMBERSHIP");
+        localStorage.removeItem("AIPLAY_USER_TOKEN");
+        localStorage.removeItem("aiplay_csrf_token");
+        localStorage.removeItem("aiplay_proj_idx");
+        sessionStorage.clear();
+        setLoggedIn(false);
+        setUserIdx(null);
+        setUserNickname(null);
+        setProfilePic(null);
+
+        removeToken();
+      }
     }
   }, []);
 
