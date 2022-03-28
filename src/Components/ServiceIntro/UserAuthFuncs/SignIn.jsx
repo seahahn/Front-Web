@@ -85,8 +85,8 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
 
           // 10분마다 JWT 갱신 시작
           setTimeout(() => {
-            refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 1);
-          }, 1000 * 60 * 1);
+            refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 10);
+          }, 1000 * 60 * 10);
         } else {
           data.email_state ? alert("비밀번호가 일치하지 않습니다.") : alert("가입하지 않은 이메일입니다.");
         }
