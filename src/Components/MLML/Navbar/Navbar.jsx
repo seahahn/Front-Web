@@ -35,7 +35,7 @@ function Navbar() {
     // 새로고침 등으로 페이지가 새로 로딩된 경우 JWT 발급 재시작
     if (userIdx) {
       refreshToken();
-      refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 1);
+      refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 10);
     }
   }, []);
 
