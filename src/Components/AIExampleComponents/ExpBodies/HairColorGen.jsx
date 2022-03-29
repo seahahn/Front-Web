@@ -44,14 +44,14 @@ const HairColorGen = () => {
   };
 
   return (
-    <form className="flex flex-col space-y-8">
+    <form onSubmit={uploadImg} className="flex flex-col space-y-8">
       <div className="relative flex flex-col space-y-2 items-center">
         <img ref={previewImgRef} src={blankPic} alt="미리보기" className="max-h-60" />
-        <label htmlFor={previewInputRef} className="absolute bottom-0 bg-primary-500 rounded-lg p-1 cursor-pointer">
+        <label htmlFor={"previewInputRef"} className="absolute bottom-0 bg-primary-500 rounded-lg p-1 cursor-pointer">
           이미지 업로드
         </label>
         <input
-          id={previewInputRef}
+          id={"previewInputRef"}
           ref={previewInputRef}
           type="file"
           name="img"
@@ -61,7 +61,7 @@ const HairColorGen = () => {
         />
       </div>
       <div className="relative flex flex-col space-y-2 items-center">
-        <button type="submit" onClick={uploadImg} className="bg-primary-500 rounded-lg h-fit self-center px-4 py-2 my-4">
+        <button type="submit" className="bg-primary-500 rounded-lg h-fit self-center px-4 py-2 my-4">
           실행
         </button>
         <img ref={resultImgRef} src={blankPic} alt="결과" className="my-4" />
