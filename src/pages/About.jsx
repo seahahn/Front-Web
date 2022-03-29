@@ -71,8 +71,7 @@ const About = ({
       ],
     },
     {
-      imageSrc:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&fit=facearea&facepad=2.95&w=512&h=512&q=80",
+      imageSrc: "https://user-images.githubusercontent.com/73585246/160568548-35932007-a87b-4d68-98ab-e4e5a6291433.jpg",
       position: "Backend Developer",
       name: "이경희",
       links: [
@@ -91,8 +90,7 @@ const About = ({
       ],
     },
     {
-      imageSrc:
-        "https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&fit=facearea&facepad=2.95&w=512&h=512&q=80",
+      imageSrc: "https://user-images.githubusercontent.com/73585246/160568565-d4e996a5-f668-4f3d-baf7-17c77b51fe24.png",
       position: "Backend Developer",
       name: "김민석",
       links: [
