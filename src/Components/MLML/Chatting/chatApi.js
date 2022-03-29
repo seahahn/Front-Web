@@ -1,4 +1,12 @@
 let socket;
+let hCheck;
+
+const healthCheck = (repeat = false) => {
+  setTimeout(() => {
+    socket.send(JSON.stringify({ type: 44 }));
+    repeat && healthCheck();
+  }, 1000 * 50);
+};
 
 const connect = (userIdx, userNickname, bodyRef, setMsgs) => {
   socket = new WebSocket(process.env.REACT_APP_CHATTING_URL);
@@ -13,6 +21,7 @@ const connect = (userIdx, userNickname, bodyRef, setMsgs) => {
       nickname: userNickname,
     };
     socket.send(JSON.stringify(message));
+    hCheck = healthCheck(true);
   };
 
   socket.onmessage = (msg) => {
@@ -47,6 +56,7 @@ const disconnect = (userIdx, userNickname) => {
   socket.close();
   sessionStorage.removeItem("chatStart");
   sessionStorage.removeItem("msgs");
+  clearTimeout(hCheck);
 };
 
 const sendMsg = (userIdx, userNickname, msg) => {
