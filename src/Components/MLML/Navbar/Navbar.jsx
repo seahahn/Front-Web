@@ -41,7 +41,7 @@ function Navbar() {
         refreshTokenInterval.current = setInterval(refreshToken, 1000 * 60 * 10);
       } else {
         // 토큰 갱신 요청 실패한 경우 (토큰 만료)
-        console.log("Token Expired");
+        process.env.REACT_APP_STATUS === "development" && console.log("Token Expired");
         alert("토큰이 만료되어 로그아웃 되었습니다.");
         logout();
       }

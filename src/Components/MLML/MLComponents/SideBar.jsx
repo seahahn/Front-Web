@@ -35,7 +35,7 @@ function SideBar({ addNewBlock }) {
         setIsEvalHidden(!isEvalHidden);
         break;
       default:
-        console.log("error");
+        process.env.REACT_APP_STATUS === "development" && console.log("error");
         break;
     }
   };
