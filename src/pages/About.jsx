@@ -23,7 +23,7 @@ const CardImage = styled.div`
     css`
       background-image: url("${props.imageSrc}");
     `}
-  ${tw`w-64 h-64 bg-contain bg-center rounded`}
+  ${tw`w-64 h-64 bg-cover bg-center rounded`}
 `;
 const CardContent = styled.div`
   ${tw`flex flex-col items-center mt-6`}
