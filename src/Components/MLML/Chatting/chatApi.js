@@ -1,7 +1,7 @@
 let socket;
 
 const connect = (userIdx, userNickname, bodyRef, setMsgs) => {
-  socket = new WebSocket("ws://127.0.0.1:5000/ws");
+  socket = new WebSocket(process.env.REACT_APP_CHATTING_URL);
   console.log("Attempting Connection...");
 
   socket.onopen = () => {
