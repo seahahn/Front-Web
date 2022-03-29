@@ -7,6 +7,7 @@ import { Container, ContentWithPaddingXl } from "Components/ServiceIntro/WebTemp
 import { SectionHeading, Subheading as SubheadingBase } from "Components/ServiceIntro/WebTemplate/misc/Headings";
 import { SectionDescription } from "Components/ServiceIntro/WebTemplate/misc/Typography";
 import { ReactComponent as TwitterIcon } from "Components/ServiceIntro/WebTemplate/images/twitter-icon.svg";
+import { ReactComponent as FacebookIcon } from "Components/ServiceIntro/WebTemplate/images/facebook-icon.svg";
 import { ReactComponent as LinkedinIcon } from "Components/ServiceIntro/WebTemplate/images/linkedin-icon.svg";
 import { ReactComponent as GithubIcon } from "Components/ServiceIntro/WebTemplate/images/github-icon.svg";
 
@@ -51,20 +52,20 @@ const About = ({
   cards = [
     {
       imageSrc:
-        "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&fit=facearea&facepad=2.95&w=512&h=512&q=80",
-      position: "Founder",
-      name: "Adam Cuppy",
+        "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/67878360_2421242878111706_5348573037711065088_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=dmKMJQNy2IQAX9n8clp&_nc_ht=scontent-ssn1-1.xx&oh=00_AT9samEfljSWaewFMKFaM1IAGw_o_Vxgm9KEVAhuXx-niw&oe=6266D52A",
+      position: "Planner, FullStack Developer",
+      name: "안경호",
       links: [
         {
-          url: "https://twitter.com",
-          icon: TwitterIcon,
+          url: "https://www.facebook.com/seah.ahn.nt",
+          icon: FacebookIcon,
         },
         {
-          url: "https://linkedin.com",
+          url: "https://www.linkedin.com/in/gyeong-ho-ahn-2a949116b/",
           icon: LinkedinIcon,
         },
         {
-          url: "https://github.com",
+          url: "https://github.com/seahahn",
           icon: GithubIcon,
         },
       ],
@@ -72,8 +73,8 @@ const About = ({
     {
       imageSrc:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&fit=facearea&facepad=2.95&w=512&h=512&q=80",
-      position: "Sr. Designer",
-      name: "Charlotte Hale",
+      position: "Backend Developer",
+      name: "이경희",
       links: [
         {
           url: "https://twitter.com",
@@ -92,8 +93,8 @@ const About = ({
     {
       imageSrc:
         "https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&fit=facearea&facepad=2.95&w=512&h=512&q=80",
-      position: "Jr. Designer",
-      name: "Silvester Wize",
+      position: "Backend Developer",
+      name: "김민석",
       links: [
         {
           url: "https://twitter.com",

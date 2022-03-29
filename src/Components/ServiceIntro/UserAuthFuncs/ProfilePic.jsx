@@ -11,6 +11,9 @@ function ProfilePic({ profilePic, setProfilePic }) {
   const picInputRef = useRef();
 
   const uploadImage = async (e) => {
+    e.preventDefault();
+    console.log(e);
+
     const formData = new FormData();
     formData.append("profile_pic", e.target.files[0]);
     formData.append("idx", userIdx);
@@ -87,7 +90,7 @@ function ProfilePic({ profilePic, setProfilePic }) {
         <Menu.Items className="z-50 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <Menu.Item>
             {({ active }) => (
-              <label htmlFor={picInputRef} className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>
+              <label htmlFor={"picInputRef"} className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700 cursor-pointer")}>
                 사진 업로드
               </label>
             )}
@@ -105,7 +108,7 @@ function ProfilePic({ profilePic, setProfilePic }) {
         </Menu.Items>
       </Transition>
       <input
-        id={picInputRef}
+        id={"picInputRef"}
         ref={picInputRef}
         type="file"
         name="profile_pic"
