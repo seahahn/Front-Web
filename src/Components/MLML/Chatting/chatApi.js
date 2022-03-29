@@ -30,7 +30,8 @@ const connect = (userIdx, userNickname, bodyRef, setMsgs) => {
 
     if (data.type === 1) {
       const msgParsed = JSON.parse(data.body);
-      setMsgs((prevMsgs) => [...prevMsgs, msgParsed]);
+      // 상태 체크 메시지 아닌 경우만 처리
+      msgParsed.type !== 44 && setMsgs((prevMsgs) => [...prevMsgs, msgParsed]);
     } else {
       process.env.REACT_APP_STATUS === "development" && console.log("etc type: ", data.type);
     }
