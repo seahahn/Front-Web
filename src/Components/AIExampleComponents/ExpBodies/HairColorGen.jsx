@@ -13,6 +13,8 @@ const HairColorGen = () => {
   // 변환 대상 이미지를 올려서 미리보기에 출력함
   const changeImg = (e) => {
     e.preventDefault();
+    console.log(e);
+
     e.target.files[0] && setImg(e.target.files[0]);
     previewImgRef.current.src = URL.createObjectURL(e.target.files[0]);
   };
