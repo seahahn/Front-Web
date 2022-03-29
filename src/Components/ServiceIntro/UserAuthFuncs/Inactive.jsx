@@ -41,13 +41,13 @@ function Inactive({ isOpen, setIsOpen, setUserProfileOpen, logout }) {
   const deleteUserData = async () => {
     const projDeleteRes = await fetch(UPM_PROJ_URL + `/${userIdx}/all`, httpConfig(null, "DELETE"));
     const projDeleteResult = await projDeleteRes.json();
-    console.log(projDeleteResult);
+    process.env.REACT_APP_STATUS === "development" && console.log(projDeleteResult);
   };
 
   const submitInactive = async (event) => {
     event.preventDefault();
     if (window.confirm("정말 탈퇴하시겠어요?")) {
-      console.log(userIdx);
+      process.env.REACT_APP_STATUS === "development" && console.log(userIdx);
       const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.inactive));
       await fetch(targetUrl, httpConfig(JSON.stringify({ idx: userIdx, pw: input.pw }), "POST", true))
         .then((response) => response.json())
@@ -59,7 +59,7 @@ function Inactive({ isOpen, setIsOpen, setUserProfileOpen, logout }) {
             setUserProfileOpen(false);
             logout();
           } else {
-            console.log(data);
+            process.env.REACT_APP_STATUS === "development" && console.log(data);
             data.user_state ? alert("비밀번호가 일치하지 않습니다.") : alert("탈퇴 실패");
           }
         });

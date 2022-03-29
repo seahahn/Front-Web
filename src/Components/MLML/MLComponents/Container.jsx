@@ -105,7 +105,7 @@ const Container = () => {
         setIsLoading(true);
         const response = await fetch(UPM_PROJ_URL + `/${userIdx}/${proj_idx}`, httpConfig(null, "DELETE"));
         const result = await response.json();
-        console.log(result);
+        process.env.REACT_APP_STATUS === "development" && console.log(result);
         setIsLoading(false);
         return true;
       }
@@ -144,7 +144,7 @@ const Container = () => {
         getProjList(userIdx, projListRef);
         getModelList(userIdx, modelListRef);
       } else {
-        console.log("initProject error");
+        process.env.REACT_APP_STATUS === "development" && console.log("initProject error");
         newProject("untitled");
       }
     },
@@ -161,7 +161,7 @@ const Container = () => {
     await fetch(UPM_PROJ_URL + `/${userIdx}/${projIdx}`, httpConfig(JSON.stringify(projectData), "PUT", true))
       .then((response) => response.json())
       .then((data) => {
-        console.log("project updated");
+        process.env.REACT_APP_STATUS === "development" && console.log("project updated");
         setIsLoading(false); // 저장 완료
       })
       .catch((error) => {
@@ -172,13 +172,13 @@ const Container = () => {
 
   // Navbar에 MLML임을 알리기
   useEffect(() => {
-    console.log("init MLML State");
+    process.env.REACT_APP_STATUS === "development" && console.log("init MLML State");
     setIsMLML(true);
   }, []);
 
   // 프로젝트 실행 시 초기 세팅
   useEffect(() => {
-    console.log("initProject");
+    process.env.REACT_APP_STATUS === "development" && console.log("initProject");
     localStorage.setItem("aiplay_proj_idx", null);
     setIsInitialOpen(true);
     setIsLoadProjectOpen(true);

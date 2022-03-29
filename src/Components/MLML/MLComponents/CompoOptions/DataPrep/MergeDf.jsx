@@ -114,7 +114,7 @@ function MergeDf({ formId, resultId, param, setParam, isLoading, setIsLoading, r
         ); // 두 데이터프레임의 공통 컬럼 선택 목록
         break;
       default:
-        console.log("error");
+        process.env.REACT_APP_STATUS === "development" && console.log("error");
         break;
     }
   };

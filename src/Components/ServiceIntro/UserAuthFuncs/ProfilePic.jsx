@@ -12,7 +12,7 @@ function ProfilePic({ profilePic, setProfilePic }) {
 
   const uploadImage = async (e) => {
     e.preventDefault();
-    console.log(e);
+    process.env.REACT_APP_STATUS === "development" && console.log(e);
 
     const formData = new FormData();
     formData.append("profile_pic", e.target.files[0]);
