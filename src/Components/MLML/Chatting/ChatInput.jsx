@@ -25,11 +25,11 @@ const ChatInput = ({ send }) => {
 
   const handleEnter = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      console.log("enter");
+      process.env.REACT_APP_STATUS === "development" && console.log("enter");
       e.preventDefault();
       handleSendMsg();
     } else {
-      console.log("enter shift");
+      process.env.REACT_APP_STATUS === "development" && console.log("enter shift");
     }
   };
 
