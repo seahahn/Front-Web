@@ -15,7 +15,7 @@ import { funcResultConfig, funcResultLayout } from "Components/MLML/MLComponents
 
 // 백앤드로 보내 가공 처리한 데이터프레임을 웹 스토리지에 저장
 export const saveDf = async (blockId, name, df, saveColumns = false) => {
-  console.log("saveDf name : " + blockId + name);
+  process.env.REACT_APP_STATUS === "development" && console.log("saveDf name : " + blockId + name);
   if (String(df).startsWith("{") || String(df).startsWith("{", 1)) {
     if (saveColumns) {
       await saveColumnList(blockId, df); // 컬럼 리스트 저장
@@ -145,7 +145,7 @@ export const showDataFrame = (dfd, data, resultId) => {
       df.plot(resultId).table({ config: funcResultConfig, layout: funcResultLayout }); // 결과 영역에 출력
     })
     .catch((err) => {
-      console.log(err);
+      process.env.REACT_APP_STATUS === "development" && console.log(err);
     });
 };
 
@@ -175,8 +175,8 @@ export const saveColumnList = async (blockId, df) => {
   await fetch(targetUrl, httpConfig(JSON.stringify(df)))
     .then((response) => response.json())
     .then((data) => {
-      console.log("saveColumnList");
-      console.log(data);
+      process.env.REACT_APP_STATUS === "development" && console.log("saveColumnList");
+      process.env.REACT_APP_STATUS === "development" && console.log(data);
       window.sessionStorage.setItem(blockId + "_columns", data.toString());
     })
     .catch((error) => console.error(error));
@@ -204,7 +204,7 @@ export const getModelSteps = async (key, modelName, detail = false, includeModel
   return await fetch(targetUrl, httpConfig(null, "GET"))
     .then((response) => response.json())
     .then((data) => {
-      console.log("getModelSteps");
+      process.env.REACT_APP_STATUS === "development" && console.log("getModelSteps");
       return !detail && !includeModel ? data.filter((step) => step.includes("encoder") || step.includes("scaler")) : data;
     })
     .catch((error) => console.error(error));

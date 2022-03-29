@@ -33,7 +33,7 @@ function Chat({ props }) {
     sessionStorage.setItem("msgs", JSON.stringify(msgs));
   }, [msgs]);
   const startChat = useCallback(() => {
-    console.log("startChat");
+    process.env.REACT_APP_STATUS === "development" && console.log("startChat");
     connect(userIdx, userNickname, chatBodyRef, setMsgs);
     props.setChatStart(true);
   }, [userIdx, userNickname]);
@@ -46,12 +46,12 @@ function Chat({ props }) {
   );
 
   const endChat = useCallback(() => {
-    console.log("endChat");
+    process.env.REACT_APP_STATUS === "development" && console.log("endChat");
     try {
       setMsgs([]);
       disconnect(userIdx, userNickname);
     } catch (error) {
-      console.log(error);
+      process.env.REACT_APP_STATUS === "development" && console.log(error);
     }
     props.setChatStart(false);
   }, [userIdx, userNickname]);
