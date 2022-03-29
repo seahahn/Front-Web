@@ -4,6 +4,7 @@ let hCheck;
 const healthCheck = (repeat = false) => {
   setTimeout(() => {
     socket.send(JSON.stringify({ type: 44 }));
+
     repeat && healthCheck(true);
   }, 1000 * 50);
 };
