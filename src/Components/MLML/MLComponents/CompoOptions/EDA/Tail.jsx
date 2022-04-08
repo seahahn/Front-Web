@@ -6,7 +6,7 @@ import { showDataResult } from "Components/MLML/MLComponents/CompoOptions/mlUtil
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function Tail({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   // 숫자 입력 시 변화 감지하여 상태 값 변경
@@ -32,7 +32,7 @@ function Tail({ formId, resultId, param, setParam, isLoading, setIsLoading, rend
       .then((response) => response.json())
       .then((data) => {
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

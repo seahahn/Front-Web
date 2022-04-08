@@ -8,7 +8,6 @@ import { Switch } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function TrainTestSplit({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   // 컬럼명 입력 시 변화 감지하여 상태 값 변경
@@ -40,8 +39,8 @@ function TrainTestSplit({ formId, resultId, param, setParam, isLoading, setIsLoa
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        saveTrainTest(dfd, blockId, data, resultId, param.valid);
-        showShape(dfd, JSON.parse(data), resultId, param.valid);
+        saveTrainTest(blockId, data, resultId, param.valid);
+        showShape(JSON.parse(data), resultId, param.valid);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

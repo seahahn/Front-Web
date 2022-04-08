@@ -20,7 +20,6 @@ import { AppContext } from "App";
  */
 function Predict({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { userIdx } = useContext(AppContext);
-  const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
 
@@ -62,8 +61,8 @@ function Predict({ formId, resultId, param, setParam, isLoading, setIsLoading, r
       .then((response) => response.json())
       .then((data) => {
         saveYPred(blockId, data);
-        // showDataResult(dfd, data.y_pred, resultId); // y_pred 결과만 보여주기
-        showDataResult(dfd, "Prediction completed.", resultId); // y_pred 결과만 보여주기
+        // showDataResult(data.y_pred, resultId); // y_pred 결과만 보여주기
+        showDataResult("Prediction completed.", resultId); // y_pred 결과만 보여주기
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

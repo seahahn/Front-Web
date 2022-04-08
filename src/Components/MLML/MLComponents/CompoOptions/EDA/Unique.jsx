@@ -6,7 +6,7 @@ import Select from "Components/MLML/MLComponents/CompoOptions/CompoPiece/Select"
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function Unique({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
@@ -33,7 +33,7 @@ function Unique({ formId, resultId, param, setParam, isLoading, setIsLoading, re
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

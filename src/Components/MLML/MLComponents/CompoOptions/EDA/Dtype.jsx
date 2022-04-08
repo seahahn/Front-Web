@@ -5,7 +5,7 @@ import { showDataResult } from "Components/MLML/MLComponents/CompoOptions/mlUtil
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function Dtype({ formId, resultId, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   // 백앤드로 데이터 전송
@@ -22,7 +22,7 @@ function Dtype({ formId, resultId, isLoading, setIsLoading, render }) {
       .then((response) => response.json())
       .then((data) => {
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

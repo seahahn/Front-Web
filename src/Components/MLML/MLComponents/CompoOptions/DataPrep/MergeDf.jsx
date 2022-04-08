@@ -8,7 +8,7 @@ import MultiSelect from "react-select";
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function MergeDf({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   // 데이터프레임 목록 가져오기 위한 콜백
@@ -155,7 +155,7 @@ function MergeDf({ formId, resultId, param, setParam, isLoading, setIsLoading, r
       .then((response) => response.json())
       .then((data) => {
         data.startsWith("{") && saveDf(blockId, "_df", data, true); // 데이터프레임 저장
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료
