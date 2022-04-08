@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { HiX } from "react-icons/hi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { inputStyle } from "Components/MLML/MLComponents/componentStyle";
-import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH, UPM_PROJ_URL, UPM_MODEL_URL } from "utils/networkConfigs";
+import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH, UPM_PROJ_URL } from "utils/networkConfigs";
 
 function Inactive({ isOpen, setIsOpen, setUserProfileOpen, logout }) {
   const { userIdx } = useContext(AppContext);

@@ -1,14 +1,18 @@
-import React from "react";
-import { Switch } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
+import { useState, useRef } from "react";
+import LoadingSpin from "react-loading-spin";
+// import { Switch } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
 import { targetURL, DL_API_URL, DL_API_CV, URLS_DL_API } from "utils/networkConfigs";
 import blankPic from "assets/blank_pic.png";
+import classNames from "classnames";
 
 const HairColorGen = () => {
-  const [img, setImg] = React.useState(null);
+  const [img, setImg] = useState(null);
 
-  const previewImgRef = React.useRef();
-  const previewInputRef = React.useRef();
-  const resultImgRef = React.useRef();
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+
+  const previewImgRef = useRef();
+  const previewInputRef = useRef();
+  const resultImgRef = useRef();
 
   // 변환 대상 이미지를 올려서 미리보기에 출력함
   const changeImg = (e) => {
@@ -37,11 +41,13 @@ const HairColorGen = () => {
       credentials: "include",
     }; // HTTP 통신 설정
 
+    setIsSubmitLoading(true);
     const targetUrl = targetURL(DL_API_URL.concat(DL_API_CV, URLS_DL_API.hair_color_gen));
     const response = await fetch(targetUrl, config);
     if (response.ok) {
       const result = await response.blob();
       resultImgRef.current.src = URL.createObjectURL(result);
+      setIsSubmitLoading(false);
     }
   };
 
@@ -49,7 +55,7 @@ const HairColorGen = () => {
     <form onSubmit={uploadImg} className="flex flex-col space-y-8">
       <div className="relative flex flex-col space-y-2 items-center">
         <img ref={previewImgRef} src={blankPic} alt="미리보기" className="max-h-60" />
-        <label htmlFor={"previewInputRef"} className="absolute bottom-0 bg-primary-500 rounded-lg p-1 cursor-pointer">
+        <label htmlFor={"previewInputRef"} className="absolute bottom-0 bg-primary-500 hover:text-white rounded-lg p-1 cursor-pointer">
           이미지 업로드
         </label>
         <input
@@ -63,8 +69,10 @@ const HairColorGen = () => {
         />
       </div>
       <div className="relative flex flex-col space-y-2 items-center">
-        <button type="submit" className="bg-primary-500 rounded-lg h-fit self-center px-4 py-2 my-4">
-          실행
+        <button
+          type="submit"
+          className={classNames(isSubmitLoading ? "disabled" : "", "bg-primary-500 hover:text-white rounded-lg h-fit self-center px-4 py-2 my-4")}>
+          {isSubmitLoading ? <LoadingSpin size="1rem" /> : "실행"}
         </button>
         <img ref={resultImgRef} src={blankPic} alt="결과" className="my-4" />
       </div>

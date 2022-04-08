@@ -3,6 +3,7 @@ import { AppContext } from "App";
 import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
+import LoadingSpin from "react-loading-spin";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 import { refreshToken } from "utils/auth";
@@ -21,6 +22,8 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
   });
 
   const [pwVisible, setPwVisible] = useState(false);
+
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const emailRef = useRef();
   const pwRef = useRef();
@@ -63,10 +66,12 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
       return;
     }
 
+    setIsSubmitLoading(true);
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.login));
     await fetch(targetUrl, httpConfig(JSON.stringify(input), "POST", true))
       .then((response) => response.json())
       .then((data) => {
+        setIsSubmitLoading(false);
         if (data.result) {
           // alert("로그인 성공");
           const userData = data.user_data;
@@ -156,7 +161,7 @@ function SignIn({ isOpen, openerStates, setProfilePic }) {
             type="submit"
             onKeyPress={handleEnter}
             className="bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-base md:text-sm font-bold w-3/5 py-2 px-2 rounded-full">
-            로그인
+            {isSubmitLoading ? <LoadingSpin size="1rem" /> : "로그인"}
           </button>
         </div>
         <div className="flex flex-col items-center pb-3">

@@ -2,12 +2,15 @@ import React, { useEffect, useState, useRef } from "react";
 import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
+import LoadingSpin from "react-loading-spin";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 
 function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
   const [input, setInput] = useState({
     email: "",
   });
+
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const emailRef = useRef();
 
@@ -27,7 +30,7 @@ function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
       ...input,
       [name]: value,
     });
-  }, 500);
+  }, 200);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,10 +39,12 @@ function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
       return;
     }
 
+    setIsSubmitLoading(true);
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.search_pw));
     await fetch(targetUrl, httpConfig(JSON.stringify(input), "POST", true))
       .then((response) => response.json())
       .then((data) => {
+        setIsSubmitLoading(false);
         if (data.result) {
           alert("임시 비밀번호 발송 완료");
           setIsSignInOpen(true);
@@ -78,7 +83,7 @@ function FindPw({ isOpen, setIsOpen, setIsSignInOpen }) {
           <button
             type="submit"
             className="mb-2 bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-base md:text-sm font-bold w-2/5 py-2 px-2 rounded-full">
-            임시 비밀번호 발송
+            {isSubmitLoading ? <LoadingSpin size="1rem" /> : "임시 비밀번호 발송"}
           </button>
         </div>
       </form>

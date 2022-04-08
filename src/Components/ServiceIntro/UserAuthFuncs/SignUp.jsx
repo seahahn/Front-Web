@@ -3,6 +3,7 @@ import _ from "lodash";
 import classNames from "classnames";
 import { HiX } from "react-icons/hi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import LoadingSpin from "react-loading-spin";
 import { pwRegexStr } from "Components/MLML/MLComponents/CompoOptions/mlUtilFuncs";
 import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 import Timer from "./Timer";
@@ -23,6 +24,11 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   });
   const [nicknameChecked, setNicknameChecked] = useState(false);
   const [pwVisible, setPwVisible] = useState(false);
+
+  const [isSendEmailLoading, setIsSendEmailLoading] = useState(false);
+  const [ischeckEmailLoading, setIscheckEmailLoading] = useState(false);
+  const [ischeckNicknameLoading, setIscheckNicknameLoading] = useState(false);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const emailRef = useRef();
   const pwRef = useRef();
@@ -76,6 +82,7 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   }, 200);
 
   const sendEmail = async () => {
+    setIsSendEmailLoading(true);
     // input.email을 User-Auth의 email_check로 보내기
     // 보낸 순간부터 5분이 지나면 이메일 인증 실패
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.email_check));
@@ -84,6 +91,7 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
     await fetch(targetUrl, httpConfig(JSON.stringify({ email: input.email }), "POST", true))
       .then((response) => response.json())
       .then((data) => {
+        setIsSendEmailLoading(false);
         if (data.result) {
           setEmailState({
             ...emailState,
@@ -108,11 +116,13 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
   };
 
   const checkEmail = async () => {
+    setIscheckEmailLoading(true);
     // input.cert_num(인증 번호)이 맞게 입력되었는지 확인하기
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.email_confirm));
     await fetch(targetUrl, httpConfig(JSON.stringify({ email: input.email, cert_number: input.cert_number })), "POST", true)
       .then((response) => response.json())
       .then((data) => {
+        setIscheckEmailLoading(false);
         if (data.result) {
           setEmailState({
             ...emailState,
@@ -131,11 +141,14 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
       alert("닉네임을 입력해주세요!");
       return;
     }
+
+    setIscheckNicknameLoading(true);
     // input.nickname이 중복되지 않는지 확인하기
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.nickname_check), { nickname: input.nickname });
     await fetch(targetUrl, httpConfig(null, "GET"))
       .then((response) => response.json())
       .then((data) => {
+        setIscheckNicknameLoading(false);
         if (data.result) {
           setNicknameChecked(true);
         } else {
@@ -156,10 +169,12 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
       return;
     }
 
+    setIsSubmitLoading(true);
     const targetUrl = targetURL(USER_AUTH_URL.concat(URLS_USER_AUTH.signup));
     await fetch(targetUrl, httpConfig(JSON.stringify(_.omit(input, ["cert_number"])), "POST", true))
       .then((response) => response.json())
       .then((data) => {
+        setIsSubmitLoading(false);
         if (data.result) {
           alert("회원가입이 완료되었습니다.");
           setIsSignInOpen(true);
@@ -196,8 +211,10 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
             <button
               type="button"
               onClick={emailState.emailSent ? cancelSendEmail : sendEmail}
-              className="bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded-r-md">
-              {emailState.emailSent ? <Timer onStop={cancelSendEmail} /> : "인증 요청"}
+              className={classNames(
+                "bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded-r-md"
+              )}>
+              {isSendEmailLoading ? <LoadingSpin size="0.8rem" /> : emailState.emailSent ? <Timer onStop={cancelSendEmail} /> : "인증 요청"}
             </button>
           </div>
           {/* 인증 번호 입력란 */}
@@ -219,7 +236,17 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
                 "text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded-r-md"
               )}
               disabled={!emailState.emailSent || emailState.emailChecked ? true : false}>
-              {emailState.emailChecked ? "인증 완료" : emailState.emailSent ? "인증하기" : emailState.emailCheckTimeout ? "시간 초과" : "인증하기"}
+              {ischeckEmailLoading ? (
+                <LoadingSpin size="0.8rem" />
+              ) : emailState.emailChecked ? (
+                "인증 완료"
+              ) : emailState.emailSent ? (
+                "인증하기"
+              ) : emailState.emailCheckTimeout ? (
+                "시간 초과"
+              ) : (
+                "인증하기"
+              )}
             </button>
           </div>
           {/* 비밀번호 입력란 */}
@@ -258,7 +285,7 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
                 "text-sm md:text-xs font-bold w-2/5 py-2 px-2 mr-2 rounded-r-md"
               )}
               disabled={nicknameChecked ? true : false}>
-              {nicknameChecked ? "확인 완료" : "중복 확인"}
+              {ischeckNicknameLoading ? <LoadingSpin size="0.8rem" /> : nicknameChecked ? "확인 완료" : "중복 확인"}
             </button>
           </div>
         </div>
@@ -286,7 +313,7 @@ function SignUp({ isOpen, setIsOpen, setIsSignInOpen }) {
           <button
             type="submit"
             className="mb-2 bg-primary-500 hover:bg-primary-700 text-white hover:text-primary-300 md:text-base sm:text-xs font-bold w-2/5 py-2 px-2 rounded-full">
-            가입하기
+            {isSubmitLoading ? <LoadingSpin size="1rem" /> : "가입하기"}
           </button>
         </div>
       </form>
