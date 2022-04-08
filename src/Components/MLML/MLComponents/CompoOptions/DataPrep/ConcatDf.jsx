@@ -7,7 +7,7 @@ import { Select, Switch } from "Components/MLML/MLComponents/CompoOptions/CompoP
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function ConcatDf({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   // 데이터프레임 목록 가져오기 위한 콜백
@@ -67,7 +67,7 @@ function ConcatDf({ formId, resultId, param, setParam, isLoading, setIsLoading, 
       .then((response) => response.json())
       .then((data) => {
         saveDf(blockId, "_df", data, true); // 데이터프레임 저장
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

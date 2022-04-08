@@ -17,7 +17,6 @@ import { AppContext } from "App";
  */
 function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { userIdx } = useContext(AppContext);
-  const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
 
@@ -60,7 +59,7 @@ function Fit({ formId, resultId, param, setParam, isLoading, setIsLoading, rende
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

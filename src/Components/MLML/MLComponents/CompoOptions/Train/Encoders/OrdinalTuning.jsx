@@ -27,7 +27,7 @@ function OrdinalTuning({ handleOptions, handleSteps, steps, step }) {
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
-    const { name, value, checked, type } = event.target;
+    const { name, checked, type } = event.target;
     if (type === "checkbox") {
       setOptions(
         checked

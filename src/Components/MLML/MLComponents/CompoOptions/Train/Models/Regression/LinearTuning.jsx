@@ -19,7 +19,7 @@ function LinearTuning({ step, handleSteps }) {
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
-    const { name, value, checked } = event.target;
+    const { name, checked } = event.target;
     if (event.target.type === "checkbox") {
       setOptions(
         checked

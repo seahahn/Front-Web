@@ -14,7 +14,6 @@ import { Select } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
  * @returns "training completed"
  */
 function Score({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   useEffect(() => {
@@ -49,7 +48,7 @@ function Score({ formId, resultId, param, setParam, isLoading, setIsLoading, ren
             .map((x) => [x[0].split("_")[1], x[1]].join(" : "))
             .join("<br/>");
         } else {
-          showDataResult(dfd, data, resultId);
+          showDataResult(data, resultId);
         }
       })
       .catch((error) => console.error(error));

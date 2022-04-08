@@ -16,7 +16,6 @@ import { AppContext } from "App";
 
 function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
   const { userIdx } = useContext(AppContext);
-  const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const { blockId } = useContext(BlockContext);
 
@@ -125,7 +124,7 @@ function MakeOptimizer({ formId, resultId, param, setParam, isLoading, setIsLoad
           };
           const response = await fetch(UPM_MODEL_URL, httpConfig(JSON.stringify(modelData), "POST", true));
           const freshModelList = await response.json();
-          showDataResult(dfd, data.message, resultId);
+          showDataResult(data.message, resultId);
           modelListRef.current = freshModelList; // 모델 목록 최신화
         }
       })

@@ -7,7 +7,7 @@ import MultiSelect from "react-select";
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function SortValue({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
@@ -64,7 +64,7 @@ function SortValue({ formId, resultId, param, setParam, isLoading, setIsLoading,
       .then((response) => response.json())
       .then((data) => {
         saveDf(blockId, "_df", data); // 데이터프레임 저장
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

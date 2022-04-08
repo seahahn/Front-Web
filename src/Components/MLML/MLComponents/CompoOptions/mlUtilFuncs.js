@@ -1,3 +1,4 @@
+import { readJSON } from "danfojs";
 import {
   targetURL,
   MLFUNCS_URL,
@@ -50,7 +51,7 @@ export const loadFeatureTarget = (blockId) => {
   return { X: dfX, y: dfy };
 };
 
-export const saveTrainTest = (dfd, blockId, data, resultId, valid = false) => {
+export const saveTrainTest = (blockId, data, resultId, valid = false) => {
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
     window.sessionStorage.setItem(blockId + "_XTrain", JSON.parse(data).X_train); // 웹 스토리지에 특성 훈련 데이터프레임(JSON) 저장
     window.sessionStorage.setItem(blockId + "_XTest", JSON.parse(data).X_test); // 웹 스토리지에 특성 테스트 데이터프레임(JSON) 저장
@@ -112,18 +113,18 @@ export const loadYPred = (blockId) => {
 };
 
 // train_test_split 수행 후 shape 보여주기 위한 함수
-export const showShape = (dfd, data, resultId, valid = false) => {
-  dfd.readJSON(jsonToFile(data.X_train)).then((df) => {
+export const showShape = (data, resultId, valid = false) => {
+  readJSON(jsonToFile(data.X_train)).then((df) => {
     document.getElementById(resultId).innerHTML = "<p>Train Set Shape : " + df.shape + "</p>";
   });
   if (valid) {
-    dfd.readJSON(jsonToFile(data.X_valid)).then((df) => {
+    readJSON(jsonToFile(data.X_valid)).then((df) => {
       let p = document.createElement("p");
       p.textContent = "Valid Set Shape : " + df.shape;
       document.getElementById(resultId).append(p);
     });
   }
-  dfd.readJSON(jsonToFile(data.X_test)).then((df) => {
+  readJSON(jsonToFile(data.X_test)).then((df) => {
     let p = document.createElement("p");
     p.textContent = "Test Set Shape : " + df.shape;
     document.getElementById(resultId).append(p);
@@ -137,9 +138,8 @@ export const jsonToFile = (jsonData) => {
 };
 
 // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-export const showDataFrame = (dfd, data, resultId) => {
-  dfd
-    .readJSON(jsonToFile(data))
+export const showDataFrame = (data, resultId) => {
+  readJSON(jsonToFile(data))
     .then((df) => {
       // df.print();
       df.plot(resultId).table({ config: funcResultConfig, layout: funcResultLayout }); // 결과 영역에 출력
@@ -159,10 +159,10 @@ export const showPlot = (data, resultId) => {
   }
 };
 
-export const showDataResult = (dfd, data, resultId) => {
+export const showDataResult = (data, resultId) => {
   document.getElementById(resultId).innerHTML = ""; // 기존 결과 지우기
   if (String(data).startsWith("{") || String(data).startsWith("{", 1)) {
-    showDataFrame(dfd, data, resultId);
+    showDataFrame(data, resultId);
   } else {
     document.getElementById(resultId).innerHTML = data; // 올바른 입력이 아니면 에러 메시지 출력
   }

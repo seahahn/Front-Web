@@ -17,7 +17,7 @@ function StandardTuning({ step, handleSteps }) {
     handleSteps({ scaler: options });
   }, [handleSteps, options]);
 
-  const copyRef = useRef();
+  // const copyRef = useRef();
   const withMeanRef = useRef();
   const withStdRef = useRef();
 

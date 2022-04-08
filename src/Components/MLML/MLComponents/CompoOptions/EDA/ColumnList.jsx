@@ -5,7 +5,7 @@ import { showDataResult } from "Components/MLML/MLComponents/CompoOptions/mlUtil
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function ColumnList({ formId, resultId, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   // 백앤드로 데이터 전송
@@ -21,7 +21,7 @@ function ColumnList({ formId, resultId, isLoading, setIsLoading, render }) {
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료
