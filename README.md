@@ -11,35 +11,14 @@ Project AI Play의 Web App UI(Frontend) 결과물 저장소
 
 <br/>
 
-## 2️⃣ 준비 사항
-
-```
-// package.json에 있는 것들 설치
-npm i
-```
-
-<br/>
-
-## 3️⃣ 개발 서버 실행
-
-```
-npm start
-```
-<br/>
-
-## 4️⃣ 배포 플랫폼 및 서버 주소
+## 2️⃣ 배포 플랫폼 및 서버 주소
 
 - 플랫폼 : Vercel
 - 주소 : https://front-web-xi.vercel.app -> https://www.aiplay.online
 
 <br/>
 
-## 5️⃣ 트러블 슈팅 기록
-- https://github.com/AI-Play/Front-Web/discussions
-
-<br/>
-
-## 6️⃣ 주요 기능 화면
+## 3️⃣ 주요 기능 화면
 
 <details>
   <summary>메인</summary>
@@ -60,4 +39,29 @@ npm start
   <summary>머신 러닝 모델 제작 서비스</summary>
   
   ![image](https://user-images.githubusercontent.com/73585246/162393190-4e4db10c-d7ba-4eb8-9f60-9acceaff01bb.png)
+</details>
+
+<br/>
+
+## 4️⃣ 트러블 슈팅 기록
+- https://github.com/AI-Play/Front-Web/discussions
+
+<br/>
+
+## 5️⃣ 개발 환경 준비 사항
+
+<details>
+  <summary><b>준비 사항</b></summary>
+
+  ```
+  // package.json에 있는 것들 설치
+  npm i
+  ```
+  > danfojs 자세한 적용 과정은 아래 링크 참고  
+  > [React - Danfo.js 적용 과정](https://github.com/AI-Play/Front-Web/discussions/22#discussioncomment-2215525)
+
+  ##### 개발 서버 실행
+  ```
+  npm start
+  ```  
 </details>
