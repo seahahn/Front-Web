@@ -64,7 +64,7 @@ function Ordinal({ handleOptions, colObjArray, handleSteps, steps, step }) {
     } else if (type === "text") {
       try {
         if (Object.keys(JSON.parse(value)).length === 0) {
-          console.log("value is empty");
+          process.env.REACT_APP_STATUS === "development" && console.log("value is empty");
           throw new Error("매핑 값을 입력해주세요.");
         }
         setMapping({ ...mapping, [name]: { col: name, mapping: JSON.parse(value.replace("None", null)) } });

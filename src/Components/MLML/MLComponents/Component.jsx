@@ -84,8 +84,8 @@ const Component = ({ data, compoType, path }) => {
             <button
               type="button"
               onClick={() => {
-                console.log(layoutRef.current);
-                console.log(compoRef);
+                process.env.REACT_APP_STATUS === "development" && console.log(layoutRef.current);
+                process.env.REACT_APP_STATUS === "development" && console.log(compoRef);
               }}
               className={buttonStyle}>
               로그 확인

@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 module.exports = function override(config, env) {
-  console.log("override");
+  process.env.REACT_APP_STATUS === "development" && console.log("override");
 
   config.resolve.fallback = {
     fs: false,
