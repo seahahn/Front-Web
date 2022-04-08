@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import MultiSelect from "react-select";
 import { Switch, TuningParam } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
@@ -40,7 +40,7 @@ function LogisticTuning({ step, handleSteps, optimizer }) {
 
   // 옵션 상태 값 저장
   const handleChange = (event) => {
-    const { name, value, checked } = event.target;
+    const { name, checked } = event.target;
     if (event.target.type === "checkbox") {
       setOptions(
         checked

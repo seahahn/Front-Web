@@ -1,6 +1,6 @@
-import React, { memo, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import classNames from "classnames";
-import { inputStyle, negButtonStyle } from "Components/MLML/MLComponents/componentStyle";
+import { negButtonStyle } from "Components/MLML/MLComponents/componentStyle";
 
 function Radio({ options, optionText, group, selected, disabledTarget, handleChange, handleDelete, afterRefresh, className }, ref) {
   return (

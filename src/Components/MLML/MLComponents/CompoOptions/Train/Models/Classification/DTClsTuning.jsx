@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import _ from "lodash";
 import MultiSelect from "react-select";
 import { TuningParam } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
 import { colArrayToObjArray } from "Components/MLML/MLComponents/CompoOptions/mlUtilFuncs";

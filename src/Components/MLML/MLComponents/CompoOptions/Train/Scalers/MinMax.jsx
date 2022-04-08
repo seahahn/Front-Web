@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { inputStyle } from "Components/MLML/MLComponents/componentStyle";
 import { Switch } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
 import { equalsIgnoreOrder } from "Components/MLML/MLComponents/CompoOptions/mlUtilFuncs";

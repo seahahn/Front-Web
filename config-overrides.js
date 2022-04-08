@@ -5,7 +5,7 @@ module.exports = function override(config, env) {
   config.resolve.fallback = {
     fs: false,
     url: require.resolve("url"),
-    // assert: require.resolve("assert-plus"),
+    assert: require.resolve("assert-plus"),
     crypto: require.resolve("crypto-browserify"),
     http: require.resolve("stream-http"),
     https: require.resolve("https-browserify"),
