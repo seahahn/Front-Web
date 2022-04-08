@@ -9,7 +9,7 @@ import classNames from "classnames";
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function Drop({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
@@ -78,7 +78,7 @@ function Drop({ formId, resultId, param, setParam, isLoading, setIsLoading, rend
       .then((response) => response.json())
       .then((data) => {
         saveDf(blockId, "_df", data, true); // 데이터프레임 저장
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
 
         clearInputs(); // 실행 후 입력 초기화
       })

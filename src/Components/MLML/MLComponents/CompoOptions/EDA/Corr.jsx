@@ -7,7 +7,7 @@ import { BlockContext } from "Components/MLML/MLComponents/Column";
 import { Select } from "Components/MLML/MLComponents/CompoOptions/CompoPiece";
 
 function Corr({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
@@ -36,7 +36,7 @@ function Corr({ formId, resultId, param, setParam, isLoading, setIsLoading, rend
       .then((data) => {
         if (typeof data !== "number") {
           // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-          showDataResult(dfd, data, resultId);
+          showDataResult(data, resultId);
         } else {
           document.getElementById(resultId).innerHTML = data; // 결과 영역에 출력
         }

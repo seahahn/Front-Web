@@ -6,7 +6,7 @@ import MultiSelect from "react-select";
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function FeatureTargetSplit({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   const columns = getColumns(blockId); // 데이터프레임 컬럼 목록 가져오기
@@ -45,7 +45,7 @@ function FeatureTargetSplit({ formId, resultId, param, setParam, isLoading, setI
       .then((response) => response.json())
       .then((data) => {
         saveFeatureTarget(blockId, data);
-        showDataResult(dfd, JSON.parse(data).X, resultId);
+        showDataResult(JSON.parse(data).X, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

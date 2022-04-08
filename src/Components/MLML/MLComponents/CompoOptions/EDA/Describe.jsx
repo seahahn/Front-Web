@@ -7,7 +7,7 @@ import Switch from "Components/MLML/MLComponents/CompoOptions/CompoPiece/Switch"
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 
 function Describe({ formId, resultId, param, setParam, isLoading, setIsLoading, render }) {
-  const { dfd, storage } = useContext(MLMLContext);
+  const { storage } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   // 옵션 상태 값 저장
@@ -48,7 +48,7 @@ function Describe({ formId, resultId, param, setParam, isLoading, setIsLoading, 
     await fetch(targetUrl, httpConfig(JSON.stringify(df)))
       .then((response) => response.json())
       .then((data) => {
-        showDataResult(dfd, data, resultId);
+        showDataResult(data, resultId);
       })
       .catch((error) => console.error(error));
     setIsLoading(false); // 로딩 종료

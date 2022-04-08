@@ -2,13 +2,12 @@ import React, { useState, useContext } from "react";
 import { AppContext } from "App";
 import { UPLOAD_ACCEPT, MLFUNCS_URL, URLS_PREPROCESS } from "utils/networkConfigs";
 import { funcResultConfig, funcResultLayout } from "Components/MLML/MLComponents/CompoOptions/funcResultConfigs";
-import { MLMLContext } from "pages/MLML";
 import { BlockContext } from "Components/MLML/MLComponents/Column";
 import { saveDf, jsonToFile } from "Components/MLML/MLComponents/CompoOptions/mlUtilFuncs";
+import { readJSON } from "danfojs";
 
 function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
   const { userIdx } = useContext(AppContext);
-  const { dfd } = useContext(MLMLContext);
   const { blockId } = useContext(BlockContext);
 
   const [file, setFile] = useState();
@@ -44,8 +43,7 @@ function DataUpload({ formId, resultId, isLoading, setIsLoading, render }) {
       .then((data) => {
         process.env.REACT_APP_STATUS === "development" && console.log(data);
         // JSON 데이터프레임 문자열을 담은 파일을 읽어서 데이터프레임으로 만든 후 보여주기
-        dfd
-          .readJSON(jsonToFile(data))
+        readJSON(jsonToFile(data))
           .then((df) => {
             df.head().plot(resultId).table({ funcResultConfig, funcResultLayout }); // 결과 영역에 출력
             saveDf(blockId, "_df", data, true); // 데이터프레임 저장

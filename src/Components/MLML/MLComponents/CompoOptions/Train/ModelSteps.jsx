@@ -14,7 +14,6 @@ import { AppContext } from "App";
  */
 function ModelSteps({ formId, resultId, isLoading, setIsLoading, render }) {
   const { userIdx } = useContext(AppContext);
-  const { dfd } = useContext(MLMLContext);
   const { modelListRef } = useContext(ContainerContext);
   const initialModelList = modelListRef.current ? modelListRef.current.map((model) => model.model_name) : [];
 
@@ -34,7 +33,7 @@ function ModelSteps({ formId, resultId, isLoading, setIsLoading, render }) {
   const handleSubmit = async (event) => {
     setIsLoading(true); // 로딩 시작
     event.preventDefault(); // 실행 버튼 눌러도 페이지 새로고침 안 되도록 하는 것
-    getModelSteps(MODEL_KEY_PREFIX + userIdx, modelName, true).then((res) => showDataResult(dfd, res, resultId));
+    getModelSteps(MODEL_KEY_PREFIX + userIdx, modelName, true).then((res) => showDataResult(res, resultId));
     setIsLoading(false); // 로딩 종료
   };
 
