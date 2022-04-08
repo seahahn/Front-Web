@@ -3,7 +3,7 @@ import { AppContext } from "App";
 import { Menu, Transition } from "@headlessui/react";
 import { AiOutlineCamera } from "react-icons/ai";
 import classNames from "classnames";
-import { targetURL, httpConfig, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
+import { targetURL, USER_AUTH_URL, URLS_USER_AUTH } from "utils/networkConfigs";
 
 function ProfilePic({ profilePic, setProfilePic }) {
   const { userIdx } = useContext(AppContext);

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, createContext, useContext, useMemo } from "react";
+import React, { useState, useCallback, useEffect, useRef, createContext, useContext } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import shortid from "shortid";
 import classNames from "classnames";
@@ -121,7 +121,7 @@ const Container = () => {
       const projectData = {
         proj_name: proj_name,
       };
-      const response = await fetch(UPM_PROJ_URL + "/name" + `/${userIdx}/${proj_idx}`, httpConfig(JSON.stringify(projectData), "PUT", true));
+      const response = await fetch(UPM_PROJ_URL + `/name/${userIdx}/${proj_idx}`, httpConfig(JSON.stringify(projectData), "PUT", true));
       const result = await response.json();
       result === true && setProjName(proj_name);
       getProjList(userIdx, projListRef);

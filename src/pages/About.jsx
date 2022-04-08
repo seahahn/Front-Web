@@ -6,7 +6,6 @@ import AnimationRevealPage from "Components/ServiceIntro/WebTemplate/helpers/Ani
 import { Container, ContentWithPaddingXl } from "Components/ServiceIntro/WebTemplate/misc/Layouts";
 import { SectionHeading, Subheading as SubheadingBase } from "Components/ServiceIntro/WebTemplate/misc/Headings";
 import { SectionDescription } from "Components/ServiceIntro/WebTemplate/misc/Typography";
-import { ReactComponent as TwitterIcon } from "Components/ServiceIntro/WebTemplate/images/twitter-icon.svg";
 import { ReactComponent as FacebookIcon } from "Components/ServiceIntro/WebTemplate/images/facebook-icon.svg";
 import { ReactComponent as LinkedinIcon } from "Components/ServiceIntro/WebTemplate/images/linkedin-icon.svg";
 import { ReactComponent as GithubIcon } from "Components/ServiceIntro/WebTemplate/images/github-icon.svg";

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { memo, useState, useRef, useCallback, useContext, useEffect } from "react";
 import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
@@ -27,11 +26,13 @@ function Chat({ props }) {
       });
     };
   }, []);
+
   useEffect(() => {
     scrollToBottom();
     !props.chatOpen && props.setChatIsChanged(true);
     sessionStorage.setItem("msgs", JSON.stringify(msgs));
   }, [msgs]);
+
   const startChat = useCallback(() => {
     process.env.REACT_APP_STATUS === "development" && console.log("startChat");
     connect(userIdx, userNickname, chatBodyRef, setMsgs);
